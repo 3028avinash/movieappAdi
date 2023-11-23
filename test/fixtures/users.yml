@@ -24,6 +24,7 @@ one:
   utm_content: MyString
   utm_campaign: MyString
   utm_gclid: MyString
+  mobile_number: MyString
 
 two:
   social_id: MyString
@@ -49,3 +50,4 @@ two:
   utm_content: MyString
   utm_campaign: MyString
   utm_gclid: MyString
+  mobile_number: MyString

@@ -20,6 +20,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "Device type", with: @user.device_type
     fill_in "Fcm token", with: @user.fcm_token
     fill_in "Location", with: @user.location
+    fill_in "Mobile number", with: @user.mobile_number
     fill_in "Referral code", with: @user.referral_code
     fill_in "Security token", with: @user.security_token
     fill_in "Social email", with: @user.social_email
@@ -53,6 +54,7 @@ class UsersTest < ApplicationSystemTestCase
     fill_in "Device type", with: @user.device_type
     fill_in "Fcm token", with: @user.fcm_token
     fill_in "Location", with: @user.location
+    fill_in "Mobile number", with: @user.mobile_number
     fill_in "Referral code", with: @user.referral_code
     fill_in "Security token", with: @user.security_token
     fill_in "Social email", with: @user.social_email

@@ -24,15 +24,9 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :utm_content
       t.string :utm_campaign
       t.string :utm_gclid
+      t.string :mobile_number
 
-      t.timestamps default: -> { 'CURRENT_TIMESTAMP' }, null: false
+      t.timestamps
     end
-    add_index :users, :id
-    add_index :users, :social_id
-    add_index :users, :device_id    
-    add_index :users, :utm_medium
-    add_index :users, :advertising_id
-    add_index :users, :referral_code
-    add_index :users, :security_token
   end
 end

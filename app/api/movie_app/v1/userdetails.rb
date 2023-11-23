@@ -39,7 +39,7 @@ module MovieApp
               source_ip = env['REMOTE_ADDR'] || env['HTTP_X_FORWARDED_FOR']
               location_ip = env['HTTP_X_FORWARDED_FOR'] || env['REMOTE_ADDR']
   
-              genuine_user = true #google_validator(params['socialToken'], params['socialEmail'])            
+              genuine_user = google_validator(params['socialToken'], params['socialEmail'])            
               if genuine_user == false
                 logger.info "API Exception-BLOCK-GLV:#{Time.now}-userSignin-#{params.inspect}"
                 {message: GBLOCKED, status: 500}
@@ -65,9 +65,9 @@ module MovieApp
                      version_code: params['versionCode'], security_token: SecureRandom.uuid, fcm_token: params['fcmToken'], social_token: params['referrerUrl'],
                      device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'], utm_medium: utm_medium)
                     #Only New User Bonus
-                    Transaction.create(user_id: user.id, trans_name: 'SignUp Bonus', trans_type: 'SIGNUP', trans_amount: INVITE_COIN)
-                    Account.create(user_id: user.id, coin_balance: INVITE_COIN, amount_balance: INVITE_AMT)
-                    UserProfile.create(user_id: user.id, name: params[:socialName], email: params[:socialEmail], image: params[:socialImgurl])
+                    # Transaction.create(user_id: user.id, trans_name: 'SignUp Bonus', trans_type: 'SIGNUP', trans_amount: INVITE_COIN)
+                    # Account.create(user_id: user.id, coin_balance: INVITE_COIN, amount_balance: INVITE_AMT)
+                    # UserProfile.create(user_id: user.id, name: params[:socialName], email: params[:socialEmail], image: params[:socialImgurl])
                     {status: 200, message: MSG_SUCCESS, userId: user.id, securityToken: user.security_token, userImageUrl: user.social_imgurl}
                   else
                     user.update(social_email: params['socialEmail'], social_type: params['socialType'], utm_medium: params['utmMedium'],
@@ -75,7 +75,7 @@ module MovieApp
                      device_name: params['deviceName'], advertising_id: params['advertisingId'], version_name: params['versionName'],
                      version_code: params['versionCode'], fcm_token: params['fcmToken'], social_token: params['referrerUrl'],
                      device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'])
-                     {status: 200, message: MSG_SUCCESS, userId: user.id, securityToken: user.security_token, userImageUrl: user.user_profile.photo.present? ? "http://appeight.netdemo.in/" + Rails.application.routes.url_helpers.rails_blob_path(user.user_profile.photo, only_path: true): user.social_imgurl}
+                     {status: 200, message: MSG_SUCCESS, userId: user.id, securityToken: user.security_token, userImageUrl: user.social_imgurl}
                   end                
                 end
               end  

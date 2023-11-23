@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_081559) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_23_102913) do
   create_table "appopens", force: :cascade do |t|
     t.integer "user_id"
     t.string "source_ip"
@@ -45,15 +45,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_23_081559) do
     t.string "utm_content"
     t.string "utm_campaign"
     t.string "utm_gclid"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.index ["advertising_id"], name: "index_users_on_advertising_id"
-    t.index ["device_id"], name: "index_users_on_device_id"
-    t.index ["id"], name: "index_users_on_id"
-    t.index ["referral_code"], name: "index_users_on_referral_code"
-    t.index ["security_token"], name: "index_users_on_security_token"
-    t.index ["social_id"], name: "index_users_on_social_id"
-    t.index ["utm_medium"], name: "index_users_on_utm_medium"
+    t.string "mobile_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
