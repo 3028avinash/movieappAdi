@@ -1,0 +1,132 @@
+<%= form_with(model: user) do |form| %>
+  <% if user.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+      <ul>
+        <% user.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :social_id, style: "display: block" %>
+    <%= form.text_field :social_id %>
+  </div>
+
+  <div>
+    <%= form.label :social_token, style: "display: block" %>
+    <%= form.text_area :social_token %>
+  </div>
+
+  <div>
+    <%= form.label :social_type, style: "display: block" %>
+    <%= form.text_field :social_type %>
+  </div>
+
+  <div>
+    <%= form.label :social_imgurl, style: "display: block" %>
+    <%= form.text_field :social_imgurl %>
+  </div>
+
+  <div>
+    <%= form.label :social_email, style: "display: block" %>
+    <%= form.text_field :social_email %>
+  </div>
+
+  <div>
+    <%= form.label :social_name, style: "display: block" %>
+    <%= form.text_field :social_name %>
+  </div>
+
+  <div>
+    <%= form.label :device_id, style: "display: block" %>
+    <%= form.text_field :device_id %>
+  </div>
+
+  <div>
+    <%= form.label :device_name, style: "display: block" %>
+    <%= form.text_field :device_name %>
+  </div>
+
+  <div>
+    <%= form.label :device_type, style: "display: block" %>
+    <%= form.text_field :device_type %>
+  </div>
+
+  <div>
+    <%= form.label :security_token, style: "display: block" %>
+    <%= form.text_field :security_token %>
+  </div>
+
+  <div>
+    <%= form.label :advertising_id, style: "display: block" %>
+    <%= form.text_field :advertising_id %>
+  </div>
+
+  <div>
+    <%= form.label :referral_code, style: "display: block" %>
+    <%= form.text_field :referral_code %>
+  </div>
+
+  <div>
+    <%= form.label :version_name, style: "display: block" %>
+    <%= form.text_field :version_name %>
+  </div>
+
+  <div>
+    <%= form.label :version_code, style: "display: block" %>
+    <%= form.text_field :version_code %>
+  </div>
+
+  <div>
+    <%= form.label :location, style: "display: block" %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div>
+    <%= form.label :source_ip, style: "display: block" %>
+    <%= form.text_field :source_ip %>
+  </div>
+
+  <div>
+    <%= form.label :fcm_token, style: "display: block" %>
+    <%= form.text_area :fcm_token %>
+  </div>
+
+  <div>
+    <%= form.label :utm_source, style: "display: block" %>
+    <%= form.text_field :utm_source %>
+  </div>
+
+  <div>
+    <%= form.label :utm_medium, style: "display: block" %>
+    <%= form.text_field :utm_medium %>
+  </div>
+
+  <div>
+    <%= form.label :utm_term, style: "display: block" %>
+    <%= form.text_field :utm_term %>
+  </div>
+
+  <div>
+    <%= form.label :utm_content, style: "display: block" %>
+    <%= form.text_field :utm_content %>
+  </div>
+
+  <div>
+    <%= form.label :utm_campaign, style: "display: block" %>
+    <%= form.text_field :utm_campaign %>
+  </div>
+
+  <div>
+    <%= form.label :utm_gclid, style: "display: block" %>
+    <%= form.text_field :utm_gclid %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

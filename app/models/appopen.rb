@@ -1,0 +1,2 @@
+class Appopen < ApplicationRecord
+end

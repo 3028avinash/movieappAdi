@@ -1,0 +1,42 @@
+<%= form_with(model: appopen) do |form| %>
+  <% if appopen.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(appopen.errors.count, "error") %> prohibited this appopen from being saved:</h2>
+
+      <ul>
+        <% appopen.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id %>
+  </div>
+
+  <div>
+    <%= form.label :source_ip, style: "display: block" %>
+    <%= form.text_field :source_ip %>
+  </div>
+
+  <div>
+    <%= form.label :location, style: "display: block" %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div>
+    <%= form.label :version_name, style: "display: block" %>
+    <%= form.text_field :version_name %>
+  </div>
+
+  <div>
+    <%= form.label :version_code, style: "display: block" %>
+    <%= form.text_field :version_code %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

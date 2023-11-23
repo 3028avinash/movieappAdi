@@ -1,0 +1,2 @@
+module AppopensHelper
+end
