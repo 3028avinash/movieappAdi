@@ -1,4 +1,4 @@
-<%= form_with(model: content) do |form| %>
+<!-- <%= form_with(model: content) do |form| %>
   <% if content.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(content.errors.count, "error") %> prohibited this content from being saved:</h2>
@@ -59,4 +59,81 @@
   <div>
     <%= form.submit %>
   </div>
+<% end %> -->
+
+
+<%= form_with(model: content) do |form| %>
+  <% if content.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(game.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+        <% game.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Basic Form Elements
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-11">
+            <div class="form-group">
+              <label>Title</label>
+              <%= form.text_field :title, class: "form-control", placeholder: "Enter title", :required => true %>
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <%= form.text_field :category, class: "form-control", placeholder: "Enter category" %>
+            </div>
+            <div class="form-group">
+              <label>Release Year</label>
+              <%= form.text_field :release_date, class: "form-control", placeholder: "Enter category" %>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <%= form.select :status, options_for_select([['Active', true], ['Inactive', false]], selected: form.object.status),{}, {class: 'form-control'} %>
+            </div>            
+            <div class="form-group">
+              <label>Thumbnail</label>
+              <%= form.text_field :banner, class: "form-control", placeholder: "Enter thumbnail", :required => true %>
+            </div>
+            <div class="form-group">
+              <label>Genre</label>
+              <%= form.text_field :genre, class: "form-control", placeholder: "Enter thumbnail", :required => true %>
+            </div>
+            <div class="form-group">
+              <label>Trailer Link</label>
+              <%= form.text_field :trailer_link, class: "form-control", placeholder: "Enter url" %>
+            </div>
+            <div class="form-group">
+              <label>Vip Status</label>
+              <%= form.select :vip_status, options_for_select([['Active', true], ['Inactive', false]], selected: form.object.status),{}, {class: 'form-control'} %>
+            </div>
+            <div class="form-group">
+              <label>Is Slider</label>
+              <%= form.select :status, options_for_select([['Active', true], ['Inactive', false]], selected: form.object.status),{}, {class: 'form-control'} %>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Record</button>
+            <button type="reset" class="btn btn-default">Reset Form</button>
+          </div>          
+          <!-- /.col-lg-6 (nested) -->
+        </div>
+        <!-- /.row (nested) -->
+      </div>
+      <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
 <% end %>
+
