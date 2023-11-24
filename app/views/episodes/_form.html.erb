@@ -1,0 +1,72 @@
+<%= form_with(model: episode) do |form| %>
+  <% if episode.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(episode.errors.count, "error") %> prohibited this episode from being saved:</h2>
+
+      <ul>
+        <% episode.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :content_id, style: "display: block" %>
+    <%= form.number_field :content_id %>
+  </div>
+
+  <div>
+    <%= form.label :season, style: "display: block" %>
+    <%= form.number_field :season %>
+  </div>
+
+  <div>
+    <%= form.label :url, style: "display: block" %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div>
+    <%= form.label :thumbnail, style: "display: block" %>
+    <%= form.text_field :thumbnail %>
+  </div>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :runtime, style: "display: block" %>
+    <%= form.text_field :runtime %>
+  </div>
+
+  <div>
+    <%= form.label :cast, style: "display: block" %>
+    <%= form.text_field :cast %>
+  </div>
+
+  <div>
+    <%= form.label :director, style: "display: block" %>
+    <%= form.text_field :director %>
+  </div>
+
+  <div>
+    <%= form.label :story, style: "display: block" %>
+    <%= form.text_area :story %>
+  </div>
+
+  <div>
+    <%= form.label :vip_status, style: "display: block" %>
+    <%= form.check_box :vip_status %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.check_box :status %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -10,13 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_23_102913) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_24_080341) do
   create_table "appopens", force: :cascade do |t|
     t.integer "user_id"
     t.string "source_ip"
     t.string "location"
     t.string "version_name"
     t.string "version_code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contents", force: :cascade do |t|
+    t.string "title"
+    t.string "release_date"
+    t.string "genre"
+    t.string "category"
+    t.string "banner"
+    t.string "trailer_link"
+    t.boolean "is_slider", default: false
+    t.boolean "vip_status", default: true
+    t.boolean "status", default: false
+    t.integer "views"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "episodes", force: :cascade do |t|
+    t.integer "content_id"
+    t.integer "season"
+    t.string "url"
+    t.string "thumbnail"
+    t.string "title"
+    t.string "runtime"
+    t.string "cast"
+    t.string "director"
+    t.text "story"
+    t.boolean "vip_status", default: true
+    t.boolean "status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

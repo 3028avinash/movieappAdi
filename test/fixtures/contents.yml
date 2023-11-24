@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  release_date: MyString
+  genre: MyString
+  category: MyString
+  banner: MyString
+  trailer_link: MyString
+  vip_status: false
+  status: false
+  views: 1
+
+two:
+  title: MyString
+  release_date: MyString
+  genre: MyString
+  category: MyString
+  banner: MyString
+  trailer_link: MyString
+  vip_status: false
+  status: false
+  views: 1
