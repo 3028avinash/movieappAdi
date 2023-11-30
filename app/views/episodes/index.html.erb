@@ -30,10 +30,11 @@
         <thead>
           <tr>
             <th>#ID</th>
+            <th>Content</th>
+            <th>Season</th>            
             <th>Title</th>            
-            <th>Category</th>
-            <th>Genre</th>            
             <th>Thumbnail</th>            
+            <th>Runtime</th>            
             <th>Status</th>            
             <th>Vip Status</th>            
             <th>Action</th>            
@@ -44,10 +45,11 @@
          <% @episodes.each do |trans| %>
           <tr>
             <td><%= trans.try(:id) %></td>            
+            <td><%= trans.content.title %></td>
+            <td><%= trans.try(:season) %></td>
             <td><%= trans.try(:title) %></td>
-            <td><%= trans.try(:category) %></td>
-            <td><%= trans.try(:genre) %></td>
-            <td><img src="<%= trans.try(:banner) %>" style="height:30px"></td>
+            <td><img src="<%= trans.try(:thumbnail) %>" style="height:30px"></td>
+            <td><%= trans.try(:runtime) %></td>
             <td>
               <% if trans.status == true %>
                 <i class="fa fa-check" style="font-size:15px;color:green"></i>

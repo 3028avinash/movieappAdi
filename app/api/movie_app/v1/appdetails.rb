@@ -122,6 +122,51 @@ module MovieApp
                 end
             end
 
+            resource :subscriptionList do
+
+                desc "Match List on Home API"
+                before {api_params}
+        
+                params do
+                  # requires :userId, type: String, allow_blank: false
+                  # requires :securityToken, type: String, allow_blank: false
+                  # requires :versionName, type: String, allow_blank: false
+                  # requires :versionCode, type: String, allow_blank: false
+                end
+        
+                post do
+                  begin
+                    # user = valid_user(params['userId'].to_i, params['securityToken'])
+                    if true
+                      subscriptionList=[]
+                      l=Subscription.all
+                      l.each_with_index do |element,index|
+                        subscriptionList[index]={id: element.id,name: element.name, duration: element.duration, amount: "₹#{element.amount}"}
+                      end
+      
+                      {
+                        message: "MSG_SUCCESS", 
+                        status: 200, 
+                        subscriptionList: subscriptionList,
+                        # features: 
+                        #   [
+                        #   "All Access to All Full Hd Contents",
+                        #   "Enable Download All Content",
+                        #   "Watch Premium Haryana Movies",
+                        #   "24*7 Music and Videos"
+                        #   ]
+                      }
+                    else
+                      {message: "INVALID_USER", status: 500}
+                    end  
+        
+                  rescue Exception => e
+                    logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
+                    {message: "MSG_ERROR", status: 500}
+                  end
+                end
+            end
+
         end
     end
 end

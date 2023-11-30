@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_24_080341) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_30_084014) do
   create_table "appopens", force: :cascade do |t|
     t.integer "user_id"
     t.string "source_ip"
@@ -36,6 +36,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_24_080341) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "coupons", force: :cascade do |t|
+    t.string "code"
+    t.string "offer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "episodes", force: :cascade do |t|
     t.integer "content_id"
     t.integer "season"
@@ -48,6 +55,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_24_080341) do
     t.text "story"
     t.boolean "vip_status", default: true
     t.boolean "status", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscription_histories", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "subscription_id"
+    t.string "subscription_start"
+    t.string "subscription_end"
+    t.integer "coupon_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.string "name"
+    t.string "amount"
+    t.string "duration"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

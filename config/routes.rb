@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :coupons
+  resources :subscription_histories
+  resources :subscriptions
   resources :episodes
   resources :contents
   resources :users
