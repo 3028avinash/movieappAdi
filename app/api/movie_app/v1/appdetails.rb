@@ -116,7 +116,7 @@ module MovieApp
                         {message: "INVALID_USER", status: 500}
                         end  
                     rescue Exception => e
-                        logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
+                        logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
                         {message: "MSG_ERROR", status: 500}
                     end
                 end

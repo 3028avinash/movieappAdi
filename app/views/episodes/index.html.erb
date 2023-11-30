@@ -1,4 +1,4 @@
-<p style="color: green"><%= notice %></p>
+<!-- <p style="color: green"><%= notice %></p>
 
 <h1>Episodes</h1>
 
@@ -11,4 +11,67 @@
   <% end %>
 </div>
 
-<%= link_to "New episode", new_episode_path %>
+<%= link_to "New episode", new_episode_path %> -->
+
+<div id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <p id="notice" style="color:orange;"><%= notice %></p>
+      <div class="col-lg-12">
+        <h2 class="page-header" style="margin: 10px 0 15px !important;">Listing Episodes</h2>
+        <p style="text-align: end;">New Episodes = <%= @episodes.count %> <%#= today_users_count %></p>
+      </div>
+      <div class="form-group">
+        <%= form_tag('/episodes', :method => "get", id: "search-form") do %>
+          <%= text_field_tag :search, params[:search], class: 'form-control', :required => true, placeholder: 'Which genre/category/content you are looking for?' %>          
+        <% end %>        
+      </div>
+      <table class="table table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th>#ID</th>
+            <th>Title</th>            
+            <th>Category</th>
+            <th>Genre</th>            
+            <th>Thumbnail</th>            
+            <th>Status</th>            
+            <th>Vip Status</th>            
+            <th>Action</th>            
+            <!-- <th>DateTime</th> -->
+          </tr>
+        </thead>
+        <tbody>
+         <% @episodes.each do |trans| %>
+          <tr>
+            <td><%= trans.try(:id) %></td>            
+            <td><%= trans.try(:title) %></td>
+            <td><%= trans.try(:category) %></td>
+            <td><%= trans.try(:genre) %></td>
+            <td><img src="<%= trans.try(:banner) %>" style="height:30px"></td>
+            <td>
+              <% if trans.status == true %>
+                <i class="fa fa-check" style="font-size:15px;color:green"></i>
+              <% else %>
+                <i class="fa fa-close" style="font-size:15px;color:red"></i>
+              <% end %>
+            </td>
+            <td>
+              <% if trans.vip_status == true %>
+                <i class="fa fa-check" style="font-size:15px;color:green"></i>
+              <% else %>
+                <i class="fa fa-close" style="font-size:15px;color:red"></i>
+              <% end %>
+            </td>
+            <td><%= link_to "Edit", edit_content_path(trans), style: "font-size:15px;color:rgb(6, 52, 6)" %></td>
+            <!-- <td><%= trans.try(:created_at).strftime("%d/%m/%Y %I:%M%p")  %></td> -->
+          </tr>
+         <% end %>
+        </tbody>        
+      </table>  
+      <br>
+      <%= link_to 'New Content', new_content_path %>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
