@@ -16,6 +16,7 @@ class CouponsTest < ApplicationSystemTestCase
 
     fill_in "Code", with: @coupon.code
     fill_in "Offer", with: @coupon.offer
+    check "Status" if @coupon.status
     click_on "Create Coupon"
 
     assert_text "Coupon was successfully created"
@@ -28,6 +29,7 @@ class CouponsTest < ApplicationSystemTestCase
 
     fill_in "Code", with: @coupon.code
     fill_in "Offer", with: @coupon.offer
+    check "Status" if @coupon.status
     click_on "Update Coupon"
 
     assert_text "Coupon was successfully updated"

@@ -3,7 +3,9 @@
 one:
   code: MyString
   offer: MyString
+  status: false
 
 two:
   code: MyString
   offer: MyString
+  status: false

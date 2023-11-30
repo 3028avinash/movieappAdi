@@ -65,6 +65,6 @@ class CouponsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def coupon_params
-      params.require(:coupon).permit(:code, :offer)
+      params.require(:coupon).permit(:code, :offer, :status)
     end
 end
