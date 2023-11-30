@@ -141,7 +141,7 @@ module MovieApp
                       subscriptionList=[]
                       l=Subscription.all
                       l.each_with_index do |element,index|
-                        subscriptionList[index]={id: element.id,name: element.name, duration: element.duration, amount: "₹#{element.amount}"}
+                        subscriptionList[index]={id: element.id,name: element.name, duration: element.duration, realAmount: "₹#{element.real_amount}", offerAmount: "₹#{element.real_amount}"}
                       end
       
                       {

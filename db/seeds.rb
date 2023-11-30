@@ -53,8 +53,9 @@
 
 
 
-Subscription.create(name: "Starter",duration: "3 months",amount: "200")
-Subscription.create(name: "Premium",duration: "6 months",amount: "300")
-Subscription.create(name: "Vip",duration: "12 months",amount: "500")
+Subscription.create(name: "Starter", duration: "3 months", real_amount: "200", offer_amount: "500")
+Subscription.create(name: "Premium", duration: "6 months", real_amount: "300", offer_amount: "500")
+Subscription.create(name: "Vip", duration: "12 months", real_amount: "500", offer_amount: "500")
+
 
 

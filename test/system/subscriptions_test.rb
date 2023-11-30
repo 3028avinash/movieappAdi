@@ -14,9 +14,10 @@ class SubscriptionsTest < ApplicationSystemTestCase
     visit subscriptions_url
     click_on "New subscription"
 
-    fill_in "Amount", with: @subscription.amount
     fill_in "Duration", with: @subscription.duration
     fill_in "Name", with: @subscription.name
+    fill_in "Offer amount", with: @subscription.offer_amount
+    fill_in "Real amount", with: @subscription.real_amount
     click_on "Create Subscription"
 
     assert_text "Subscription was successfully created"
@@ -27,9 +28,10 @@ class SubscriptionsTest < ApplicationSystemTestCase
     visit subscription_url(@subscription)
     click_on "Edit this subscription", match: :first
 
-    fill_in "Amount", with: @subscription.amount
     fill_in "Duration", with: @subscription.duration
     fill_in "Name", with: @subscription.name
+    fill_in "Offer amount", with: @subscription.offer_amount
+    fill_in "Real amount", with: @subscription.real_amount
     click_on "Update Subscription"
 
     assert_text "Subscription was successfully updated"

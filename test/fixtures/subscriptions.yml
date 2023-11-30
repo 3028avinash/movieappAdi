@@ -2,10 +2,12 @@
 
 one:
   name: MyString
-  amount: MyString
+  real_amount: MyString
+  offer_amount: MyString
   duration: MyString
 
 two:
   name: MyString
-  amount: MyString
+  real_amount: MyString
+  offer_amount: MyString
   duration: MyString
