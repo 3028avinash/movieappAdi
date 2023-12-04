@@ -28,6 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_111909) do
     t.string "category"
     t.string "banner"
     t.string "trailer_link"
+    t.string "language"
     t.boolean "is_slider", default: false
     t.boolean "vip_status", default: true
     t.boolean "status", default: false

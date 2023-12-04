@@ -1,4 +1,4 @@
-<p style="color: green"><%= notice %></p>
+<!-- <p style="color: green"><%= notice %></p>
 
 <%= render @user %>
 
@@ -7,4 +7,65 @@
   <%= link_to "Back to users", users_path %>
 
   <%= button_to "Destroy this user", @user, method: :delete %>
+</div> -->
+
+<div id="page-wrapper">
+  <div class="container-fluid">
+    <div class="row">
+      <p id="notice" style="color:orange;"><%= notice %></p>
+      <div class="col-lg-12">
+        <h2 class="page-header" style="margin: 10px 0 15px !important;">Showing User Details</h2>
+        <% if @rd == 'y' %>
+        <b><%= link_to 'Back to Redeems', redeem_requests_path %></b>
+        <% else %>
+        <b><%= link_to 'Back to Users', users_path %></b>
+        <% end %>  
+      </div>
+      <table class="table table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th>#ID</th>
+            <th>Device</th>
+            <th>DName/Vcode</th>
+            <th>GEmail</th>
+            <th>GName</th>
+            <th>RefCode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @user.id %></td>
+            <td><%= @user.try(:device_id) %></td>
+            <td><%= @user.try(:device_name) %> / <%= @user.try(:device_type) %></td>
+            <td><%= @user.try(:social_email) %></td>
+            <td><%= @user.try(:social_name) %></td>
+            <td><%= @user.try(:referral_code) %></td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th>SourceIp</th>
+            <th>Location</th>
+            <th>vName/vCode</th>
+            <th>DateTime</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= @user.try(:source_ip) %></td>
+            <td><%= @location %></td>
+            <td><%= @user.try(:version_name) %> / <%= @user.try(:version_code) %></td>
+            <td><%= @user.try(:created_at).strftime("%d/%m/%Y %I:%M%p")  %></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <b><%= link_to 'Back to Users', users_path %></b>
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
 </div>
+  

@@ -7,6 +7,7 @@ class CreateContents < ActiveRecord::Migration[7.0]
       t.string :category
       t.string :banner
       t.string :trailer_link
+      t.string :language
       t.boolean :is_slider, default:false
       t.boolean :vip_status, default:true
       t.boolean :status, default:false

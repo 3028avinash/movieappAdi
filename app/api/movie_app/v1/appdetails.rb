@@ -4,7 +4,7 @@ module MovieApp
         include MovieApp::V1::Defaults
 
             resource :homePage do
-                desc "Shows List on Home API"
+                desc "List on Home API"
                 before {api_params}
                 # params do
                 # requires :userId, type: String, allow_blank: false
@@ -42,7 +42,7 @@ module MovieApp
             end
 
             resource :vipList do
-                desc "Shows List on Home API"
+                desc "Vip List on Home API"
                 before {api_params}
                 # params do
                 # requires :userId, type: String, allow_blank: false
@@ -82,7 +82,7 @@ module MovieApp
                         {message: "MSG_SUCCESS", status: 200, showList1: showList1 , showList2: showList2, showList3: showList3, showList4: showList4}
                         else
                         {message: "INVALID_USER", status: 500}
-                        end  
+                        end   
                     rescue Exception => e
                         logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
                         {message: "MSG_ERROR", status: 500}
@@ -91,7 +91,7 @@ module MovieApp
             end
 
             resource :upcomingList do
-                desc "Shows List on Home API"
+                desc "Upcoming List on Home API"
                 before {api_params}
                 # params do
                 # requires :userId, type: String, allow_blank: false
@@ -123,7 +123,7 @@ module MovieApp
             end
 
             resource :subscriptionList do
-                desc "Match List on Home API"
+                desc "Subscription List on Home API"
                 before {api_params}
                 params do
                   # requires :userId, type: String, allow_blank: false
@@ -166,6 +166,40 @@ module MovieApp
                                 text: "Watch shows in high quality"
                             }
                           ]
+                      }
+                    else
+                      {message: "INVALID_USER", status: 500}
+                    end  
+                  rescue Exception => e
+                    logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
+                    {message: "MSG_ERROR", status: 500}
+                  end
+                end
+            end
+
+            resource :accountList do
+                desc "Subscription List on Home API"
+                before {api_params}
+                params do
+                  requires :userId, type: String, allow_blank: false
+                  # requires :securityToken, type: String, allow_blank: false
+                  # requires :versionName, type: String, allow_blank: false
+                  # requires :versionCode, type: String, allow_blank: false
+                end
+                post do
+                  begin
+                    # user = valid_user(params['userId'].to_i, params['securityToken'])
+                    user=User.find_by_id(params[:userId])
+                    if user
+                      sub=SubscriptionHistory.where(user_id: user.id).last
+                      s=Subscription.find_by_id(sub.id)
+                      subscriptionList = {name: s.name, start: sub.subscription_start, end: sub.subscription_end , price: s.offer_amount}
+                      {
+                        message: "MSG_SUCCESS", 
+                        status: 200, 
+                        name: user.social_name,
+                        number: user.mobile_number,
+                        subscriptionList: subscriptionList
                       }
                     else
                       {message: "INVALID_USER", status: 500}
@@ -223,10 +257,8 @@ module MovieApp
             # end
 
             resource :detailPage do
-
                 desc "Detail Page on Home API"
                 before {api_params}
-        
                 params do
                   requires :userId, type: String, allow_blank: false
                   # requires :securityToken, type: String, allow_blank: false
