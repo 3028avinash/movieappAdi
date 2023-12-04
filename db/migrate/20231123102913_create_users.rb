@@ -25,6 +25,7 @@ class CreateUsers < ActiveRecord::Migration[7.0]
       t.string :utm_campaign
       t.string :utm_gclid
       t.string :mobile_number
+      t.string :content_language
 
       t.timestamps
     end

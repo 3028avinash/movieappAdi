@@ -211,6 +211,65 @@ module MovieApp
                 end
             end
 
+            resource :languageList do
+                desc "Subscription List on Home API"
+                before {api_params}
+                params do
+                  # requires :userId, type: String, allow_blank: false
+                  # requires :securityToken, type: String, allow_blank: false
+                  # requires :versionName, type: String, allow_blank: false
+                  # requires :versionCode, type: String, allow_blank: false
+                end
+                post do
+                  begin
+                    # user = valid_user(params['userId'].to_i, params['securityToken'])
+                    # user=User.find_by_id(params[:userId])
+                    if true
+                      languages = Content.distinct.pluck(:language)
+                      {
+                        message: "MSG_SUCCESS", 
+                        status: 200, 
+                        languages: languages
+                      }
+                    else
+                      {message: "INVALID_USER", status: 500}
+                    end  
+                  rescue Exception => e
+                    logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
+                    {message: "MSG_ERROR", status: 500}
+                  end
+                end
+            end
+
+            resource :languageUpdate do
+                desc "Subscription List on Home API"
+                before {api_params}
+                params do
+                  requires :userId, type: String, allow_blank: false
+                  # requires :securityToken, type: String, allow_blank: false
+                  # requires :versionName, type: String, allow_blank: false
+                  # requires :versionCode, type: String, allow_blank: false
+                  requires :language, type: String, allow_blank: false
+                end
+                post do
+                  begin
+                    # user = valid_user(params['userId'].to_i, params['securityToken'])
+                    user=User.find_by_id(params[:userId])
+                    if true
+                      user.update(content_language: language)
+                      {
+                        message: "MSG_SUCCESS", 
+                        status: 200, 
+                      }
+                    else
+                      {message: "INVALID_USER", status: 500}
+                    end  
+                  rescue Exception => e
+                    logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
+                    {message: "MSG_ERROR", status: 500}
+                  end
+                end
+            end
 
             # resource :detailPage do
             #     desc "Match List on Home API"

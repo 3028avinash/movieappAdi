@@ -105,6 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_111909) do
     t.string "utm_campaign"
     t.string "utm_gclid"
     t.string "mobile_number"
+    t.string "content_language"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
