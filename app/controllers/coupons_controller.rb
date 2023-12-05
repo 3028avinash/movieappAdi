@@ -1,5 +1,6 @@
 class CouponsController < ApplicationController
   before_action :set_coupon, only: %i[ show edit update destroy ]
+  before_action :authorize
 
   # GET /coupons or /coupons.json
   def index

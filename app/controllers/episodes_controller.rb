@@ -1,5 +1,6 @@
 class EpisodesController < ApplicationController
   before_action :set_episode, only: %i[ show edit update destroy ]
+  before_action :authorize
 
   # GET /episodes or /episodes.json
   def index

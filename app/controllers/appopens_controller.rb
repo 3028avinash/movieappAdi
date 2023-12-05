@@ -1,5 +1,6 @@
 class AppopensController < ApplicationController
   before_action :set_appopen, only: %i[ show edit update destroy ]
+  before_action :authorize
 
   # GET /appopens or /appopens.json
   def index

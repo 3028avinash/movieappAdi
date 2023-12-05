@@ -1,5 +1,6 @@
 class SubscriptionHistoriesController < ApplicationController
   before_action :set_subscription_history, only: %i[ show edit update destroy ]
+  before_action :authorize
 
   # GET /subscription_histories or /subscription_histories.json
   def index
