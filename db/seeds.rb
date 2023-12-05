@@ -53,9 +53,9 @@
 
 
 
-# Subscription.create(name: "Starter", duration: "3 months", real_amount: "200", offer_amount: "500")
-# Subscription.create(name: "Premium", duration: "6 months", real_amount: "300", offer_amount: "500")
-# Subscription.create(name: "Vip", duration: "12 months", real_amount: "500", offer_amount: "500")
+Subscription.create(name: "Starter", duration: "3 months", real_amount: "200", offer_amount: "99")
+Subscription.create(name: "Premium", duration: "6 months", real_amount: "300", offer_amount: "149")
+Subscription.create(name: "Vip", duration: "12 months", real_amount: "500", offer_amount: "249")
 
 
 # Coupon.create(code: "FLAT10",offer: "Get Flat 10% of on all subscriptions",status: 1)

@@ -23,7 +23,7 @@
       </div>
       <div class="form-group">
         <%= form_tag('/subscription_histories', :method => "get", id: "search-form") do %>
-          <%= text_field_tag :search, params[:search], class: 'form-control', :required => true, placeholder: 'Which genre/category/content you are looking for?' %>          
+          <%= text_field_tag :search, params[:search], class: 'form-control', :required => true, placeholder: 'Which userId/subscriptionId/couponId you are looking for?' %>          
         <% end %>        
       </div>
       <table class="table table-responsive table-bordered">
@@ -41,8 +41,8 @@
          <% @subscription_histories.each do |subs| %>
           <tr>
             <td><%= subs.try(:id) %></td>            
-            <td><%= subs.try(:user_id) %></td>
-            <td><%= subs.try(:subscription_id) %></td>
+            <td><%= link_to "#{subs.user_id}", "/users/#{subs.user_id}" %></td>
+            <td><%= link_to "#{subs.subscription_id}", "/subscriptions/#{subs.subscription_id}" %></td>
             <td><%= subs.try(:subscription_start) %></td>
             <td><%= subs.try(:subscription_end) %></td>
             <td><%= subs.try(:coupon_end) %></td>

@@ -4,7 +4,17 @@ class SubscriptionHistoriesController < ApplicationController
 
   # GET /subscription_histories or /subscription_histories.json
   def index
-    @subscription_histories = SubscriptionHistory.all
+    # @subscription_histories = SubscriptionHistory.all
+    if params[:search]
+      @subscription_histories = SubscriptionHistory.search(params[:search]).order('created_at desc')      
+    elsif params[:uid]
+      user = User.find(params[:uid].to_i)
+      @subscription_histories = user.subscription_histories.order("created_at desc")      
+    else
+      #@subscription_histories = SubscriptionHistory.where("created_at >= ?", Date.today).order('created_at desc')
+      @subscription_histories = SubscriptionHistory.all.order('created_at desc')
+    end
+    # .paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   # GET /subscription_histories/1 or /subscription_histories/1.json

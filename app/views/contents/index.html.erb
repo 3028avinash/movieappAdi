@@ -23,7 +23,7 @@
       </div>
       <div class="form-group">
         <%= form_tag('/contents', :method => "get", id: "search-form") do %>
-          <%= text_field_tag :search, params[:search], class: 'form-control', :required => true, placeholder: 'Which genre/category/content you are looking for?' %>          
+          <%= text_field_tag :search, params[:search], class: 'form-control', :required => true, placeholder: 'Which content/category/genre/language/releaseyear you are looking for?' %>          
         <% end %>        
       </div>
       <table class="table table-responsive table-bordered">
@@ -35,6 +35,7 @@
             <th>Genre</th>            
             <th>Language</th>            
             <th>Thumbnail</th>            
+            <th>Views</th>            
             <th>Status</th>            
             <th>Vip Status</th>            
             <th>Action</th>            
@@ -50,6 +51,7 @@
             <td><%= trans.try(:genre) %></td>
             <td><%= trans.try(:language) %></td>
             <td><img src="<%= trans.try(:banner) %>" style="height:30px"></td>
+            <td><%= trans.try(:views) %></td>
             <td>
               <% if trans.status == true %>
                 <i class="fa fa-check" style="font-size:15px;color:green"></i>

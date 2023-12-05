@@ -1,10 +1,12 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @content %>
-
-<div>
+<!-- <p style="color: green"><%= notice %></p> -->
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">New Content</h2>
+    </div>
+  </div>
+  <%= render @content %>
   <%= link_to "Edit this content", edit_content_path(@content) %> |
   <%= link_to "Back to contents", contents_path %>
-
   <%= button_to "Destroy this content", @content, method: :delete %>
 </div>

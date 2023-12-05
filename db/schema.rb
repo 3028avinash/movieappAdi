@@ -76,6 +76,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_30_111909) do
     t.string "real_amount"
     t.string "offer_amount"
     t.string "duration"
+    t.boolean "status", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

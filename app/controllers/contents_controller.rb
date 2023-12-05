@@ -4,7 +4,17 @@ class ContentsController < ApplicationController
 
   # GET /contents or /contents.json
   def index
-    @contents = Content.all
+    # @contents = Content.all
+    if params[:search]
+      @contents = Content.search(params[:search]).order('created_at desc')      
+    elsif params[:uid]
+      user = User.find(params[:uid].to_i)
+      @contents = user.contents.order("created_at desc")      
+    else
+      #@contents = Content.where("created_at >= ?", Date.today).order('created_at desc')
+      @contents = Content.all.order('created_at desc')
+    end
+    # .paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   # GET /contents/1 or /contents/1.json

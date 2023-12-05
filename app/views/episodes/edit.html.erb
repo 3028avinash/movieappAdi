@@ -1,10 +1,10 @@
-<h1>Editing episode</h1>
-
-<%= render "form", episode: @episode %>
-
-<br>
-
-<div>
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">Editing Episode</h2>
+    </div>
+  </div>
+  <%= render "form", episode: @episode %>
   <!-- <%= link_to "Show this episode", @episode %> | -->
   <%= link_to "Back to episodes", episodes_path %>
 </div>

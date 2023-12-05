@@ -4,7 +4,17 @@ class EpisodesController < ApplicationController
 
   # GET /episodes or /episodes.json
   def index
-    @episodes = Episode.all
+    # @episodes = Episode.all
+    if params[:search]
+      @episodes = Episode.search(params[:search]).order('created_at desc')      
+    # elsif params[:uid]
+    #   user = User.find(params[:uid].to_i)
+    #   @episodes = user.episodes.order("created_at desc")      
+    else
+      #@episodes = Episode.where("created_at >= ?", Date.today).order('created_at desc')
+      @episodes = Episode.all.order('created_at desc')
+    end
+    # .paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   # GET /episodes/1 or /episodes/1.json
@@ -54,7 +64,7 @@ class EpisodesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to episodes_url, notice: "Episode was successfully destroyed." }
-      format.json { head :no_content }
+      format.json { head :no_Episode }
     end
   end
 
@@ -66,6 +76,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.require(:episode).permit(:content_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status)
+      params.require(:episode).permit(:Episode_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status)
     end
 end

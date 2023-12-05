@@ -4,7 +4,17 @@ class SubscriptionsController < ApplicationController
 
   # GET /subscriptions or /subscriptions.json
   def index
-    @subscriptions = Subscription.all
+    # @subscriptions = Subscription.all
+    if params[:search]
+      @subscriptions = Subscription.search(params[:search]).order('created_at desc')      
+    elsif params[:uid]
+      user = User.find(params[:uid].to_i)
+      @subscriptions = user.subscriptions.order("created_at desc")      
+    else
+      #@subscriptions = Subscription.where("created_at >= ?", Date.today).order('created_at desc')
+      @subscriptions = Subscription.all.order('created_at desc')
+    end
+    # .paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   # GET /subscriptions/1 or /subscriptions/1.json
@@ -66,6 +76,6 @@ class SubscriptionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def subscription_params
-      params.require(:subscription).permit(:name, :real_amount, :offer_amount, :duration)
+      params.require(:subscription).permit(:name, :real_amount, :offer_amount, :duration, :status)
     end
 end

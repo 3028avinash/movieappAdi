@@ -5,6 +5,7 @@ class CreateSubscriptions < ActiveRecord::Migration[7.0]
       t.string :real_amount
       t.string :offer_amount
       t.string :duration
+      t.boolean :status, default:false
 
       t.timestamps
     end

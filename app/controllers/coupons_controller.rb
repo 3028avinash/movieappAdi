@@ -4,7 +4,17 @@ class CouponsController < ApplicationController
 
   # GET /coupons or /coupons.json
   def index
-    @coupons = Coupon.all
+    # @coupons = Coupon.all
+    if params[:search]
+      @coupons = Coupon.search(params[:search]).order('created_at desc')      
+    elsif params[:uid]
+      user = User.find(params[:uid].to_i)
+      @coupons = user.coupons.order("created_at desc")      
+    else
+      #@coupons = Coupon.where("created_at >= ?", Date.today).order('created_at desc')
+      @coupons = Coupon.all.order('created_at desc')
+    end
+    # .paginate(:page => params[:page], :per_page => PER_PAGE)
   end
 
   # GET /coupons/1 or /coupons/1.json
