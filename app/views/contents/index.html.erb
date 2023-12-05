@@ -19,7 +19,7 @@
       <p id="notice" style="color:orange;"><%= notice %></p>
       <div class="col-lg-12">
         <h2 class="page-header" style="margin: 10px 0 15px !important;">Listing Contents</h2>
-        <p style="text-align: end;">New Contents = <%= @contents.count %> <%#= today_users_count %></p>
+        <p style="text-align: end;">New Contents = <%= @contents.count %> <%#= today_contents_count %></p>
       </div>
       <div class="form-group">
         <%= form_tag('/contents', :method => "get", id: "search-form") do %>
@@ -33,6 +33,7 @@
             <th>Title</th>            
             <th>Category</th>
             <th>Genre</th>            
+            <th>Language</th>            
             <th>Thumbnail</th>            
             <th>Status</th>            
             <th>Vip Status</th>            
@@ -47,6 +48,7 @@
             <td><%= trans.try(:title) %></td>
             <td><%= trans.try(:category) %></td>
             <td><%= trans.try(:genre) %></td>
+            <td><%= trans.try(:language) %></td>
             <td><img src="<%= trans.try(:banner) %>" style="height:30px"></td>
             <td>
               <% if trans.status == true %>

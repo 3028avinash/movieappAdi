@@ -1,10 +1,10 @@
-<h1>Editing coupon</h1>
-
-<%= render "form", coupon: @coupon %>
-
-<br>
-
-<div>
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">Editing Content</h2>
+    </div>
+  </div>
+  <%= render "form", coupon: @coupon %>
   <%= link_to "Show this coupon", @coupon %> |
   <%= link_to "Back to coupons", coupons_path %>
 </div>
