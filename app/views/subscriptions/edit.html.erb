@@ -1,10 +1,10 @@
-<h1>Editing subscription</h1>
-
-<%= render "form", subscription: @subscription %>
-
-<br>
-
-<div>
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">Editing Subscription</h2>
+    </div>
+  </div>
+  <%= render "form", subscription: @subscription %>
   <%= link_to "Show this subscription", @subscription %> |
   <%= link_to "Back to subscriptions", subscriptions_path %>
 </div>

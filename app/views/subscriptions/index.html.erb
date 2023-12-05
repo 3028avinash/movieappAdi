@@ -35,7 +35,7 @@
             <th>Real Amount</th>
             <th>Offer Amount</th>            
             <th>Duration</th>            
-            <!-- <th>Coupon ID</th>                     -->
+            <th>Action</th>            
           </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@
             <td><%= subs.try(:real_amount) %></td>
             <td><%= subs.try(:offer_amount) %></td>
             <td><%= subs.try(:duration) %></td>
-            <!-- <td><%= subs.try(:coupon_end) %></td> -->
+            <td><%= link_to "Edit", edit_subscription_path(subs), style: "font-size:15px;color:rgb(6, 52, 6)" %></td>
           </tr>
          <% end %>
         </tbody>        
