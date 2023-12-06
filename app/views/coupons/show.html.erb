@@ -1,8 +1,11 @@
-<p style="color: green"><%= notice %></p>
-
-<%= render @coupon %>
-
-<div>
+<!-- <p style="color: green"><%= notice %></p> -->
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">Editing Content</h2>
+    </div>
+  </div>
+  <%= render @coupon %>
   <%= link_to "Edit this coupon", edit_coupon_path(@coupon) %> |
   <%= link_to "Back to coupons", coupons_path %>
 

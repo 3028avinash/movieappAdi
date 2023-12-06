@@ -91,7 +91,8 @@
             </div>
             <div class="form-group">
               <label>Category</label>
-              <%= form.text_field :category, class: "form-control", placeholder: "Enter category" %>
+              <!-- <%= form.text_field :category, class: "form-control", placeholder: "Enter category" %> -->
+              <%= form.select :category, options_for_select([['Web Series', "web-series"], ['Movies', "movies"]], selected: form.object.category),{}, {class: 'form-control'} %>
             </div>
             <div class="form-group">
               <label>Release Year</label>
