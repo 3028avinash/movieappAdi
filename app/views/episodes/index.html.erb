@@ -45,7 +45,7 @@
          <% @episodes.each do |trans| %>
           <tr>
             <td><%= trans.try(:id) %></td>            
-            <td><%= link_to "#{trans.content.title}", "/contents/#{trans.content_id}" %></td>
+            <td><%= link_to "#{trans.content_id}", "/contents/#{trans.content_id}" %></td>
             <td><%= trans.try(:season) %></td>
             <td><%= trans.try(:title) %></td>
             <td><img src="<%= trans.try(:thumbnail) %>" style="height:30px"></td>
@@ -71,7 +71,7 @@
         </tbody>        
       </table>  
       <br>
-      <%= link_to 'New Content', new_content_path %>
+      <%= link_to 'New Episode', new_episode_path %>
     </div>
     <!-- /.row -->
   </div>

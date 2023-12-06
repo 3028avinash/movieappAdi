@@ -76,6 +76,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.require(:episode).permit(:Episode_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status)
+      params.require(:episode).permit(:content_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status)
     end
 end
