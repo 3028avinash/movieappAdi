@@ -3,6 +3,17 @@ module MovieApp
         class Appdetails < Grape::API
         include MovieApp::V1::Defaults
 
+
+          # type{
+          #   1- free shows
+          #   2- newly-added shows
+          #   3- vip shows
+          #   4- trending shows
+          #   5- most viewed shows
+          #   6- coming soon shows
+          #   7- free shows
+          # }
+
             resource :homePage do
                 desc "List on Home API"
                 before {api_params}
@@ -17,20 +28,29 @@ module MovieApp
                         # user = valid_user(params['userId'].to_i, params['securityToken'])
                         if true
                         # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
-                            bannerImage = Content.where(is_slider: true).first.banner
-                            showList1=[]
-                            shows= Content.where("genre LIKE ?" , "%drama%")
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList1 << showHash
+                            bannerImage = Content.where(is_slider: true)
+                            bannerHash=[]
+                            # showHash1={}
+                            # showHash2={}
+                           
+                            showList=[]
+                            bannerImage.each_with_index do |item,index|
+                              bannerHash[index] = {id: item.id, banner: item.banner}
                             end
-                            showList2=[]
-                            shows= Content.where("genre LIKE ?" , "%action%")
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList2 << showHash
+                            # showList << {category: "Banner",bannerList: bannerHash} 
+                            contentList=[]
+                            shows= Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true) #false
+                            shows.each_with_index do |item,index|
+                                contentList[index] = {id: item.id, banner: item.banner}
                             end
-                        {message: "MSG_SUCCESS", status: 200, bannerImage: bannerImage, showList1: showList1 , showList2: showList2}
+                            showList << {category: "Free Shows", type: 1, contentList: contentList}
+                            contentList=[]
+                            shows= Content.where("genre LIKE ? and vip_status like ?" , "%action%", true) #false 
+                            shows.each_with_index do |item,index|
+                                contentList[index] = {id: item.id, banner: item.banner}
+                            end
+                            showList << {category: "Newly Added", type: 2, contentList: contentList}
+                        {message: "MSG_SUCCESS", status: 200,bannerHash: bannerHash, showList: showList}
                         else
                         {message: "INVALID_USER", status: 500}
                         end  
@@ -55,31 +75,32 @@ module MovieApp
                         # user = valid_user(params['userId'].to_i, params['securityToken'])
                         if true
                         # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
-                            showList1=[]
+                            contentList=[]
+                            showList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6)
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList1 << showHash
+                            shows.each_with_index do |item,index|
+                              contentList[index] = {id: item.id, banner: item.banner}
                             end
-                            showList2=[]
+                            showList << {category: "Drama", contentList: contentList}
+                            contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6)
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList2 << showHash
+                            shows.each_with_index do |item,index|
+                              contentList[index] = {id: item.id, banner: item.banner}
                             end
-                            showList3=[]
+                            showList << {category: "Action", contentList: contentList}
+                            contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6)
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList3 << showHash
+                            shows.each_with_index do |item,index|
+                              contentList[index] = {id: item.id, banner: item.banner}
                             end
-                            showList4=[]
+                            showList << {category: "Thriller", contentList: contentList}
+                            contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6)
-                            shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner}
-                                showList4 << showHash
+                            shows.each_with_index do |item,index|
+                              contentList[index] = {id: item.id, banner: item.banner}
                             end
-                        {message: "MSG_SUCCESS", status: 200, showList1: showList1 , showList2: showList2, showList3: showList3, showList4: showList4}
+                            showList << {category: "Crime", contentList: contentList}
+                        {message: "MSG_SUCCESS", status: 200, showList: showList}
                         else
                         {message: "INVALID_USER", status: 500}
                         end   
