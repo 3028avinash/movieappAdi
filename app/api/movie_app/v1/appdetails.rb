@@ -3,16 +3,15 @@ module MovieApp
         class Appdetails < Grape::API
         include MovieApp::V1::Defaults
 
-
-          # type{
-          #   1- free shows
-          #   2- newly-added shows
-          #   3- vip shows
-          #   4- trending shows
-          #   5- most viewed shows
-          #   6- coming soon shows
-          #   7- free shows
-          # }
+          # FREE_SHOWS(1),
+          # VIP_SHOWS(2),
+          # COMING_SOON(3),
+          # GENRE(4),
+          # TOP_10(5),
+          # TRENDING(6),
+          # SPECIAL_FOR_YOU(7),
+          # POPULAR_ARTIST(8),
+          # ALL_NEW_SHOWS(9)
 
             resource :homePage do
                 desc "List on Home API"
@@ -41,15 +40,30 @@ module MovieApp
                             contentList=[]
                             shows= Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true) #false
                             shows.each_with_index do |item,index|
-                                contentList[index] = {id: item.id, banner: item.banner}
+                                contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
                             showList << {category: "Free Shows", type: 1, contentList: contentList}
+
                             contentList=[]
                             shows= Content.where("genre LIKE ? and vip_status like ?" , "%action%", true) #false 
                             shows.each_with_index do |item,index|
-                                contentList[index] = {id: item.id, banner: item.banner}
+                                contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
-                            showList << {category: "Newly Added", type: 2, contentList: contentList}
+                            showList << {category: "Newly Added", type: 9, contentList: contentList}
+                            
+                            contentList=[]
+                            shows= Content.where("genre LIKE ? and vip_status like ?" , "%crime%", true) #false 
+                            shows.each_with_index do |item,index|
+                                contentList[index] = {id: item.id, thumbnail: item.banner}
+                            end
+                            showList << {category: "Special For You", type: 7, contentList: contentList}
+
+                            contentList=[]
+                            shows= Content.where("genre LIKE ? and vip_status like ?" , "%thriller%", true) #false 
+                            shows.each_with_index do |item,index|
+                                contentList[index] = {id: item.id, thumbnail: item.banner}
+                            end
+                            showList << {category: "Trending", type: 6, contentList: contentList}
                         {message: "MSG_SUCCESS", status: 200,bannerHash: bannerHash, showList: showList}
                         else
                         {message: "INVALID_USER", status: 500}
