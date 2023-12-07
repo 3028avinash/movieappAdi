@@ -93,27 +93,31 @@ module MovieApp
                             showList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6)
                             shows.each_with_index do |item,index|
-                              contentList[index] = {id: item.id, banner: item.banner}
+                              contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
                             showList << {category: "Drama", contentList: contentList}
+
                             contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6)
                             shows.each_with_index do |item,index|
-                              contentList[index] = {id: item.id, banner: item.banner}
+                              contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
                             showList << {category: "Action", contentList: contentList}
+
                             contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6)
                             shows.each_with_index do |item,index|
-                              contentList[index] = {id: item.id, banner: item.banner}
+                              contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
                             showList << {category: "Thriller", contentList: contentList}
+
                             contentList=[]
                             shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6)
                             shows.each_with_index do |item,index|
-                              contentList[index] = {id: item.id, banner: item.banner}
+                              contentList[index] = {id: item.id, thumbnail: item.banner}
                             end
                             showList << {category: "Crime", contentList: contentList}
+
                         {message: "MSG_SUCCESS", status: 200, showList: showList}
                         else
                         {message: "INVALID_USER", status: 500}
@@ -128,25 +132,60 @@ module MovieApp
             resource :upcomingList do
                 desc "Upcoming List on Home API"
                 before {api_params}
-                # params do
-                # requires :userId, type: String, allow_blank: false
+                params do
+                  requires :userId, type: String, allow_blank: false
                 # requires :securityToken, type: String, allow_blank: false
                 # requires :versionName, type: String, allow_blank: false
                 # requires :versionCode, type: String, allow_blank: false
-                # end
+                end
                 post do
                     begin
                         # user = valid_user(params['userId'].to_i, params['securityToken'])
                         if true
                         # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
                             showList=[]
-                            shows= Content.where("release_date > ?" , Time.now.year).limit(6)
+                            shows= Content.where("release_date > ?" , Time.now.year)
                             shows.each do |item|
-                                showHash = {id: item.id, banner: item.banner, name: item.title, genre: item.genre}
+                                showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus: Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status }
                                 showList << showHash
                             end
                             
                         {message: "MSG_SUCCESS", status: 200, showList: showList }
+                        else
+                        {message: "INVALID_USER", status: 500}
+                        end  
+                    rescue Exception => e
+                        logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
+                        {message: "MSG_ERROR", status: 500}
+                    end
+                end
+            end
+
+            resource :reminderUpdate do
+                desc "Upcoming List on Home API"
+                before {api_params}
+                params do
+                  requires :userId, type: String, allow_blank: false
+                  # requires :securityToken, type: String, allow_blank: false
+                  # requires :versionName, type: String, allow_blank: false
+                  # requires :versionCode, type: String, allow_blank: false
+                  requires :contentId, type: String, allow_blank: false
+                end
+                post do
+                    begin
+                        # user = valid_user(params['userId'].to_i, params['securityToken'])
+                        if true
+                        p=Reminder.find_by("user_id = ? and content_id = ?",params[:userId],params[:contentId])
+                        if p.present? 
+                          if p.status
+                            p.update(status: false)
+                          else
+                            p.update(status: true)
+                          end
+                        else
+                          p=Reminder.create(user_id: params[:userId], content_id: params[:contentId], status: true)
+                        end
+                        {message: "MSG_SUCCESS", status: 200 , reminderStatus: p.status}
                         else
                         {message: "INVALID_USER", status: 500}
                         end  
