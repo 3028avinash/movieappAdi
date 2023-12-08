@@ -213,7 +213,7 @@ module MovieApp
               couponList=[]
               l=Subscription.order(created_at: :desc)
               l.each_with_index do |element,index|
-                subscriptionList[index]={id: element.id,name: element.name, duration: "For #{element.duration}", realAmount: "₹#{element.real_amount}", offerAmount: "₹#{element.offer_amount}"}
+                subscriptionList[index]={id: element.id,name: element.name, duration: "For #{element.duration}", realAmount: "₹#{element.real_amount}", offerAmount: "₹#{element.offer_amount}", offer: "SAVE #{100-((element.offer_amount.to_f/element.real_amount.to_f)*100).ceil}%"}
               end
               c=Coupon.where(status: true)
               c.each do |item|
