@@ -33,7 +33,6 @@ class EpisodesController < ApplicationController
   # POST /episodes or /episodes.json
   def create
     @episode = Episode.new(episode_params)
-
     respond_to do |format|
       if @episode.save
         format.html { redirect_to episode_url(@episode), notice: "Episode was successfully created." }
@@ -76,6 +75,6 @@ class EpisodesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def episode_params
-      params.require(:episode).permit(:content_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status)
+      params.require(:episode).permit(:content_id, :season, :url, :thumbnail, :title, :runtime, :cast, :director, :story, :vip_status, :status, :file)
     end
 end
