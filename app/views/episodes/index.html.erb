@@ -20,6 +20,7 @@
             <th>Season</th>            
             <th>Title</th>            
             <th>Thumbnail</th>            
+            <th>URL</th>            
             <th>Runtime</th>            
             <th>Status</th>            
             <th>Vip Status</th>            
@@ -35,6 +36,7 @@
             <td><%= trans.try(:season) %></td>
             <td><%= trans.try(:title) %></td>
             <td><img src="<%= trans.try(:thumbnail) %>" style="height:30px"></td>
+            <td><%= trans.try(:url) %></td>
             <td><%= trans.try(:runtime) %></td>
             <td>
               <% if trans.status == true %>
