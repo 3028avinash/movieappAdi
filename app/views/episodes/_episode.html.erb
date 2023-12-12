@@ -9,15 +9,17 @@
     <%= episode.season %>
   </p>
 
-  <!-- <p>
+  <p>
     <strong>Url:</strong>
     <%= episode.url %>
-  </p> -->
-  <video width="320" height="240" controls>
+  </p>
+  <!-- <video width="320" height="240" controls>
     <source src="<%= Rails.application.routes.url_helpers.rails_blob_path(episode.file, only_path: true) %>" type="video/mp4">
     Your browser does not support the video tag.
-  </video>
-  
+  </video> -->
+  <div style="width:320;height:240">
+  <%= video_tag rails_blob_url(episode.file), controls: true , style: "width: 320px; height: 240px;"%>
+  </div>
 
   <p>
     <strong>Thumbnail:</strong>
