@@ -20,10 +20,11 @@
             <th>Season</th>            
             <th>Title</th>            
             <th>Thumbnail</th>            
-            <th>URL</th>            
+            <!-- <th>URL</th>             -->
             <th>Runtime</th>            
             <th>Status</th>            
             <th>Vip Status</th>            
+            <th>Action</th>            
             <th>Action</th>            
             <!-- <th>DateTime</th> -->
           </tr>
@@ -36,7 +37,7 @@
             <td><%= trans.try(:season) %></td>
             <td><%= trans.try(:title) %></td>
             <td><img src="<%= trans.try(:thumbnail) %>" style="height:30px"></td>
-            <td><%= trans.try(:url) %></td>
+            <!-- <td><%= trans.try(:url) %></td> -->
             <td><%= trans.try(:runtime) %></td>
             <td>
               <% if trans.status == true %>
@@ -53,6 +54,7 @@
               <% end %>
             </td>
             <td><%= link_to "Edit", edit_episode_path(trans), style: "font-size:15px;color:rgb(6, 52, 6)" %></td>
+            <td><%= link_to "Show", episode_path(trans), style: "font-size:15px;color:rgb(6, 52, 6)" %></td>
             <!-- <td><%= trans.try(:created_at).strftime("%d/%m/%Y %I:%M%p")  %></td> -->
           </tr>
          <% end %>
