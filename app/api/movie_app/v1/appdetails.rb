@@ -38,28 +38,28 @@ module MovieApp
               end
               # showList << {category: "Banner",bannerList: bannerHash} 
               contentList=[]
-              shows= Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true) #false
+              shows= Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true).order("RANDOM()") #false
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Free Shows", type: 1, contentList: contentList}
 
               contentList=[]
-              shows= Content.where("genre LIKE ? and vip_status like ?" , "%action%", true) #false 
+              shows= Content.where("genre LIKE ? and vip_status like ?" , "%action%", true).order("RANDOM()") #false 
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Newly Added", type: 9, contentList: contentList}
               
               contentList=[]
-              shows= Content.where("genre LIKE ? and vip_status like ?" , "%crime%", true) #false 
+              shows= Content.where("genre LIKE ? and vip_status like ?" , "%crime%", true).order("RANDOM()") #false 
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Special For You", type: 7, contentList: contentList}
 
               contentList=[]
-              shows= Content.where("genre LIKE ? and vip_status like ?" , "%thriller%", true) #false 
+              shows= Content.where("genre LIKE ? and vip_status like ?" , "%thriller%", true).order("RANDOM()") #false 
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
@@ -91,28 +91,28 @@ module MovieApp
                   # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
                       contentList=[]
                       showList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6)
+                      shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6).order("RANDOM()")
                       shows.each_with_index do |item,index|
                         contentList[index] = {id: item.id, thumbnail: item.banner}
                       end
                       showList << {category: "Drama", contentList: contentList}
 
                       contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6)
+                      shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6).order("RANDOM()")
                       shows.each_with_index do |item,index|
                         contentList[index] = {id: item.id, thumbnail: item.banner}
                       end
                       showList << {category: "Action", contentList: contentList}
 
                       contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6)
+                      shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6).order("RANDOM()")
                       shows.each_with_index do |item,index|
                         contentList[index] = {id: item.id, thumbnail: item.banner}
                       end
                       showList << {category: "Thriller", contentList: contentList}
 
                       contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6)
+                      shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6).order("RANDOM()")
                       shows.each_with_index do |item,index|
                         contentList[index] = {id: item.id, thumbnail: item.banner}
                       end

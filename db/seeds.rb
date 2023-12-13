@@ -66,6 +66,9 @@ Episode.create(content_id: 3, season: 1, url: "http://commondatastorage.googleap
 
 Subscription.create(name: "Starter", duration: "3 months", real_amount: "200", offer_amount: "99")
 Subscription.create(name: "Premium", duration: "6 months", real_amount: "300", offer_amount: "149")
-Subscription.create(name: "Vip", duration: "12 months", real_amount: "500", offer_am,offer: "Get Flat 20% of on all subscriptions",status: 1)
+Subscription.create(name: "Vip", duration: "12 months", real_amount: "500", offer_amount: "249")
+
+Coupon.create(code: "FLAT10",offer: "Get Flat 10% of on all subscriptions",status: 1)
+Coupon.create(code: "THANKS20",offer: "Get Flat 20% of on all subscriptions",status: 1)
 Coupon.create(code: "CHRISTMAS30",offer: "Get Flat 30% of on all subscriptions",status: 1)
 Coupon.create(code: "HAPPYNEWYEAR40",offer: "Get Flat 40% of on all subscriptions",status: 1)
