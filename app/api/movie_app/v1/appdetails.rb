@@ -263,8 +263,8 @@ module MovieApp
           post do
             begin
               # user = valid_user(params['userId'].to_i, params['securityToken'])
-              user=User.find_by_id(params[:userId])
-              if user
+              # user=User.find_by_id(params[:userId])
+              if true
                 sub=SubscriptionHistory.where(user_id: user.id).last
                 s=Subscription.find_by_id(sub.id)
                 subscriptionList = {name: s.name, start: sub.subscription_start, end: sub.subscription_end , price: s.offer_amount}
