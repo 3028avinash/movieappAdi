@@ -452,8 +452,8 @@ module MovieApp
                       recommendation=[]
                       episodeData=Episode.find_by_id(params[:episodeId].to_i)
     
-                          castList=episodeData.cast_id
-                          directorList=episodeData.director_id
+                          castList=episodeData.cast
+                          directorList=episodeData.director
                           
                           # wh=Watchhistory.find_by(episode_id: params[:episodeId].to_i)
     
@@ -468,51 +468,51 @@ module MovieApp
                           #   wh.touch
                           # end
     
-                          castList=castList.split(",")
-                          castList.each do |item|
-                            k= Cast.find_by_id(item.to_i)
-                            castHash = {id: k.id, name: k.name, image_url: k.image}
-                            cast << castHash
-                          end
+                          # castList=castList.split(",")
+                          # castList.each do |item|
+                          #   k= Cast.find_by_id(item.to_i)
+                          #   castHash = {id: k.id, name: k.name, image_url: k.image}
+                          #   cast << castHash
+                          # end
     
-                          director=""
-                          directorList=directorList.split(",")
-                          directorList.each_with_index do |item, index|
-                            k = Director.find_by_id(item.to_i)
-                            director << k.name
-                            director << "," unless index == directorList.length - 1  # Add '/' except for the last item
-                          end
+                          # director=""
+                          # directorList=directorList.split(",")
+                          # directorList.each_with_index do |item, index|
+                          #   k = Director.find_by_id(item.to_i)
+                          #   director << k.name
+                          #   director << "," unless index == directorList.length - 1  # Add '/' except for the last item
+                          # end
     
     
-                          genreList=""
-                          genre = l.genre.split(",")
-                          genre.each_with_index do |item, index|
-                            genreList << item
-                            genreList << "/" unless index == directorList.length - 1
-                          end
+                          genreList=l.genre
+                          # .split(",")
+                          # genre.each_with_index do |item, index|
+                          #   genreList << item
+                          #   genreList << "/" unless index == directorList.length - 1
+                          # end
     
-                          isFav=false
-                          isWL=false
-                          hisList=History.find_by_user_id(params[:userId].to_i)
+                          # isFav=false
+                          # isWL=false
+                          # hisList=History.find_by_user_id(params[:userId].to_i)
     
-                          if hisList
-                            fList=hisList.favorite_list
-                            wList=hisList.watch_list
+                          # if hisList
+                          #   fList=hisList.favorite_list
+                          #   wList=hisList.watch_list
     
-                            fList=fList.split(",")
-                            if fList.include?(episodeData.id.to_s)
-                              isFav=true
-                            else
-                              isFav=false
-                            end
+                          #   fList=fList.split(",")
+                          #   if fList.include?(episodeData.id.to_s)
+                          #     isFav=true
+                          #   else
+                          #     isFav=false
+                          #   end
     
-                            wList=wList.split(",")
-                            if wList.include?(episodeData.id.to_s)
-                              isWL=true
-                            else
-                              isWL=false
-                            end
-                          end
+                          #   wList=wList.split(",")
+                          #   if wList.include?(episodeData.id.to_s)
+                          #     isWL=true
+                          #   else
+                          #     isWL=false
+                          #   end
+                          # end
     
                           wh=Watchhistory.find_by("user_id = ? and episode_id = ?",params[:userId].to_i, episodeData.id)
     

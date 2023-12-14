@@ -55,7 +55,7 @@ module MovieApp
                   logger.info "API Exception-BLOCK-IPL:#{Time.now}-userSignin-#{params.inspect}"
                   {message: BLOCKED, status: 500}  
                 else
-                  user = User.where(social_id: params['socialId']).first_or_initialize            
+                  user = User.where(social_id: params['socialId']).or(User.where(mobile_no: params['mobileNo'])).first_or_initialize            
                   refCode = SecureRandom.hex(4).upcase
                   utm_medium = params['utmMedium']                
                             
@@ -161,36 +161,36 @@ module MovieApp
               if (params['versionName'] != '1.9' && params['versionCode'] != '10')
                 force_update = false
               end
-              attendence = [true,true].sample
+              # attendence = [true,true].sample
               source_ip = env['REMOTE_ADDR'] || env['HTTP_X_FORWARDED_FOR']            
               location = source_ip #Geocoder.address(source_ip)            
               Appopen.create(user_id: user.id,source_ip: source_ip, location: location, version_name: params['versionName'], version_code: params['versionCode'])
               #invite amount logic
-              if(user.appopens.count == 1 && user.created_at.to_datetime > DateTime.now-1)
-                advertid_count = User.where(advertising_id: user.advertising_id).count
-                if advertid_count == 1
-                  referee = User.where(referral_code: user.utm_medium).first
-                  if referee
-                    invite_count = User.where("utm_medium = ?", referee.referral_code).count
-                    if invite_count < 15
-                      Transaction.create(user_id: referee.id, trans_name: "Invited:#{user.social_name}", trans_type: 'INVITE', trans_amount: INVITE_COIN)                  
-                      update_wallet(referee.id, INVITE_COIN, 'add')
-                    else
-                      luck = [false,true].sample
-                      if luck == true
-                        Transaction.create(user_id: referee.id, trans_name: "Invited:#{user.social_name}", trans_type: 'INVITE', trans_amount: INVITE_COIN)                  
-                        update_wallet(referee.id, INVITE_COIN, 'add')
-                      end  
-                    end  
-                  # else
-                  #   require "uri"
-                  #   require "net/http"                    
-                  #   uri = URI("https://mobtrack.app/postbacks/record?vendor=MGApps&app=Pic2word&clickid=#{user.utm_medium}&adv_sub=#{user.utm_gclid}")
-                  #   x = Net::HTTP.get(uri)
-                  end
-                end  
-              end
-                {message: MSG_SUCCESS, status: 200, forceUpdate: force_update, userCoin: user.account.coin_balance , appUrl: "https://statussavvy.app/invite/#{user.referral_code}" }
+              # if(user.appopens.count == 1 && user.created_at.to_datetime > DateTime.now-1)
+              #   advertid_count = User.where(advertising_id: user.advertising_id).count
+              #   if advertid_count == 1
+              #     referee = User.where(referral_code: user.utm_medium).first
+              #     if referee
+              #       invite_count = User.where("utm_medium = ?", referee.referral_code).count
+              #       # if invite_count < 15
+              #       #   Transaction.create(user_id: referee.id, trans_name: "Invited:#{user.social_name}", trans_type: 'INVITE', trans_amount: INVITE_COIN)                  
+              #       #   update_wallet(referee.id, INVITE_COIN, 'add')
+              #       # else
+              #         # luck = [false,true].sample
+              #         # if luck == true
+              #         #   Transaction.create(user_id: referee.id, trans_name: "Invited:#{user.social_name}", trans_type: 'INVITE', trans_amount: INVITE_COIN)                  
+              #         #   update_wallet(referee.id, INVITE_COIN, 'add')
+              #         # end  
+              #       end  
+              #     # else
+              #     #   require "uri"
+              #     #   require "net/http"                    
+              #     #   uri = URI("https://mobtrack.app/postbacks/record?vendor=MGApps&app=Pic2word&clickid=#{user.utm_medium}&adv_sub=#{user.utm_gclid}")
+              #     #   x = Net::HTTP.get(uri)
+              #     end
+              #   end  
+              # end
+                {message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}" }
               else
                 {message: INVALID_USER, status: 500}
               end  
