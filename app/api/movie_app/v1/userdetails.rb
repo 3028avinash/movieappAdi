@@ -55,7 +55,7 @@ module MovieApp
                   logger.info "API Exception-BLOCK-IPL:#{Time.now}-userSignin-#{params.inspect}"
                   {message: BLOCKED, status: 500}  
                 else
-                  user = User.where(social_id: params['socialId']).or(User.where(mobile_no: params['mobileNo'])).first_or_initialize            
+                  user = User.where(social_id: params['socialId']).or(User.where(mobile_no: params['mobileNumber'])).first_or_initialize            
                   refCode = SecureRandom.hex(4).upcase
                   utm_medium = params['utmMedium']                
                             
