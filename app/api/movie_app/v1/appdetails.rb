@@ -134,19 +134,20 @@ module MovieApp
           before {api_params}
           params do
             requires :userId, type: String, allow_blank: false
-          # requires :securityToken, type: String, allow_blank: false
-          # requires :versionName, type: String, allow_blank: false
-          # requires :versionCode, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
           end
           post do
               begin
-                  # user = valid_user(params['userId'].to_i, params['securityToken'])
-                  if true
+                  user = valid_user(params['userId'].to_i, params['securityToken'])
+                  if user
                   # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
                       showList=[]
                       shows= Content.where("release_date > ?" , Time.now.year)
+                      rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status
                       shows.each do |item|
-                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus: Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status }
+                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus:  rStatus.present ? rstatus : false }
                           showList << showHash
                       end
                       
@@ -413,28 +414,20 @@ module MovieApp
                     episode=[]
                     recommendation=[]
                     l=Content.find_by_id(params[:contentId].to_i)
-    
                     count=l.views.to_i+1
                     l.update(views: count)
-    
-                    episodeData=Episode.where(content_id: l.id).first
-    
-                    castList=episodeData.cast
-                    directorList=episodeData.director
-    
-                    episodeList=Episode.where(content_id: params[:contentId].to_i)
-    
+                    episodeData=l.episodes.first
+                    episodeList=l.episodes
                     episodeList.each do |element|
                       episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, genre: l.genre, vipStatus: element.vip_status }
                       episode << episodeHash
                     end
-    
                     recommendationList=Content.order(views: :desc)
                     recommendationList.each do |element|
                       recommendationHash={id: element.id, thumbnail: element.banner, vipStatus: element.vip_status.present? }
                       recommendation << recommendationHash
                     end
-                    detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url:  "http://appnine.netdemo.in" + episodeData.url, runtime: episodeData.runtime, castList: castList, directors: directorList}
+                    detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
@@ -442,179 +435,17 @@ module MovieApp
                       episodeList: episode,
                       recommendationList: recommendation
                     }
-    
                   else
-
-                    if episodeList == false
-                      cast=[]
-                      # director=[]
-                      episode=[]
-                      recommendation=[]
-                      episodeData=Episode.find_by_id(params[:episodeId].to_i)
-    
-                          castList=episodeData.cast
-                          directorList=episodeData.director
-                          
-                          # wh=Watchhistory.find_by(episode_id: params[:episodeId].to_i)
-    
-                          l=Content.find_by_id(episodeData.content_id)
-    
-                          count=l.views.to_i+1
-                          l.update(views: count)
-                          
-                          # if !wh.present?
-                          #   Watchhistory.create(user_id: params[:userId].to_i,content_id: l.id,episode_id: params[:episodeId].to_i)
-                          # else
-                          #   wh.touch
-                          # end
-    
-                          # castList=castList.split(",")
-                          # castList.each do |item|
-                          #   k= Cast.find_by_id(item.to_i)
-                          #   castHash = {id: k.id, name: k.name, image_url: k.image}
-                          #   cast << castHash
-                          # end
-    
-                          # director=""
-                          # directorList=directorList.split(",")
-                          # directorList.each_with_index do |item, index|
-                          #   k = Director.find_by_id(item.to_i)
-                          #   director << k.name
-                          #   director << "," unless index == directorList.length - 1  # Add '/' except for the last item
-                          # end
-    
-    
-                          genreList=l.genre
-                          # .split(",")
-                          # genre.each_with_index do |item, index|
-                          #   genreList << item
-                          #   genreList << "/" unless index == directorList.length - 1
-                          # end
-    
-                          # isFav=false
-                          # isWL=false
-                          # hisList=History.find_by_user_id(params[:userId].to_i)
-    
-                          # if hisList
-                          #   fList=hisList.favorite_list
-                          #   wList=hisList.watch_list
-    
-                          #   fList=fList.split(",")
-                          #   if fList.include?(episodeData.id.to_s)
-                          #     isFav=true
-                          #   else
-                          #     isFav=false
-                          #   end
-    
-                          #   wList=wList.split(",")
-                          #   if wList.include?(episodeData.id.to_s)
-                          #     isWL=true
-                          #   else
-                          #     isWL=false
-                          #   end
-                          # end
-    
-                          wh=Watchhistory.find_by("user_id = ? and episode_id = ?",params[:userId].to_i, episodeData.id)
-    
-                          detailsList = {favList: isFav, watchList: isWL, title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: genreList, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: cast, directors: director, startTime: wh.present? ? wh.duration : 0}
-                      {
-                        message: "MSG_SUCCESS", 
-                        status: 200, 
-                        videoDetails: detailsList
-                      }
-    
-                    else
-                      cast=[]
-                      # director=[]
-                      episode=[]
-                      recommendation=[]
-                      episodeData=Episode.find_by_id(params[:episodeId].to_i)
-    
-                          castList=episodeData.cast_id
-                          directorList=episodeData.director_id
-                          
-                          # wh=Watchhistory.find_by(episode_id: params[:episodeId].to_i)
-    
-                          l=Content.find_by_id(episodeData.content_id)
-    
-                          count=l.views.to_i+1
-                          l.update(views: count)
-                          
-                          # if !wh.present?
-                          #   Watchhistory.create(user_id: params[:userId].to_i,content_id: l.id,episode_id: params[:episodeId].to_i)
-                          # else
-                          #   wh.touch
-                          # end
-    
-                          # episodeList
-                          episodeList=Episode.where(content_id: l.id)
-                          episodeList.each do |element|
-                            episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, vipStatus: element.vip_status }
-                            episode << episodeHash
-                          end
-    
-                          recommendationList=Content.where(genre: l.genre)
-                          recommendationList.each do |element|
-                            recommendationHash={id: element.id, thumbnail: element.banner, vipStatus: element.vip_status.present? }
-                            recommendation << recommendationHash
-                          end
-    
-                          castList=castList.split(",")
-                          castList.each do |item|
-                            k= Cast.find_by_id(item.to_i)
-                            castHash = {id: k.id, name: k.name, image_url: k.image}
-                            cast << castHash
-                          end
-    
-                          director=""
-                          directorList=directorList.split(",")
-                          directorList.each_with_index do |item, index|
-                            k = Director.find_by_id(item.to_i)
-                            director << k.name
-                            director << "," unless index == directorList.length - 1  # Add '/' except for the last item
-                          end
-    
-    
-                          genreList=""
-                          genre = l.genre.split(",")
-                          genre.each_with_index do |item, index|
-                            genreList << item
-                            genreList << "/" unless index == directorList.length - 1
-                          end
-    
-                          isFav=false
-                          isWL=false
-                          hisList=History.find_by_user_id(params[:userId].to_i)
-                          if hisList
-                            fList=hisList.favorite_list
-                            wList=hisList.watch_list
-    
-                            fList=fList.split(",")
-                            if fList.include?(episodeData.id.to_s)
-                              isFav=true
-                            else
-                              isFav=false
-                            end
-    
-                            wList=wList.split(",")
-                            if wList.include?(episodeData.id.to_s)
-                              isWL=true
-                            else
-                              isWL=false
-                            end
-                          end
-    
-                          wh=Watchhistory.find_by("user_id = ? and episode_id = ?",params[:userId].to_i, episodeData.id)
-    
-                          detailsList = {favList: isFav, watchList: isWL, title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: genreList, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: cast, directors: director, startTime: wh.present? ? wh.duration : 0}
-                      {
-                        message: "MSG_SUCCESS", 
-                        status: 200, 
-                        videoDetails: detailsList,
-                        episodeList: episode,
-                        recommendationList: recommendation
-                      }
-                    end
+                    episodeData=Episode.find_by_id(params[:episodeId].to_i)
+                        l=episodeData.content
+                        count=l.views.to_i+1
+                        l.update(views: count)
+                        detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: genreList, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: cast, directors: director}
+                    {
+                      message: "MSG_SUCCESS", 
+                      status: 200, 
+                      videoDetails: detailsList
+                    }
                   end
                 else
                   {message: "INVALID_USER", status: 500}
