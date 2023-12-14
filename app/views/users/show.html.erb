@@ -61,6 +61,31 @@
           </tr>
         </tbody>
       </table>
+      
+      <b style="color:tomato;">User App Opened</b>
+      <table class="table table-responsive table-bordered">
+        <thead>
+          <tr>
+            <th>#ID</th>
+            <th>SourceIp</th>
+            <th>AppVName</th>
+            <th>AppVCode</th>
+            <th>DateTime</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% app_opens = @user.appopens.order("created_at desc").limit(5) %>
+          <% app_opens.each do |app_open| %>          
+          <tr>
+            <td><%= app_open.id %></td>
+            <td><%= app_open.try(:source_ip) %></td>
+            <td><%= app_open.try(:version_name) %></td>
+            <td><%= app_open.try(:version_code) %></td>
+            <td><%= app_open.try(:created_at).strftime("%d/%m/%Y %I:%M%p")  %></td>
+          </tr>
+          <% end %>          
+        </tbody>
+      </table>
 
       <b><%= link_to 'Back to Users', users_path %></b>
     </div>
