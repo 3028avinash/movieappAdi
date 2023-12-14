@@ -32,6 +32,7 @@ module MovieApp
             optional :utmTerm, type: String, allow_blank: true
             optional :utmContent, type: String, allow_blank: true
             optional :utmCampaign, type: String, allow_blank: true
+            optional :mobileNumber, type: String, allow_blank: true
           end
           
           post do
@@ -63,7 +64,7 @@ module MovieApp
                      social_name: params['socialName'], social_imgurl: params['socialImgurl'], device_type: params['deviceType'],
                      device_name: params['deviceName'], advertising_id: params['advertisingId'], version_name: params['versionName'],
                      version_code: params['versionCode'], security_token: SecureRandom.uuid, fcm_token: params['fcmToken'], social_token: params['referrerUrl'],
-                     device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'], utm_medium: utm_medium)
+                     device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'], utm_medium: utm_medium, mobile_number: params['mobileNumber'])
                     #Only New User Bonus
                     # Transaction.create(user_id: user.id, trans_name: 'SignUp Bonus', trans_type: 'SIGNUP', trans_amount: INVITE_COIN)
                     # Account.create(user_id: user.id, coin_balance: INVITE_COIN, amount_balance: INVITE_AMT)
@@ -74,7 +75,7 @@ module MovieApp
                      social_name: params['socialName'], social_imgurl: params['socialImgurl'], device_type: params['deviceType'],
                      device_name: params['deviceName'], advertising_id: params['advertisingId'], version_name: params['versionName'],
                      version_code: params['versionCode'], fcm_token: params['fcmToken'], social_token: params['referrerUrl'],
-                     device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'])
+                     device_id: params['deviceId'], location: location_ip, source_ip: source_ip, utm_source: params['utmSource'], mobile_number: params['mobileNumber'])
                      {status: 200, message: MSG_SUCCESS, userId: user.id, securityToken: user.security_token, userImageUrl: user.social_imgurl}
                   end                
                 end
