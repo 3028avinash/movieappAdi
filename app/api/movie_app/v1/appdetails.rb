@@ -391,6 +391,7 @@ module MovieApp
       # end
 
       resource :detailPage do
+
             desc "Detail Page on Home API"
             before {api_params}
             params do
@@ -461,7 +462,57 @@ module MovieApp
               end
             end
           end
+        
+          resources :addHistory do
 
+            desc "Api to add to favorites and watchlist"
+            before{api_params}
+    
+            params do 
+              requires :userId, type: String, allow_blank: false
+              # requires :securityToken, type: String, allow_blank: false
+              # requires :versionName, type: String, allow_blank: false
+              # requires :versionCode, type: String, allow_blank: false
+              requires :actionType, type: String, allow_blank: false
+              requires :episodeId, type: String, allow_blank:false
+            end
+    
+            post do 
+              begin
+                user = valid_user(params['userId'].to_i, params['securityToken'])
+                if params[:episodeId] == "null" 
+                  params[:episodeId]="1"
+                end
+                if user
+                  wList=false
+                  fList=false
+                  hislist = History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, params[:episodeId].to_i)
+                  if hislist.present?
+                    if params[:actionType] == "1"   #1 - watchList
+                      wlist = hislist.watch_list ? hislist.update(watch_list: false) : hislist.update(watch_list: true)
+                    elsif params[:actionType] == "2"
+                      flist = hislist.favorite_list ? hislist.update(favorite_list: false) : hislist.update(favorite_list: true)
+                    end
+                  else
+                    if params[:actionType] == "1"
+                      wList=true
+                      History.create(user_id: user.id,episode_id: params[:episodeId],watch_list: wList,favorite_list: false)
+                    elsif params[:actionType] == "2"
+                      fList=true
+                      History.create(user_id: user.id,episode_id: params[:episodeId],favorite_list: fList,watch_list: false)
+                    end
+                  end
+                
+                  {message: "MSG_SUCCESS", status: 200, watchlisted: wList, favorited: fList}
+                else
+                    {message: "INVALID_USER", status: 500}
+                end
+              rescue Exception => e
+                logger.info "API Exception-#{Time.now}-addHistory-#{params.inspect}-Error-#{e}"
+                {message: "MSG_ERROR", status: 500}
+              end
+            end
+          end
     end
   end
 end
