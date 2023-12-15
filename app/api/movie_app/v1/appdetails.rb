@@ -428,7 +428,7 @@ module MovieApp
                       recommendationHash={id: element.id, thumbnail: element.banner, vipStatus: element.vip_status.present? }
                       recommendation << recommendationHash
                     end
-                    detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
+                    detailsList = {title: l.title, season: episodeData.season ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
@@ -442,7 +442,7 @@ module MovieApp
                         l=episodeData.content
                         count=l.views.to_i+1
                         l.update(views: count)
-                        detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
+                        detailsList = {title: l.title,season: episodeData.season , episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
