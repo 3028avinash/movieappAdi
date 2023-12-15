@@ -145,10 +145,10 @@ module MovieApp
                   # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
                       showList=[]
                       shows= Content.where("release_date > ?" , Time.now.year)
-                      rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status
                       # rStatus.present ? rstatus : false 
                       shows.each do |item|
-                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus: }
+                          rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status
+                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus: rStatus.present? ? rStatus : false}
                           showList << showHash
                       end
                       
