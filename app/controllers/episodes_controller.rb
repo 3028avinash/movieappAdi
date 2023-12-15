@@ -34,8 +34,8 @@ class EpisodesController < ApplicationController
   def create
     @episode = Episode.new(episode_params)
     respond_to do |format|
+      @episode.url ="http://appnine.netdemo.in" + Rails.application.routes.url_helpers.rails_blob_path(@episode.file, only_path: true)
       if @episode.save
-        @episode.url ="http://appnine.netdemo.in" + Rails.application.routes.url_helpers.rails_blob_path(@episode.file, only_path: true)
         format.html { redirect_to episode_url(@episode), notice: "Episode was successfully created." }
         format.json { render :show, status: :created, location: @episode }
       else
@@ -48,8 +48,8 @@ class EpisodesController < ApplicationController
   # PATCH/PUT /episodes/1 or /episodes/1.json
   def update
     respond_to do |format|
+      @episode.url ="http://appnine.netdemo.in" + Rails.application.routes.url_helpers.rails_blob_path(@episode.file, only_path: true)
       if @episode.update(episode_params)
-        @episode.url ="http://appnine.netdemo.in" + Rails.application.routes.url_helpers.rails_blob_path(@episode.file, only_path: true)
         format.html { redirect_to episode_url(@episode), notice: "Episode was successfully updated." }
         format.json { render :show, status: :ok, location: @episode }
       else

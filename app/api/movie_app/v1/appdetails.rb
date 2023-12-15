@@ -146,8 +146,9 @@ module MovieApp
                       showList=[]
                       shows= Content.where("release_date > ?" , Time.now.year)
                       rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id).status
+                      # rStatus.present ? rstatus : false 
                       shows.each do |item|
-                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus:  rStatus.present ? rstatus : false }
+                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).first.director, reminderStatus: }
                           showList << showHash
                       end
                       
