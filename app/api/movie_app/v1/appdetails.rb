@@ -150,8 +150,7 @@ module MovieApp
                           rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id)
                           showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).present? ? Episode.where(content_id: item.id).first.director : "XYZ", reminderStatus: rStatus.present? ? rStatus.status : false}
                           showList << showHash
-                      end
-                      
+                      end  
                   {message: "MSG_SUCCESS", status: 200, showList: showList }
                   else
                   {message: "INVALID_USER", status: 500}
@@ -406,8 +405,8 @@ module MovieApp
     
             post do
               begin
-                # user = valid_user(params['userId'].to_i, params['securityToken'])
-                if true
+                user = valid_user(params['userId'].to_i, params['securityToken'])
+                if user
     
                   if params[:contentId].present?
                     cast=[]
@@ -428,9 +427,10 @@ module MovieApp
                       recommendationHash={id: element.id, thumbnail: element.banner, vipStatus: element.vip_status.present? }
                       recommendation << recommendationHash
                     end
-                    detailsList = {title: l.title, season: "#{episodeData.season}" ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
+                    his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
+                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title, season: "#{episodeData.season}" ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
-                      message: "MSG_SUCCESS", 
+                      message: "MSG_SUCCESS",
                       status: 200, 
                       vipStatus: true,   #hardcoded for now, will be changed in schema later
                       videoDetails: detailsList,
@@ -442,7 +442,8 @@ module MovieApp
                         l=episodeData.content
                         count=l.views.to_i+1
                         l.update(views: count)
-                        detailsList = {title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
+                        his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
+                        detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
