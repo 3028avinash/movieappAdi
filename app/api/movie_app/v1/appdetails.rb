@@ -441,7 +441,7 @@ module MovieApp
                         l=episodeData.content
                         count=l.views.to_i+1
                         l.update(views: count)
-                        detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: genreList, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: cast, directors: director}
+                        detailsList = {title: l.title, episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: cast, directors: director}
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
