@@ -432,6 +432,7 @@ module MovieApp
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
+                      vipStatus: true,   #hardcoded for now, will be changed in schema later
                       videoDetails: detailsList,
                       episodeList: episode,
                       recommendationList: recommendation
@@ -445,6 +446,7 @@ module MovieApp
                     {
                       message: "MSG_SUCCESS", 
                       status: 200, 
+                      vipStatus: true,
                       videoDetails: detailsList
                     }
                   end
