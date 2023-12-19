@@ -332,8 +332,8 @@ module MovieApp
           before{api_params}
   
           params do 
-            requires :userId, type: String, allow_blank: false
-            requires :securityToken, type: String, allow_blank: false
+            # requires :userId, type: String, allow_blank: false
+            # requires :securityToken, type: String, allow_blank: false
             # requires :versionName, type: String, allow_blank: false
             # requires :versionCode, type: String, allow_blank: false
           end
