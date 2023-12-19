@@ -64,13 +64,13 @@ module MovieApp
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Trending", type: 6, contentList: contentList}
-              {message: "MSG_SUCCESS", status: 200,bannerHash: bannerHash, showList: showList}
+              {message: MSG_SUCCESS, status: 200,bannerHash: bannerHash, showList: showList}
             else
-              {message: "INVALID_USER", status: 500}
+              {message: INVALID_USER, status: 500}
             end  
           rescue Exception => e
             logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
-            {message: "MSG_ERROR", status: 500}
+            {message: MSG_ERROR, status: 500}
           end
         end
       end
@@ -118,13 +118,13 @@ module MovieApp
                       end
                       showList << {category: "Crime", contentList: contentList}
 
-                  {message: "MSG_SUCCESS", status: 200, showList: showList}
+                  {message: MSG_SUCCESS, status: 200, showList: showList}
                   else
-                  {message: "INVALID_USER", status: 500}
+                  {message: INVALID_USER, status: 500}
                   end   
               rescue Exception => e
                   logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
-                  {message: "MSG_ERROR", status: 500}
+                  {message: MSG_ERROR, status: 500}
               end
           end
       end
@@ -151,13 +151,13 @@ module MovieApp
                           showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).present? ? Episode.where(content_id: item.id).first.director : "XYZ", reminderStatus: rStatus.present? ? rStatus.status : false}
                           showList << showHash
                       end  
-                  {message: "MSG_SUCCESS", status: 200, showList: showList }
+                  {message: MSG_SUCCESS, status: 200, showList: showList }
                   else
-                  {message: "INVALID_USER", status: 500}
+                  {message: INVALID_USER, status: 500}
                   end  
               rescue Exception => e
                   logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
-                  {message: "MSG_ERROR", status: 500}
+                  {message: MSG_ERROR, status: 500}
               end
           end
       end
@@ -186,13 +186,13 @@ module MovieApp
             else
               p=Reminder.create(user_id: params[:userId], content_id: params[:contentId], status: true)
             end
-              {message: "MSG_SUCCESS", status: 200 , reminderStatus: p.status}
+              {message: MSG_SUCCESS, status: 200 , reminderStatus: p.status}
             else
-              {message: "INVALID_USER", status: 500}
+              {message: INVALID_USER, status: 500}
             end  
           rescue Exception => e
             logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
-            {message: "MSG_ERROR", status: 500}
+            {message: MSG_ERROR, status: 500}
           end
         end
       end
@@ -222,7 +222,7 @@ module MovieApp
                 couponList << couponHash
               end
               {
-                message: "MSG_SUCCESS", 
+                message: MSG_SUCCESS, 
                 status: 200, 
                 subscriptionList: subscriptionList,
                 couponList: couponList,
@@ -243,11 +243,11 @@ module MovieApp
                   ]
               }
             else
-              {message: "INVALID_USER", status: 500}
+              {message: INVALID_USER, status: 500}
             end  
           rescue Exception => e
             logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
-            {message: "MSG_ERROR", status: 500}
+            {message: MSG_ERROR, status: 500}
           end
         end
       end
@@ -270,18 +270,18 @@ module MovieApp
                 s=Subscription.find_by_id(sub.id)
                 subscriptionList = {name: s.name, start: sub.subscription_start, end: sub.subscription_end , price: s.offer_amount}
                 {
-                  message: "MSG_SUCCESS", 
+                  message: MSG_SUCCESS, 
                   status: 200, 
                   name: user.social_name,
                   number: user.mobile_number,
                   subscriptionList: subscriptionList
                 }
               else
-                {message: "INVALID_USER", status: 500}
+                {message: INVALID_USER, status: 500}
               end  
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
-              {message: "MSG_ERROR", status: 500}
+              {message: MSG_ERROR, status: 500}
             end
           end
       end
@@ -302,16 +302,16 @@ module MovieApp
               if true
                 languages = Content.distinct.pluck(:language)
                 {
-                  message: "MSG_SUCCESS", 
+                  message: MSG_SUCCESS, 
                   status: 200, 
                   languages: languages
                 }
               else
-                {message: "INVALID_USER", status: 500}
+                {message: INVALID_USER, status: 500}
               end  
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
-              {message: "MSG_ERROR", status: 500}
+              {message: MSG_ERROR, status: 500}
             end
           end
       end
@@ -333,15 +333,15 @@ module MovieApp
               if true
                 user.update(content_language: language)
                 {
-                  message: "MSG_SUCCESS", 
+                  message: MSG_SUCCESS, 
                   status: 200, 
                 }
               else
-                {message: "INVALID_USER", status: 500}
+                {message: INVALID_USER, status: 500}
               end  
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
-              {message: "MSG_ERROR", status: 500}
+              {message: MSG_ERROR, status: 500}
             end
           end
       end
@@ -374,18 +374,18 @@ module MovieApp
       #             contentList << contentHash
       #           end
       #           {
-      #             message: "MSG_SUCCESS", 
+      #             message: MSG_SUCCESS, 
       #             status: 200, 
       #             url: l.episodes.first.url,
       #             episodeList: episodeList,
       #             contentList: contentList
       #           }
       #         else
-      #           {message: "INVALID_USER", status: 500}
+      #           {message: INVALID_USER, status: 500}
       #         end  
       #       rescue Exception => e
       #         logger.info "API Exception-#{Time.now}-subscriptionList-#{params.inspect}-Error-#{e}"
-      #         {message: "MSG_ERROR", status: 500}
+      #         {message: MSG_ERROR, status: 500}
       #       end
       #     end
       # end
@@ -431,7 +431,7 @@ module MovieApp
                     his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
                     detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title, season: "#{episodeData.season}" ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
-                      message: "MSG_SUCCESS",
+                      message: MSG_SUCCESS,
                       status: 200, 
                       vipStatus: true,   #hardcoded for now, will be changed in schema later
                       videoDetails: detailsList,
@@ -446,19 +446,19 @@ module MovieApp
                         his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
                         detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
-                      message: "MSG_SUCCESS", 
+                      message: MSG_SUCCESS, 
                       status: 200, 
                       vipStatus: true,
                       videoDetails: detailsList
                     }
                   end
                 else
-                  {message: "INVALID_USER", status: 500}
+                  {message: INVALID_USER, status: 500}
                 end  
     
               rescue Exception => e
                 logger.info "API Exception-#{Time.now}-detailPage-#{params.inspect}-Error-#{e}"
-                {message: "MSG_ERROR", status: 500}
+                {message: MSG_ERROR, status: 500}
               end
             end
           end
@@ -503,13 +503,13 @@ module MovieApp
                     end
                   end
                 
-                  {message: "MSG_SUCCESS", status: 200, watchlisted: wList, favorited: fList}
+                  {message: MSG_SUCCESS, status: 200, watchlisted: wList, favorited: fList}
                 else
-                    {message: "INVALID_USER", status: 500}
+                    {message: INVALID_USER, status: 500}
                 end
               rescue Exception => e
                 logger.info "API Exception-#{Time.now}-addHistory-#{params.inspect}-Error-#{e}"
-                {message: "MSG_ERROR", status: 500}
+                {message: MSG_ERROR, status: 500}
               end
             end
           end

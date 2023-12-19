@@ -48,8 +48,8 @@ module MovieApp
             end          
   
             def valid_user(user_id, security_token)
-              user = User.where("id = ? AND security_token = ?", user_id, security_token).first
-              if user          
+              user = User.find_by(id: user_id, security_token: security_token)
+              if user
                 return user
               else
                 return false
