@@ -30,7 +30,7 @@ module MovieApp
               bannerImage = Content.where(is_slider: true)
               bannerHash=[]
               # showHash1={}
-              # showHash2={}
+              showHash2={}
             
               showList=[]
               bannerImage.each_with_index do |item,index|
