@@ -82,7 +82,7 @@ module MovieApp
               end  
                 
             rescue Exception => e
-              logger.info "API Exception-#{Time.now}-userSignin-#{params.inspect}-Error-#{e}"          
+              logger.info "API Exception-#{Time.now}-userSignin-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}          
             end
           end
@@ -314,6 +314,55 @@ module MovieApp
                   }
                   {message: MSG_SUCCESS, status: 200, userDetails: userDetails}
                 end
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-shortsList-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+  
+        
+        resources :accountSeting do
+          desc "Api to add to favorites and watchlist"
+          before{api_params}
+  
+          params do 
+            # requires :userId, type: String, allow_blank: false
+            # requires :securityToken, type: String, allow_blank: false
+            # requires :versionName, type: String, allow_blank: false
+            # requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              # user = valid_user(params['userId'].to_i, params['securityToken'])  
+              user = User.first
+              if true
+              data = {}
+
+                data[:accountDetails] = {
+                  name: user.social_name,
+                  mobileNumber: user.mobile_number,
+                }
+
+                subscription = Subscription.find_by( id: (user.subscription_histories.subscription_id).to_i+1 )
+
+                if subscription
+                  data[:subscriptionDetails] = {
+                    id: subscription.id,name: subscription.name, duration: "For #{subscription.duration}", realAmount: "₹#{subscription.real_amount}", offerAmount: "₹#{subscription.offer_amount}", offer: "SAVE #{100-((subscription.offer_amount.to_f/subscription.real_amount.to_f)*100).ceil}%"
+                  }
+                else
+                  subscription = Subscription.first
+                  data[:subscriptionDetails] = {
+                    id: subscription.id,name: subscription.name, duration: "For #{subscription.duration}", realAmount: "₹#{subscription.real_amount}", offerAmount: "₹#{subscription.offer_amount}", offer: "SAVE #{100-((subscription.offer_amount.to_f/subscription.real_amount.to_f)*100).ceil}%"
+                  }
+                end
+                {message: MSG_SUCCESS, status: 200, data: data}
               else
                 {message: INVALID_USER, status: 500}
               end
