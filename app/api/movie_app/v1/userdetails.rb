@@ -346,11 +346,13 @@ module MovieApp
               data = {}
 
                 data[:accountDetails] = {
-                  name: 'user.social_name',
-                  mobileNumber: 'user.mobile_number',
+                  name: user.social_name,
+                  mobileNumber: user.mobile_number,
                 }
 
-                subscription = Subscription.find_by( id: (user.subscription_histories.last.subscription_id).to_i+1 )
+                if user.subscription_histories.present?
+                  subscription = Subscription.find_by( id: (user.subscription_histories.last.subscription_id).to_i+1 )
+                end
 
                 if subscription
                   data[:subscriptionDetails] = {
