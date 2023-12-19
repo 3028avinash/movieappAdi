@@ -16,36 +16,41 @@ module MovieApp
       resource :homePage do
         desc "List on Home API"
         before {api_params}
-        # params do
-        # requires :userId, type: String, allow_blank: false
-        # requires :securityToken, type: String, allow_blank: false
-        # requires :versionName, type: String, allow_blank: false
-        # requires :versionCode, type: String, allow_blank: false
-        # end
+        params do
+          requires :userId, type: String, allow_blank: false
+          requires :securityToken, type: String, allow_blank: false
+          requires :versionName, type: String, allow_blank: false
+          requires :versionCode, type: String, allow_blank: false
+        end
         post do
           begin
-              # user = valid_user(params['userId'].to_i, params['securityToken'])
-            if true
-            # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
-              bannerImage = Content.where(is_slider: true)
-              bannerHash=[]
+            user = valid_user(params['userId'], params['securityToken'])
+            if user
+              # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
               # showHash1={}
-              showHash2={}
+              # showHash2={}
+              # showList << {category: "Banner",bannerList: bannerHash} 
             
-              showList=[]
-              bannerImage.each_with_index do |item,index|
+              bannerImage = Content.where(is_slider: true)
+              
+              bannerHash=[]
+              bannerImage.each_with_index do | item, index |
                 bannerHash[index] = {id: item.id, banner: item.banner}
               end
-              # showList << {category: "Banner",bannerList: bannerHash} 
+
+              shows = Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true).order("RANDOM()") #false
+
               contentList=[]
-              shows= Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true).order("RANDOM()") #false
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
+
+              showList=[] 
               showList << {category: "Free Shows", type: 1, contentList: contentList}
 
-              contentList=[]
               shows= Content.where("genre LIKE ? and vip_status like ?" , "%action%", true).order("RANDOM()") #false 
+
+              contentList=[]
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
@@ -53,18 +58,22 @@ module MovieApp
               
               contentList=[]
               shows= Content.where("genre LIKE ? and vip_status like ?" , "%crime%", true).order("RANDOM()") #false 
+
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Special For You", type: 7, contentList: contentList}
 
-              contentList=[]
               shows= Content.where("genre LIKE ? and vip_status like ?" , "%thriller%", true).order("RANDOM()") #false 
+
+              contentList=[]
               shows.each_with_index do |item,index|
                   contentList[index] = {id: item.id, thumbnail: item.banner}
               end
               showList << {category: "Trending", type: 6, contentList: contentList}
+
               {message: MSG_SUCCESS, status: 200,bannerHash: bannerHash, showList: showList}
+
             else
               {message: INVALID_USER, status: 500}
             end  
@@ -78,12 +87,12 @@ module MovieApp
       resource :vipList do
           desc "Vip List on Home API"
           before {api_params}
-          # params do
-          # requires :userId, type: String, allow_blank: false
-          # requires :securityToken, type: String, allow_blank: false
-          # requires :versionName, type: String, allow_blank: false
-          # requires :versionCode, type: String, allow_blank: false
-          # end
+          params do
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
           post do
               begin
                   # user = valid_user(params['userId'].to_i, params['securityToken'])
@@ -167,9 +176,9 @@ module MovieApp
         before {api_params}
         params do
           requires :userId, type: String, allow_blank: false
-          # requires :securityToken, type: String, allow_blank: false
-          # requires :versionName, type: String, allow_blank: false
-          # requires :versionCode, type: String, allow_blank: false
+          requires :securityToken, type: String, allow_blank: false
+          requires :versionName, type: String, allow_blank: false
+          requires :versionCode, type: String, allow_blank: false
           requires :contentId, type: String, allow_blank: false
         end
         post do
@@ -201,10 +210,10 @@ module MovieApp
         desc "Subscription List on Home API"
         before {api_params}
         params do
-          # requires :userId, type: String, allow_blank: false
-          # requires :securityToken, type: String, allow_blank: false
-          # requires :versionName, type: String, allow_blank: false
-          # requires :versionCode, type: String, allow_blank: false
+          requires :userId, type: String, allow_blank: false
+          requires :securityToken, type: String, allow_blank: false
+          requires :versionName, type: String, allow_blank: false
+          requires :versionCode, type: String, allow_blank: false
         end
         post do
           begin
@@ -257,9 +266,9 @@ module MovieApp
           before {api_params}
           params do
             requires :userId, type: String, allow_blank: false
-            # requires :securityToken, type: String, allow_blank: false
-            # requires :versionName, type: String, allow_blank: false
-            # requires :versionCode, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
           end
           post do
             begin
@@ -396,10 +405,10 @@ module MovieApp
             before {api_params}
             params do
               requires :userId, type: String, allow_blank: false
-              # requires :securityToken, type: String, allow_blank: false
-              # requires :versionName, type: String, allow_blank: false
-              # requires :versionCode, type: String, allow_blank: false
-              # requires :isEpisode, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
+              requires :isEpisode, type: String, allow_blank: false
               optional :contentId, type: String, allow_blank: false
               optional :episodeId, type: String, allow_blank: false
             end
@@ -408,7 +417,6 @@ module MovieApp
               begin
                 user = valid_user(params['userId'].to_i, params['securityToken'])
                 if user
-    
                   if params[:contentId].present?
                     cast=[]
                     # director=[]

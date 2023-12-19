@@ -48,7 +48,7 @@ module MovieApp
             end          
   
             def valid_user(user_id, security_token)
-              user = User.find_by(id: user_id, security_token: security_token)
+              user = User.find_by(id: user_id.to_i, security_token: security_token)
               if user
                 return user
               else
