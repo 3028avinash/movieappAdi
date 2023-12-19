@@ -340,8 +340,8 @@ module MovieApp
   
           post do 
             begin
-              user = valid_user(params['userId'].to_i, params['securityToken'])  
-              # user = User.first
+              # user = valid_user(params['userId'].to_i, params['securityToken'])  
+              user = User.first
               if true
               data = {}
 
