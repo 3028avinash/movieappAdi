@@ -332,25 +332,25 @@ module MovieApp
           before{api_params}
   
           params do 
-            # requires :userId, type: String, allow_blank: false
-            # requires :securityToken, type: String, allow_blank: false
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
             # requires :versionName, type: String, allow_blank: false
             # requires :versionCode, type: String, allow_blank: false
           end
   
           post do 
             begin
-              # user = valid_user(params['userId'].to_i, params['securityToken'])  
-              user = User.first
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              # user = User.first
               if true
               data = {}
 
                 data[:accountDetails] = {
-                  name: user.social_name,
-                  mobileNumber: user.mobile_number,
+                  name: 'user.social_name',
+                  mobileNumber: 'user.mobile_number',
                 }
 
-                subscription = Subscription.find_by( id: (user.subscription_histories.subscription_id).to_i+1 )
+                subscription = Subscription.find_by( id: (user.subscription_histories.last.subscription_id).to_i+1 )
 
                 if subscription
                   data[:subscriptionDetails] = {
