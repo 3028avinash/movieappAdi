@@ -300,25 +300,23 @@ module MovieApp
         
   
         
-        resources :accountSeting do
+        resources :accountSettings do
           desc "Api to add to favorites and watchlist"
           before{api_params}
   
           params do 
-            # requires :userId, type: String, allow_blank: false
-            # requires :securityToken, type: String, allow_blank: false
-            # requires :versionName, type: String, allow_blank: false
-            # requires :versionCode, type: String, allow_blank: false
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
           end
   
           post do 
             begin
-              # user = valid_user(params['userId'].to_i, params['securityToken'])  
-              user = User.first
-              if true
-              data = {}
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
 
-                data[:accountDetails] = {
+                accountDetails = {
                   name: user.social_name,
                   mobileNumber: user.mobile_number,
                 }
@@ -328,16 +326,16 @@ module MovieApp
                 end
 
                 if subscription
-                  data[:subscriptionDetails] = {
+                  subscriptionDetails = {
                     id: subscription.id,name: subscription.name, duration: "For #{subscription.duration}", realAmount: "₹#{subscription.real_amount}", offerAmount: "₹#{subscription.offer_amount}", offer: "SAVE #{100-((subscription.offer_amount.to_f/subscription.real_amount.to_f)*100).ceil}%"
                   }
                 else
                   subscription = Subscription.first
-                  data[:subscriptionDetails] = {
+                  subscriptionDetails = {
                     id: subscription.id,name: subscription.name, duration: "For #{subscription.duration}", realAmount: "₹#{subscription.real_amount}", offerAmount: "₹#{subscription.offer_amount}", offer: "SAVE #{100-((subscription.offer_amount.to_f/subscription.real_amount.to_f)*100).ceil}%"
                   }
                 end
-                {message: MSG_SUCCESS, status: 200, data: data}
+                {message: MSG_SUCCESS, status: 200, accountDetails: accountDetails, subscriptionDetails: subscriptionDetails }
               else
                 {message: INVALID_USER, status: 500}
               end
