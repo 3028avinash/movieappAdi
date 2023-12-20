@@ -256,7 +256,7 @@ module MovieApp
   
         
         resources :editProfile do
-          desc "Api to add to favorites and watchlist"
+          desc "Api to editProfile and show profile data"
           before{api_params}
   
           params do 
@@ -264,67 +264,40 @@ module MovieApp
             requires :securityToken, type: String, allow_blank: false
             requires :versionName, type: String, allow_blank: false
             requires :versionCode, type: String, allow_blank: false
+
             requires :actionType, type: String, allow_blank: false
-            optional :name, type: String, allow_blank: true
-            optional :age, type: String, allow_blank: true
-            optional :gender, type: String, allow_blank: true
-            optional :email, type: String, allow_blank: true
-            optional :mobileNumber, type: String, allow_blank: true
-  
+            requires :name, type: String, allow_blank: true
+            requires :age, type: String, allow_blank: true
+            requires :gender, type: String, allow_blank: true
+            requires :mobileNumber, type: String, allow_blank: true
           end
   
           post do 
             begin
               user = valid_user(params['userId'].to_i, params['securityToken'])  
               if user
-                # user = User.find_by_id(params[:userId].to_i)
-                up=UserProfile.find_by(user_id: params[:userId].to_i)
-                if params[:actionType] == "post"   
-                  if params[:photo].present?
-                    photo_data=params[:photo]
-                    filename=photo_data[:filename]
-                    tempfile=photo_data[:tempfile]
-                    # up.image.attach(params[:photo])
-                    up.photo.attach(io: tempfile, filename: photo_data[:filename])
-                    up.update(name: params[:name], age: params[:age], gender: params[:gender], email: params[:email], mobile_number: params[:mobileNumber])
-                  else
-                    up.update(name: params[:name], age: params[:age], gender: params[:gender], email: params[:email], mobile_number: params[:mobileNumber])
-                  end
-                  if up.photo.attached?
-                    image_url ="http://appeight.netdemo.in/" + Rails.application.routes.url_helpers.rails_blob_path(up.photo, only_path: true)
-                  else
-                    image_url = nil
-                  end
-                  userDetails = {name: up.name, email: user.social_email, image: image_url.present? ? image_url : user.social_imgurl}
-                  {message: MSG_SUCCESS, status: 200 , userDetails: userDetails}
-                else
-                  if up.photo.attached?
-                    image_url ="http://appeight.netdemo.in/" + Rails.application.routes.url_helpers.rails_blob_path(up.photo, only_path: true)
-                  else
-                    image_url = nil
-                  end
-                  userDetails = 
-                  {
-                    name: up.name.present? ? up.name : user.social_name, 
-                    image: image_url.present? ? image_url : user.social_imgurl, 
-                    email: user.social_email,
-                    age: up.age.present? ? up.age : "",
-                    gender: up.gender.present? ? up.gender : "", 
-                    mobileNumber: up.mobile_number.present? ? up.mobile_number :  ""
+                if params[:actionType] == "post"
+                  update_data = {
+                    name: params[:name] ? params[:name] : user.profile.name,
+                    age: params[:age] ? params[:age] : user.profile.age,
+                    gender: params[:gender] ? params[:gender] : user.profile.gender,
+                    mobile: params[:mobileNumber] ? params[:mobileNumber] : user.profile.mobile,
                   }
-                  {message: MSG_SUCCESS, status: 200, userDetails: userDetails}
+                  user.profile.update(update_data)
+                  {message: MSG_SUCCESS, status: 200 , data: 'Updated Successfully'}
+                elsif params[:actionType] == 'get'
+                  { message: MSG_SUCCESS, status: 200, data: user.profile.attributes.slice('name', 'age', 'gender', 'mobile') }
                 end
               else
                 {message: INVALID_USER, status: 500}
               end
             rescue Exception => e
-              logger.info "API Exception-#{Time.now}-shortsList-#{params.inspect}-Error-#{e}"
+              logger.info "API Exception-#{Time.now}-editProfile-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
         end
         
-  
   
         
         resources :accountSeting do

@@ -10,8 +10,7 @@ class WelcomeController < ApplicationController
       flash[:notice] = 'Invalid Email or Password.'  
     end
     if request.post?       
-      if params[:email] == 'admin@moviestar.app' && params[:password] == 'movStr@ott'
-      #if params[:email] == 'true' && params[:password] == 'true'
+      if params[:email] == 'admin' && params[:password] == '123'
         if params[:remember_me]
           cookies.permanent.signed[:token] = { value: TOKEN, expires: 1.week.from_now }          
         else          
