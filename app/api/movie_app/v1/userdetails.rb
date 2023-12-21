@@ -369,7 +369,7 @@ module MovieApp
                   helpDesk << {
                     question: help.question,
                     answer: help.answer,
-                    url: help.answer
+                    url: help.url
                   }
                 end
 
