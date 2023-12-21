@@ -340,7 +340,7 @@ module MovieApp
                 {message: INVALID_USER, status: 500}
               end
             rescue Exception => e
-              logger.info "API Exception-#{Time.now}-shortsList-#{params.inspect}-Error-#{e}"
+              logger.info "API Exception-#{Time.now}-accountSettings-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
@@ -351,7 +351,7 @@ module MovieApp
         resources :takeHelp do
           desc "Take Help in API"
           before{api_params}
-  
+          
           params do 
             requires :userId, type: String, allow_blank: false
             requires :securityToken, type: String, allow_blank: false
@@ -369,7 +369,7 @@ module MovieApp
                   helpDesk << {
                     question: help.question,
                     answer: help.answer,
-                    url: help.url
+                    url: help.url,
                   }
                 end
 
@@ -378,7 +378,7 @@ module MovieApp
                 {message: INVALID_USER, status: 500}
               end
             rescue Exception => e
-              logger.info "API Exception-#{Time.now}-shortsList-#{params.inspect}-Error-#{e}"
+              logger.info "API Exception-#{Time.now}-helpDesk-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
