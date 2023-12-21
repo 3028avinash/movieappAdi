@@ -269,6 +269,7 @@ module MovieApp
             optional :name, type: String, allow_blank: true
             optional :age, type: String, allow_blank: true
             optional :gender, type: String, allow_blank: true
+            optional :mobileNumber, type: String, allow_blank: true
           end
   
           post do 
@@ -280,6 +281,7 @@ module MovieApp
                     name: params[:name] ? params[:name] : user.profile.name,
                     age: params[:age] ? params[:age] : user.profile.age,
                     gender: params[:gender] ? params[:gender] : user.profile.gender,
+                    mobile: params[:mobileNumber] ? params[:mobileNumber] : user.profile.mobile,
                   }
                   user.profile.update(update_data)
                   {message: MSG_SUCCESS, status: 200 , data: 'Updated Successfully'}
