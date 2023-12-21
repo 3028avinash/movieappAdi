@@ -1,0 +1,94 @@
+<%
+=begin%>
+ <%= form_with(model: help_desk) do |form| %>
+  <% if help_desk.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(help_desk.errors.count, "error") %> prohibited this help_desk from being saved:</h2>
+
+      <ul>
+        <% help_desk.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :question, style: "display: block" %>
+    <%= form.text_field :question %>
+  </div>
+
+  <div>
+    <%= form.label :answer, style: "display: block" %>
+    <%= form.text_area :answer %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+
+ 
+<%
+=end%>
+
+
+
+
+
+
+
+
+
+
+
+<%= form_with(model: @help_desk) do |form| %>
+  <% if @help_desk.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@help_desk.errors.count, "error") %> prohibited this game from being saved:</h2>
+
+      <ul>
+        <% @help_desk.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- /.row -->
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Basic Form Elements
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="form-group">
+              <label>question</label>
+              <%= form.text_field :question, class: "form-control", placeholder: "Enter answer", :required => true %>
+            </div>
+            <div class="form-group">
+              <label>answer</label>
+              <%= form.text_field :answer, class: "form-control", placeholder: "Enter answer" %>
+            </div>
+            <div class="form-group"> 
+              <button type="submit" class="btn btn-primary">Submit Record</button>
+              <button type="reset" class="btn btn-default">Reset Form</button>     
+            </div> 
+          
+          </div>
+                 
+          <!-- /.col-lg-6 (nested) -->
+        </div>
+        <!-- /.row (nested) -->
+      </div>
+      <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+  </div>
+  <!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+<% end %>

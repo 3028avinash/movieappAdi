@@ -1,0 +1,26 @@
+<%
+=begin%>
+ <h1>New help desk</h1>
+
+<%= render "form", help_desk: @help_desk %>
+
+<br>
+
+<div>
+  <%= link_to "Back to help desks", help_desks_path %>
+</div>
+
+
+ 
+<%
+=end%>
+
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header" style="margin: 10px 0 15px !important;">New HelpDesk</h2>
+    </div>
+  </div>
+  <%= render "form", content: @help_desk %>
+  <%= link_to "Back to contents", help_desks_path %>
+</div>
