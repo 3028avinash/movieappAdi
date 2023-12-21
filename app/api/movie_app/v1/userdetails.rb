@@ -266,10 +266,10 @@ module MovieApp
             requires :versionCode, type: String, allow_blank: false
 
             requires :actionType, type: String, allow_blank: false
-            requires :name, type: String, allow_blank: true
-            requires :age, type: String, allow_blank: true
-            requires :gender, type: String, allow_blank: true
-            requires :mobileNumber, type: String, allow_blank: true
+            optional :name, type: String, allow_blank: true
+            optional :age, type: String, allow_blank: true
+            optional :gender, type: String, allow_blank: true
+            optional :mobileNumber, type: String, allow_blank: true
           end
   
           post do 
