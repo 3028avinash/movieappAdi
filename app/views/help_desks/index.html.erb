@@ -49,7 +49,7 @@
           <tr>
             <td><%= help_desk.try(:id) %></td>            
             <td><%= help_desk.try(:question) %></td>
-            <td><%= help_desk.try(:answer) %></td>
+            <td><%= help_desk.try(:answer).truncate(70) %></td>
             <td><%= help_desk.try(:url).truncate(10) %></td>
 
             <td><%= link_to "Edit", edit_help_desk_path(help_desk), style: "font-size:15px;color:rgb(6, 52, 6)" %></td>
