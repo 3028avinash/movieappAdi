@@ -368,7 +368,8 @@ module MovieApp
                 HelpDesk.all.each do |help|
                   helpDesk << {
                     question: help.question,
-                    answer: help.answer
+                    answer: help.answer,
+                    url: help.answer
                   }
                 end
 

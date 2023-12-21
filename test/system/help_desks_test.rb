@@ -16,6 +16,7 @@ class HelpDesksTest < ApplicationSystemTestCase
 
     fill_in "Answer", with: @help_desk.answer
     fill_in "Question", with: @help_desk.question
+    fill_in "Url", with: @help_desk.url
     click_on "Create Help desk"
 
     assert_text "Help desk was successfully created"
@@ -28,6 +29,7 @@ class HelpDesksTest < ApplicationSystemTestCase
 
     fill_in "Answer", with: @help_desk.answer
     fill_in "Question", with: @help_desk.question
+    fill_in "Url", with: @help_desk.url
     click_on "Update Help desk"
 
     assert_text "Help desk was successfully updated"

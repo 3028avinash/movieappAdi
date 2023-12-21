@@ -17,7 +17,7 @@ class HelpDesksControllerTest < ActionDispatch::IntegrationTest
 
   test "should create help_desk" do
     assert_difference("HelpDesk.count") do
-      post help_desks_url, params: { help_desk: { answer: @help_desk.answer, question: @help_desk.question } }
+      post help_desks_url, params: { help_desk: { answer: @help_desk.answer, question: @help_desk.question, url: @help_desk.url } }
     end
 
     assert_redirected_to help_desk_url(HelpDesk.last)
@@ -34,7 +34,7 @@ class HelpDesksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update help_desk" do
-    patch help_desk_url(@help_desk), params: { help_desk: { answer: @help_desk.answer, question: @help_desk.question } }
+    patch help_desk_url(@help_desk), params: { help_desk: { answer: @help_desk.answer, question: @help_desk.question, url: @help_desk.url } }
     assert_redirected_to help_desk_url(@help_desk)
   end
 

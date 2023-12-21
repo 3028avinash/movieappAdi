@@ -3,7 +3,9 @@
 one:
   question: MyString
   answer: MyText
+  url: MyString
 
 two:
   question: MyString
   answer: MyText
+  url: MyString

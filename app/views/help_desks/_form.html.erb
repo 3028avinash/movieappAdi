@@ -24,11 +24,14 @@
   </div>
 
   <div>
+    <%= form.label :url, style: "display: block" %>
+    <%= form.text_field :url %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
-<% end %>
-
- 
+<% end %> 
 <%
 =end%>
 
@@ -39,16 +42,13 @@
 
 
 
-
-
-
-<%= form_with(model: @help_desk) do |form| %>
-  <% if @help_desk.errors.any? %>
+<%= form_with(model: help_desk) do |form| %>
+  <% if help_desk.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(@help_desk.errors.count, "error") %> prohibited this game from being saved:</h2>
+      <h2><%= pluralize(help_desk.errors.count, "error") %> prohibited this game from being saved:</h2>
 
       <ul>
-        <% @help_desk.errors.each do |error| %>
+        <% help_desk.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -66,20 +66,23 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="form-group">
-              <label>question</label>
-              <%= form.text_field :question, class: "form-control", placeholder: "Enter answer", :required => true %>
+              <label>Question</label>
+              <%= form.text_field :question, class: "form-control", placeholder: "Enter title", :required => true %>
             </div>
             <div class="form-group">
-              <label>answer</label>
-              <%= form.text_field :answer, class: "form-control", placeholder: "Enter answer" %>
+              <label>Answer</label>
+              <%= form.text_field :answer, class: "form-control", placeholder: "Enter release date" %>
             </div>
+            <div class="form-group">
+              <label>Url</label>
+              <%= form.text_field :url, class: "form-control", placeholder: "Enter language" %>
+            </div>
+             
             <div class="form-group"> 
               <button type="submit" class="btn btn-primary">Submit Record</button>
               <button type="reset" class="btn btn-default">Reset Form</button>     
-            </div> 
-          
-          </div>
-                 
+            </div>    
+          </div>        
           <!-- /.col-lg-6 (nested) -->
         </div>
         <!-- /.row (nested) -->
@@ -92,3 +95,4 @@
 </div>
 <!-- /.row -->
 <% end %>
+

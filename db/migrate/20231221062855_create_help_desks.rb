@@ -3,6 +3,7 @@ class CreateHelpDesks < ActiveRecord::Migration[7.0]
     create_table :help_desks do |t|
       t.string :question
       t.text :answer
+      t.string :url
 
       t.timestamps
     end

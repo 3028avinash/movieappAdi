@@ -65,6 +65,6 @@ class HelpDesksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def help_desk_params
-      params.require(:help_desk).permit(:question, :answer)
+      params.require(:help_desk).permit(:question, :answer, :url)
     end
 end
