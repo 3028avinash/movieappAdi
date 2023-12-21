@@ -384,6 +384,49 @@ module MovieApp
           end
         end
         
+  
+        
+        resources :invite do
+          desc "Take Help in API"
+          before{api_params}
+
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+                referLink = "#{BASE_URL}/invite/#{user.referral_code}"
+                imageLink = "https://fastly.picsum.photos/id/866/200/300.jpg?hmac=rcadCENKh4rD6MAp6V_ma-AyWv641M4iiOpe1RyFHeI"
+
+                inviteText = "1. Refer & Earn Program :\n Benefit :\n Cash Rewards or Credits:\n Referrers may earn cash rewards, account credits, or points for each successful referral. These rewards can often be redeemed for discounts, free services, or even cash.\n
+                Other Benefit :\n
+                Gifts or Prizes:\n Referrers might be eligible for gifts, merchandise, or prizes based on the number of successful referrals they bring in.
+                Increased Benefits with More Referrals: Some programs provide escalating rewards, meaning the more referrals made, the higher the rewards or benefits for the referrer.\n
+                Incentives for Referred Users:\n Referred users might also receive benefits, such as discounts or free trials, encouraging them to sign up through the referral link.\n
+                Terms and Condition :\n Eligibility:\n Specifies who can participate in the referral program. This could include age restrictions, geographical limitations, or other criteria.\n
+                Referral Criteria:\n Outlines the requirements for a successful referral, such as a unique referral link, a minimum purchase, or sign-up criteria for the referred user.
+                Rewards and Benefits: Details the rewards or benefits for both the referrer and the referred user. This includes the type of rewards, how they are earned, and any limitations or expiration dates.\n
+                Compliance with Terms: \nBy participating in the program, users agree to comply with the terms and conditions outlined by the company."
+
+                { message: MSG_SUCCESS, status: 200, imageLink: imageLink, referLink: referLink, inviteText: inviteText}
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-helpDesk-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+
+
+        
       end
     end
   end
