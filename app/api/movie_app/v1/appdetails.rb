@@ -429,7 +429,7 @@ module MovieApp
                     episodeList=l.episodes
                     episodeList.each do |element|
                       played_before = PlayTime.find_by(episode: element, user: user)
-                      episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, genre: l.genre, vipStatus: element.vip_status, lastTime: played_before.time }
+                      episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, genre: l.genre, vipStatus: element.vip_status, lastTime: played_before.present? ? played_before.time : nil }
                       episode << episodeHash
                     end
                     recommendationList=Content.order(views: :desc)
@@ -459,7 +459,7 @@ module MovieApp
 
                     his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
 
-                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.time || nil  }
+                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.present? ? played_before.time : nil   }
 
                     { message: MSG_SUCCESS, status: 200, vipStatus: true, videoDetails: detailsList }
                   end
