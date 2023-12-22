@@ -545,7 +545,7 @@ module MovieApp
               begin
                 user = valid_user(params['userId'].to_i, params['securityToken'])
                 if user
-                  episode = Episode.find_by_id(params[:episodeId])
+                  episode = Episode.find_by_id(params[:episodeId].to_i)
                   if episode
                     play_time = PlayTime.find_or_initialize_by(user: user, episode: episode)
                     if play_time.persisted?
@@ -554,9 +554,9 @@ module MovieApp
                       play_time.assign_attributes(time: params[:time])
                       play_time.save
                     end
-                    {message: MSG_SUCCESS, status: 200, data: 'Updated Successfully.'}
+                    {message: MSG_SUCCESS, status: 200, response: 'Updated Successfully.'}
                   else
-                    {message: MSG_SUCCESS, status: 200, data: 'Not Valid Episode'}
+                    {message: MSG_SUCCESS, status: 200, response: 'Not Valid Episode'}
                   end
                 else
                   {message: INVALID_USER, status: 500}
@@ -568,6 +568,13 @@ module MovieApp
             end
           end
 
+
+
+          post '/encrypt' do
+            data_to_encrypt = params[:data]
+            encrypted_data = encrypt_data(data_to_encrypt)
+            { encrypted_data: encrypted_data }
+          end
 
 
 
