@@ -572,7 +572,7 @@ module MovieApp
           desc "Example Cipher Text"
           post do
             key = OpenSSL::Random.random_bytes(32)
-            encrypted_data = encrypt_string("hdsbfs", key)
+            encrypted_data = encrypt_string("Mubarak Ho...", key)
             decrypted_data = decrypt_string(encrypted_data, key)
             {data: decrypted_data, key: Base64.strict_encode64(key)}
           end
