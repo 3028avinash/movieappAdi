@@ -1,6 +1,7 @@
 module MovieApp
     module V1
       module Defaults
+        require 'openssl'
         extend ActiveSupport::Concern
         NEW_USER_AMT = 10
         INVITE_AMT = 5
@@ -64,6 +65,35 @@ module MovieApp
                 return false
               end
             end
+
+
+
+            def encrypt_string(text, key)
+              cipher = OpenSSL::Cipher.new('AES-256-CBC')
+              cipher.encrypt
+              cipher.key = key
+              encrypted = cipher.update(text) + cipher.final
+              Base64.strict_encode64(encrypted)
+            end
+
+            def decrypt_string(encrypted_text, key)
+              decipher = OpenSSL::Cipher.new('AES-256-CBC')
+              decipher.decrypt
+              decipher.key = key
+              decrypted = decipher.update(Base64.strict_decode64(encrypted_text)) + decipher.final
+              decrypted
+            end
+
+
+
+
+
+
+
+
+
+
+
   
             def update_wallet(user_id, coin_amount, mode)
               user = User.find(user_id.to_i)

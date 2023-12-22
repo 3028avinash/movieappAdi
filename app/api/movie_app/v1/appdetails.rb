@@ -529,10 +529,8 @@ module MovieApp
 
 
           resources :updatePlayTime do
-
             desc "Api to add to favorites and watchlist"
             before{api_params}
-    
             params do 
               requires :userId, type: String, allow_blank: false
               requires :securityToken, type: String, allow_blank: false
@@ -540,7 +538,7 @@ module MovieApp
               requires :episodeId, type: String, allow_blank:false
               requires :time, type: String, allow_blank:false
             end
-    
+
             post do 
               begin
                 user = valid_user(params['userId'].to_i, params['securityToken'])
@@ -554,9 +552,9 @@ module MovieApp
                       play_time.assign_attributes(time: params[:time])
                       play_time.save
                     end
-                    {message: MSG_SUCCESS, status: 200, response: 'Updated Successfully.'}
+                    {message: MSG_SUCCESS, status: 200, data: 'Updated Successfully.'}
                   else
-                    {message: MSG_SUCCESS, status: 200, response: 'Not Valid Episode'}
+                    {message: MSG_SUCCESS, status: 200, data: 'Not Valid Episode'}
                   end
                 else
                   {message: INVALID_USER, status: 500}
@@ -570,11 +568,18 @@ module MovieApp
 
 
 
-          post '/encrypt' do
-            data_to_encrypt = params[:data]
-            encrypted_data = encrypt_data(data_to_encrypt)
-            { encrypted_data: encrypted_data }
+        resource :getText do
+          desc "Example Cipher Text"
+          post do
+            key = OpenSSL::Random.random_bytes(32)
+            encrypted_data = encrypt_string("hdsbfs", key)
+            decrypted_data = decrypt_string(encrypted_data, key)
+            {data: decrypted_data, key: Base64.strict_encode64(key)}
           end
+        end
+        
+
+
 
 
 
