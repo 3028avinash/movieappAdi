@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Play times</h1>
+
+<div id="play_times">
+  <% @play_times.each do |play_time| %>
+    <%= render play_time %>
+    <p>
+      <%= link_to "Show this play time", play_time %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New play time", new_play_time_path %>

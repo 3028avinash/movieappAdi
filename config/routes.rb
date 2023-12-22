@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :play_times
   resources :help_desks
   resources :profiles
   resources :histories

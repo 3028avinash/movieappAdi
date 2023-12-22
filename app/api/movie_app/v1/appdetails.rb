@@ -85,88 +85,89 @@ module MovieApp
       end
 
       resource :vipList do
-          desc "Vip List on Home API"
-          before {api_params}
-          params do
-            requires :userId, type: String, allow_blank: false
-            requires :securityToken, type: String, allow_blank: false
-            requires :versionName, type: String, allow_blank: false
-            requires :versionCode, type: String, allow_blank: false
-          end
-          post do
-              begin
-                  # user = valid_user(params['userId'].to_i, params['securityToken'])
-                  if true
-                  # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
-                      contentList=[]
-                      showList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6).order("RANDOM()")
-                      shows.each_with_index do |item,index|
-                        contentList[index] = {id: item.id, thumbnail: item.banner}
-                      end
-                      showList << {category: "Drama", contentList: contentList}
+        desc "Vip List on Home API"
+        before {api_params}
+        params do
+          requires :userId, type: String, allow_blank: false
+          requires :securityToken, type: String, allow_blank: false
+          requires :versionName, type: String, allow_blank: false
+          requires :versionCode, type: String, allow_blank: false
+        end
+        post do
+          begin
+            user = valid_user(params['userId'].to_i, params['securityToken'])
+            if user
+              showList=[]
 
-                      contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6).order("RANDOM()")
-                      shows.each_with_index do |item,index|
-                        contentList[index] = {id: item.id, thumbnail: item.banner}
-                      end
-                      showList << {category: "Action", contentList: contentList}
-
-                      contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6).order("RANDOM()")
-                      shows.each_with_index do |item,index|
-                        contentList[index] = {id: item.id, thumbnail: item.banner}
-                      end
-                      showList << {category: "Thriller", contentList: contentList}
-
-                      contentList=[]
-                      shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6).order("RANDOM()")
-                      shows.each_with_index do |item,index|
-                        contentList[index] = {id: item.id, thumbnail: item.banner}
-                      end
-                      showList << {category: "Crime", contentList: contentList}
-
-                  {message: MSG_SUCCESS, status: 200, showList: showList}
-                  else
-                  {message: INVALID_USER, status: 500}
-                  end   
-              rescue Exception => e
-                  logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
-                  {message: MSG_ERROR, status: 500}
+              contentList=[]
+              shows= Content.where("genre like ? and vip_status like ?" , "%drama%", true).limit(6).order("RANDOM()")
+              shows.each_with_index do |item,index|
+                contentList[index] = {id: item.id, thumbnail: item.banner}
               end
+              showList << {category: "Drama", contentList: contentList}
+
+              contentList=[]
+              shows= Content.where("genre like ? and vip_status like ?" , "%action%", true).limit(6).order("RANDOM()")
+              shows.each_with_index do |item,index|
+                contentList[index] = {id: item.id, thumbnail: item.banner}
+              end
+              showList << {category: "Action", contentList: contentList}
+
+              contentList=[]
+              shows= Content.where("genre like ? and vip_status like ?" , "%thriller%", true).limit(6).order("RANDOM()")
+              shows.each_with_index do |item,index|
+                contentList[index] = {id: item.id, thumbnail: item.banner}
+              end
+              showList << {category: "Thriller", contentList: contentList}
+
+              contentList=[]
+              shows= Content.where("genre like ? and vip_status like ?" , "%crime%", true).limit(6).order("RANDOM()")
+              shows.each_with_index do |item,index|
+                contentList[index] = {id: item.id, thumbnail: item.banner}
+              end
+              showList << {category: "Crime", contentList: contentList}
+
+              {message: MSG_SUCCESS, status: 200, showList: showList}
+            else
+              {message: INVALID_USER, status: 500}
+            end
+          rescue Exception => e
+            logger.info "API Exception-#{Time.now}-homePage-#{params.inspect}-Error-#{e}"
+            {message: MSG_ERROR, status: 500}
           end
+        end
       end
 
       resource :upcomingList do
-          desc "Upcoming List on Home API"
-          before {api_params}
-          params do
-            requires :userId, type: String, allow_blank: false
-            requires :securityToken, type: String, allow_blank: false
-            requires :versionName, type: String, allow_blank: false
-            requires :versionCode, type: String, allow_blank: false
-          end
+        desc "Upcoming List on Home API"
+        before {api_params}
+        params do
+          requires :userId, type: String, allow_blank: false
+          requires :securityToken, type: String, allow_blank: false
+          requires :versionName, type: String, allow_blank: false
+          requires :versionCode, type: String, allow_blank: false
+        end
           post do
               begin
                   user = valid_user(params['userId'].to_i, params['securityToken'])
                   if user
-                  # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"] 
-                      showList=[]
-                      shows= Content.where("release_date > ?" , Time.now.year)
-                      # rStatus.present ? rstatus : false 
-                      shows.each do |item|
-                          rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id)
-                          showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).present? ? Episode.where(content_id: item.id).first.director : "XYZ", reminderStatus: rStatus.present? ? rStatus.status : false}
-                          showList << showHash
-                      end  
-                  {message: MSG_SUCCESS, status: 200, showList: showList }
+                    # arr=["https://collider.com/wp-content/uploads/the-avengers-movie-poster-banners-04.jpg","https://collider.com/wp-content/uploads/inception_movie_poster_banner_04.jpg","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1p8kum07YBbQk23t-dkxEENhe9Zl2dMVfA&usqp=CAU","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5ABHGqdatd7u5-OQ6LqQ3mnTf4V2fG1F8WQ&usqp=CAU","https://www.yashrajfilms.com/images/default-source/gallery/pathaan-banner.jpg?sfvrsn=14dbdfcc_0","https://lumiere-a.akamaihd.net/v1/images/20cs_xmen_dark_phoenix_hero_banner_b26f8933.jpeg?region=0,0,1800,776&width=960"]
+
+                    showList=[]
+                    shows= Content.where("release_date > ?" , Time.now.year)
+                    # rStatus.present ? rstatus : false 
+                    shows.each do |item|
+                      rStatus = Reminder.find_by("user_id = ? and content_id = ?", params[:userId], item.id)
+                      showHash = {id: item.id, banner: item.banner, name: item.title, director: Episode.where(content_id: item.id).present? ? Episode.where(content_id: item.id).first.director : "XYZ", reminderStatus: rStatus.present? ? rStatus.status : false}
+                      showList << showHash
+                    end
+                    {message: MSG_SUCCESS, status: 200, showList: showList }
                   else
-                  {message: INVALID_USER, status: 500}
+                    {message: INVALID_USER, status: 500}
                   end  
               rescue Exception => e
-                  logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
-                  {message: MSG_ERROR, status: 500}
+                logger.info "API Exception-#{Time.now}-upcomingList-#{params.inspect}-Error-#{e}"
+                {message: MSG_ERROR, status: 500}
               end
           end
       end
@@ -400,7 +401,6 @@ module MovieApp
       # end
 
       resource :detailPage do
-
             desc "Detail Page on Home API"
             before {api_params}
             params do
@@ -428,7 +428,8 @@ module MovieApp
                     episodeData=l.episodes.first
                     episodeList=l.episodes
                     episodeList.each do |element|
-                      episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, genre: l.genre, vipStatus: element.vip_status }
+                      played_before = PlayTime.find_by(episode: element, user: user)
+                      episodeHash={id: element.id, name: element.title, thumbnail: element.thumbnail, runtime: element.runtime, genre: l.genre, vipStatus: element.vip_status, lastTime: played_before.time }
                       episode << episodeHash
                     end
                     recommendationList=Content.order(views: :desc)
@@ -448,17 +449,19 @@ module MovieApp
                     }
                   else
                     episodeData=Episode.find_by_id(params[:episodeId].to_i)
-                        l=episodeData.content
-                        count=l.views.to_i+1
-                        l.update(views: count)
-                        his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
-                        detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
-                    {
-                      message: MSG_SUCCESS, 
-                      status: 200, 
-                      vipStatus: true,
-                      videoDetails: detailsList
-                    }
+
+                    l=episodeData.content
+                    played_before = PlayTime.find_by(episode: episodeData, user: user)
+
+                    count=l.views.to_i+1
+
+                    l.update(views: count)
+
+                    his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
+
+                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.time  }
+
+                    { message: MSG_SUCCESS, status: 200, vipStatus: true, videoDetails: detailsList }
                   end
                 else
                   {message: INVALID_USER, status: 500}
@@ -471,6 +474,7 @@ module MovieApp
             end
           end
         
+
           resources :addHistory do
 
             desc "Api to add to favorites and watchlist"
@@ -478,9 +482,9 @@ module MovieApp
     
             params do 
               requires :userId, type: String, allow_blank: false
-              # requires :securityToken, type: String, allow_blank: false
-              # requires :versionName, type: String, allow_blank: false
-              # requires :versionCode, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
               requires :actionType, type: String, allow_blank: false
               requires :episodeId, type: String, allow_blank:false
             end

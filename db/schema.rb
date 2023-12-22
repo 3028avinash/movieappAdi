@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_21_062855) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_22_081125) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -106,6 +106,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_21_062855) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "play_times", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "episode_id", null: false
+    t.string "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["episode_id"], name: "index_play_times_on_episode_id"
+    t.index ["user_id", "episode_id"], name: "index_play_times_on_user_id_and_episode_id", unique: true
+    t.index ["user_id"], name: "index_play_times_on_user_id"
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "name", limit: 50
@@ -177,5 +188,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_21_062855) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "play_times", "episodes"
+  add_foreign_key "play_times", "users"
   add_foreign_key "profiles", "users"
 end
