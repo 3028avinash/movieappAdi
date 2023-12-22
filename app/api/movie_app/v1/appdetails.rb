@@ -525,6 +525,53 @@ module MovieApp
               end
             end
           end
+        
+
+
+          resources :updatePlayTime do
+
+            desc "Api to add to favorites and watchlist"
+            before{api_params}
+    
+            params do 
+              requires :userId, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :episodeId, type: String, allow_blank:false
+              requires :time, type: String, allow_blank:false
+            end
+    
+            post do 
+              begin
+                user = valid_user(params['userId'].to_i, params['securityToken'])
+                if user
+                  episode = Episode.find_by_id(params[:episodeId])
+                  if episode
+                    play_time = PlayTime.find_or_initialize_by(user: user, episode: episode)
+                    if play_time.persisted?
+                      play_time.update(time: params[:time])
+                    else
+                      play_time.assign_attributes(time: params[:time])
+                      play_time.save
+                    end
+                    {message: MSG_SUCCESS, status: 200, data: 'Updated Successfully.'}
+                  else
+                    {message: MSG_SUCCESS, status: 200, data: 'Not Valid Episode'}
+                  end
+                else
+                  {message: INVALID_USER, status: 500}
+                end
+              rescue Exception => e
+                logger.info "API Exception-#{Time.now}-addHistory-#{params.inspect}-Error-#{e}"
+                {message: MSG_ERROR, status: 500}
+              end
+            end
+          end
+
+
+
+
+
     end
   end
 end

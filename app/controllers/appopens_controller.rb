@@ -11,6 +11,22 @@ class AppopensController < ApplicationController
   def show
   end
 
+
+  def encrypt_string(string_to_encrypt, key)
+    cipher = OpenSSL::Cipher.new('AES-256-CBC')
+    cipher.encrypt
+    cipher.key = key
+
+    encrypted = cipher.update(string_to_encrypt) + cipher.final
+    Base64.strict_encode64(encrypted)
+  end
+  
+  def cipher
+    key = 'your_secret_key'
+    string_to_send = 'This is a sensitive message'
+    encrypted_string = encrypt_string(string_to_send, key)
+    puts encrypted_string
+  end
   # GET /appopens/new
   def new
     @appopen = Appopen.new
