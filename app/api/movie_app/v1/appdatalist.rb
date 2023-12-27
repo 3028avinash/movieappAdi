@@ -24,7 +24,7 @@ module MovieApp
               	  if contents.present?
               	  	contents.each do |item|
               	  	  showHash = {id: item.id, banner: item.banner, contentName: item.title,
-              	  	   episodeName: item.title, duration: rand(50).sample}
+              	  	   episodeName: item.title, duration: '120'}
                       content_data << showHash
               	  	end
               	  end
@@ -41,7 +41,7 @@ module MovieApp
               	  contents = Content.all.sample(10)
               	  contents.each do |item|
               	  	showHash = {id: item.id, banner: item.banner, contentName: item.title,
-              	  	  episodeName: item.title, duration: rand(50).sample}
+              	  	  episodeName: item.title, duration: '60'}
                     content_data << showHash
               	  end	
                   {message: MSG_SUCCESS, status: 200, showList: content_data}
