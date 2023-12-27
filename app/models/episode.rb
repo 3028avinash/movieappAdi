@@ -4,6 +4,6 @@ class Episode < ApplicationRecord
 
     has_one_attached :file
     def self.search(search)
-        where("content_id LIKE ? OR title LIKE ?", "%#{search}%", "%#{search}%") 
+      where("title LIKE ? OR story LIKE ?", "%#{search}%", "%#{search}%")
     end
 end

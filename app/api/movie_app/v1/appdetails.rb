@@ -72,7 +72,7 @@ module MovieApp
               end
               showList << {category: "Trending", type: 6, contentList: contentList}
 
-              {message: MSG_SUCCESS, status: 200,bannerHash: bannerHash, showList: showList}
+              {message: MSG_SUCCESS, status: 200, bannerHash: bannerHash, showList: showList}
 
             else
               {message: INVALID_USER, status: 500}
