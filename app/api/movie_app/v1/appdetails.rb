@@ -573,8 +573,8 @@ module MovieApp
           post do
             key = OpenSSL::Random.random_bytes(32)
             encrypted_data = encrypt_string("Mubarak Ho...", key)
-            # decrypted_data = decrypt_string(encrypted_data, key)
-            {data: encrypted_data, key: Base64.strict_encode64(key)}
+            decrypted_data = decrypt_string(encrypted_data, Base64.strict_encode64(key))
+            {data: encrypted_data }
           end
         end
         

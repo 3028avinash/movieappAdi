@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_22_081125) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_03_080851) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -106,6 +106,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_081125) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "payement_details", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "subscription_id", null: false
+    t.string "order_id"
+    t.string "payement_id"
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_payement_details_on_subscription_id"
+    t.index ["user_id"], name: "index_payement_details_on_user_id"
+  end
+
   create_table "play_times", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "episode_id", null: false
@@ -144,6 +156,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_081125) do
     t.integer "coupon_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "pending1"
+    t.integer "payement_detail_id", null: false
+    t.index ["payement_detail_id"], name: "index_subscription_histories_on_payement_detail_id"
+    t.index ["user_id"], name: "index_subscription_histories_on_user_id", unique: true, where: "status = 'active'"
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -188,7 +204,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_22_081125) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "payement_details", "subscriptions"
+  add_foreign_key "payement_details", "users"
   add_foreign_key "play_times", "episodes"
   add_foreign_key "play_times", "users"
   add_foreign_key "profiles", "users"
+  add_foreign_key "subscription_histories", "payement_details"
 end

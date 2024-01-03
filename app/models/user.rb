@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :subscription_histories, :dependent => :destroy
   has_many :remiders, dependent: :destroy
   has_many :play_times, dependent: :destroy
+  has_many :payement_details, dependent: :destroy
 
   after_create :profile_create
 

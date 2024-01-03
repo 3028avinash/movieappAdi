@@ -348,6 +348,65 @@ module MovieApp
         
   
         
+        
+  
+        
+        resources :payement do
+          desc "Api to add payement details and buy plans"
+          before{api_params}
+  
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+
+            requires :orderId, type: String, allow_blank: false
+            requires :payementId, type: String, allow_blank: false
+            requires :subscriptionId, type: String, allow_blank: false
+            requires :amount, type: Integer, allow_blank: false
+            requires :couponId, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+
+                present_plan = user.subscription_histories.find_by(status: 'active')
+                if present_plan
+
+                  {message: MSG_SUCCESS, status: 200, status: 'Payement Recceived, Plan is in Queue'}
+                else
+
+
+                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:payementId], amount: params[:amount].to_f)
+
+                  valid_subscription = Subscription.find_by(params[:subscriptionId])
+                  
+                  if valid_subscription.offer_amount.to_f == valid_payement.amount
+
+                    user.subscription_histories.create(subscription_id: valid_subscription.id, subscription_start: Date.today, subscription_end: Date.today + valid_subscription.duration, coupon_id: params[:couponId], status: 'active', payement_detail_id: valid_payement.id )
+
+                  else
+                    { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
+                  end
+
+                  {message: MSG_SUCCESS, status: 200, status: 'payement recceived, plan activated'} 
+                end
+                
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-accountSettings-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+        
         resources :takeHelp do
           desc "Take Help in API"
           before{api_params}

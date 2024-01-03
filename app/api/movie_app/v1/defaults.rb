@@ -73,15 +73,15 @@ module MovieApp
               cipher.encrypt
               cipher.key = key
               encrypted = cipher.update(text) + cipher.final
-              Base64.strict_encode64(encrypted)
+              return Base64.strict_encode64(encrypted)
             end
 
             def decrypt_string(encrypted_text, key)
               decipher = OpenSSL::Cipher.new('AES-256-CBC')
               decipher.decrypt
-              decipher.key = key
+              decipher.key = Base64.strict_decode64(key)
               decrypted = decipher.update(Base64.strict_decode64(encrypted_text)) + decipher.final
-              decrypted
+              return decrypted
             end
 
 
