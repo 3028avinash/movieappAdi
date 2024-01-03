@@ -374,25 +374,79 @@ module MovieApp
               if user
 
                 present_plan = user.subscription_histories.find_by(status: 'active')
+
                 if present_plan
-
-                  {message: MSG_SUCCESS, status: 200, status: 'Payement Recceived, Plan is in Queue'}
-                else
-
 
                   valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:payementId], amount: params[:amount].to_f)
 
                   valid_subscription = Subscription.find_by(params[:subscriptionId])
-                  
+
                   if valid_subscription.offer_amount.to_f == valid_payement.amount
 
-                    user.subscription_histories.create(subscription_id: valid_subscription.id, subscription_start: Date.today, subscription_end: Date.today + valid_subscription.duration, coupon_id: params[:couponId], status: 'active', payement_detail_id: valid_payement.id )
+                    duration = valid_subscription.duration.split(' ')
+                    duration_number = duration[0].to_i
+                    duration_unit = duration[1].singularize.downcase.to_sym
+
+                    subscription_count = user.subscription_histories.where.not(status: 'expired')
+
+                    if subscription_count == 1
+                        user.subscription_histories.create(
+                        subscription_id: valid_subscription.id, 
+                        subscription_start: DateTime.now.to_time, 
+                        subscription_end: DateTime.now.to_time + duration_number.send(duration_unit), 
+                        coupon_id: params[:couponId], 
+                        status: 'pending1', 
+                        payement_detail_id: valid_payement.id 
+                      )
+                    else
+                    
+                    end
+
+
+                    {message: MSG_SUCCESS, status: 200, status: 'Payement Recceived, Plan is in Queue'}
 
                   else
                     { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
                   end
 
-                  {message: MSG_SUCCESS, status: 200, status: 'payement recceived, plan activated'} 
+
+
+
+
+
+
+
+
+
+
+
+
+                else
+
+                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:payementId], amount: params[:amount].to_f)
+
+                  valid_subscription = Subscription.find_by(params[:subscriptionId])
+
+                  if valid_subscription.offer_amount.to_f == valid_payement.amount
+
+                    duration = valid_subscription.duration.split(' ')
+                    duration_number = duration[0].to_i
+                    duration_unit = duration[1].singularize.downcase.to_sym
+
+                    user.subscription_histories.create(
+                      subscription_id: valid_subscription.id, 
+                      subscription_start: DateTime.now.to_time, 
+                      subscription_end: DateTime.now.to_time + duration_number.send(duration_unit), 
+                      coupon_id: params[:couponId], 
+                      status: 'active', 
+                      payement_detail_id: valid_payement.id 
+                    )
+
+                    {message: MSG_SUCCESS, status: 200, status: 'payement recceived, plan activated'} 
+                  else
+                    { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
+                  end
+
                 end
                 
               else

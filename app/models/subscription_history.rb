@@ -1,7 +1,7 @@
 class SubscriptionHistory < ApplicationRecord
     belongs_to :user
     belongs_to :subscription
-    belongs_to :payement_details
+    belongs_to :payement_detail
 
     validate :only_one_active_subscription_per_user, on: [:create, :update]
 
