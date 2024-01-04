@@ -323,7 +323,7 @@ module MovieApp
 
               uploaded_file = params[:profileImage]
 
-                if params[:profileImage].present? && uploaded_file[:type].in?(%w(image/jpeg image/png image/gif))
+                if params[:profileImage].present? && uploaded_file[:type].in?(%w(image/jpeg image/jpg image/png image/gif))
                   user.profile.image.attach(
                     io: uploaded_file[:tempfile],
                     filename: uploaded_file[:filename],
@@ -335,7 +335,7 @@ module MovieApp
 
                   {message: MSG_SUCCESS, status: 200, result: 'Image Updated Successfully.', userImageUrl: user.profile.image_url}
                 else
-                  {message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image.'}
+                  { message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image.' }
                 end
               else
                 {message: INVALID_USER, status: 500}
