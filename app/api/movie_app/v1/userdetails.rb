@@ -323,7 +323,7 @@ module MovieApp
 
               uploaded_file = params[:profileImage]
 
-                if params[:profileImage].present? && uploaded_file[:type].in?(%w(image/jpeg image/jpg image/png image/gif))
+                if params[:profileImage].present? && uploaded_file[:type].in?(%w(image/jpeg image/jpg image/png image/gif image/*))
                   user.profile.image.attach(
                     io: uploaded_file[:tempfile],
                     filename: uploaded_file[:filename],
