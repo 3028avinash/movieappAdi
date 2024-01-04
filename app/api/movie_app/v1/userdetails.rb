@@ -323,7 +323,7 @@ module MovieApp
 
               uploaded_file = params[:profileImage]
 
-                if params[:profileImage].present?
+                if params[:profileImage].present? && uploaded_file[:type].in?(%w(image/jpeg image/png image/gif))
                   user.profile.image.attach(
                     io: uploaded_file[:tempfile],
                     filename: uploaded_file[:filename],
@@ -333,9 +333,9 @@ module MovieApp
 
                   user.profile.update(image_url: url)
 
-                  {message: MSG_SUCCESS, status: 200, result: 'Image Updated Successfully.'}
+                  {message: MSG_SUCCESS, status: 200, result: user.profile.image_url}
                 else
-                  {message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image'}
+                  {message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image.'}
                 end
               else
                 {message: INVALID_USER, status: 500}
@@ -413,7 +413,7 @@ module MovieApp
             requires :orderId, type: String, allow_blank: false
             requires :paymentId, type: String, allow_blank: false
             requires :subscriptionId, type: String, allow_blank: false
-            requires :amount, type: Integer, allow_blank: false
+            requires :amount, type: String, allow_blank: false
             requires :couponId, type: String, allow_blank: false
           end
   
@@ -426,11 +426,11 @@ module MovieApp
 
                 if present_plan
 
-                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:paymentId], amount: params[:amount].to_f)
+                  valid_payment = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:paymentId], amount: params[:amount].to_f)
 
                   valid_subscription = Subscription.find_by(params[:subscriptionId])
 
-                  if valid_subscription.offer_amount.to_f == valid_payement.amount
+                  if valid_subscription.offer_amount.to_f == valid_payment.amount
 
                     duration = valid_subscription.duration.split(' ')
                     duration_number = duration[0].to_i
@@ -441,9 +441,9 @@ module MovieApp
                         user.subscription_histories.create(
                         subscription_id: valid_subscription.id, 
                         subscription_start: DateTime.now.to_time, 
-                        subscription_end: DateTime.now.to_time + duration_number.send(duration_unit), 
+                        subscription_end: DateTime.now.to_time + duration_number.send(duration_unit),
                         coupon_id: params[:couponId], 
-                        status: 'pending-1', 
+                        status: 'pending-1',
                         payement_detail_id: valid_payement.id 
                       )
                     else

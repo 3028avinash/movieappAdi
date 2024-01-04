@@ -30,6 +30,13 @@ gem "jbuilder"
 # gem 'will_paginate'
 
 
+#MyInstalledGemss!!!!
+gem 'ruby-vips'
+
+
+
+
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
 
