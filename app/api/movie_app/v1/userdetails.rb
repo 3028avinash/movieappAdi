@@ -325,13 +325,17 @@ module MovieApp
                 # if %w(video/mp4 video/mpeg).include?(uploaded_file[:type])
                 # Attach the uploaded file to the profile
                 if uploaded_file.present?
+
                   updated_image = user.profile.image.attach(
                     io: uploaded_file[:tempfile],
                     filename: uploaded_file[:filename],
                     content_type: uploaded_file[:type],
                   )
+
                   image_url = BASE_URL + Rails.application.routes.url_helpers.rails_blob_path(updated_image.image, only_path: true)
+
                   user.profile.update(image_url: image_url)
+
                   {message: MSG_SUCCESS, status: 200, data: 'Image Updated Successfully.'}
                 else
                   {message: MSG_SUCCESS, status: 200, data: 'Image Not Attached or Not Valid Image'}
@@ -410,7 +414,7 @@ module MovieApp
             requires :versionCode, type: String, allow_blank: false
 
             requires :orderId, type: String, allow_blank: false
-            requires :payementId, type: String, allow_blank: false
+            requires :paymentId, type: String, allow_blank: false
             requires :subscriptionId, type: String, allow_blank: false
             requires :amount, type: Integer, allow_blank: false
             requires :couponId, type: String, allow_blank: false
@@ -425,7 +429,7 @@ module MovieApp
 
                 if present_plan
 
-                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:payementId], amount: params[:amount].to_f)
+                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:paymentId], amount: params[:amount].to_f)
 
                   valid_subscription = Subscription.find_by(params[:subscriptionId])
 
@@ -463,7 +467,7 @@ module MovieApp
 
                 else
 
-                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:payementId], amount: params[:amount].to_f)
+                  valid_payement = user.payement_details.create(subscription_id: params[:subscriptionId], order_id: params[:orderId], payement_id: params[:paymentId], amount: params[:amount].to_f)
 
                   valid_subscription = Subscription.find_by(params[:subscriptionId])
 
