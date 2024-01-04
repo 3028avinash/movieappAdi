@@ -333,7 +333,7 @@ module MovieApp
 
                   user.profile.update(image_url: url)
 
-                  {message: MSG_SUCCESS, status: 200, result: user.profile.image_url}
+                  {message: MSG_SUCCESS, status: 200, result: 'Image Updated Successfully.', userImageUrl: user.profile.image_url}
                 else
                   {message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image.'}
                 end
