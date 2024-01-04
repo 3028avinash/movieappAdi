@@ -387,38 +387,22 @@ module MovieApp
                     duration_number = duration[0].to_i
                     duration_unit = duration[1].singularize.downcase.to_sym
 
-                    subscription_count = user.subscription_histories.where.not(status: 'expired')
+                    subscription_count = user.subscription_histories.where.not(status: ['expired', 'active']).count
 
-                    if subscription_count == 1
-                        user.subscription_histories.create(
-                        subscription_id: valid_subscription.id, 
-                        subscription_start: DateTime.now.to_time, 
-                        subscription_end: DateTime.now.to_time + duration_number.send(duration_unit), 
-                        coupon_id: params[:couponId], 
-                        status: 'pending1', 
-                        payement_detail_id: valid_payement.id 
-                      )
-                    else
-                    
-                    end
-
+                    user.subscription_histories.create(
+                      subscription_id: valid_subscription.id, 
+                      subscription_start: DateTime.now.to_time, 
+                      subscription_end: DateTime.now.to_time + duration_number.send(duration_unit),
+                      coupon_id: params[:couponId], 
+                      status: "pending-#{subscription_count+1}", 
+                      payement_detail_id: valid_payement.id 
+                    )
 
                     {message: MSG_SUCCESS, status: 200, status: 'Payement Recceived, Plan is in Queue'}
 
                   else
                     { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
                   end
-
-
-
-
-
-
-
-
-
-
-
 
 
                 else
