@@ -351,7 +351,7 @@ module MovieApp
         
   
         
-        resources :payement do
+        resources :payment do
           desc "Api to add payement details and buy plans"
           before{api_params}
   
