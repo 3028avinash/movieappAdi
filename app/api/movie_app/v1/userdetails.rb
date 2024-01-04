@@ -398,10 +398,10 @@ module MovieApp
                       payement_detail_id: valid_payement.id 
                     )
 
-                    {message: MSG_SUCCESS, status: 200, status: 'Payement Recceived, Plan is in Queue'}
+                    {message: MSG_SUCCESS, status: 200, data: 'Payement Recceived, Plan is in Queue'}
 
                   else
-                    { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
+                    { message: MSG_SUCCESS, status: 200, data: 'InValid Subscription or Invalid Amount' } 
                   end
 
 
@@ -426,9 +426,9 @@ module MovieApp
                       payement_detail_id: valid_payement.id 
                     )
 
-                    {message: MSG_SUCCESS, status: 200, status: 'payement recceived, plan activated'} 
+                    {message: MSG_SUCCESS, status: 200, data: 'payement recceived, plan activated'} 
                   else
-                    { message: MSG_SUCCESS, status: 200, status: 'InValid Subscription or Invalid Amount' } 
+                    { message: MSG_SUCCESS, status: 200, data: 'InValid Subscription or Invalid Amount' } 
                   end
 
                 end
