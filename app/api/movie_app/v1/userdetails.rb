@@ -387,14 +387,14 @@ module MovieApp
                     duration_number = duration[0].to_i
                     duration_unit = duration[1].singularize.downcase.to_sym
 
-                    subscription_count = user.subscription_histories.where.not(status: ['expired', 'active']).count
+                    subscriptions = user.subscription_histories.where.not(status: ['expired', 'active'])
 
                     user.subscription_histories.create(
                       subscription_id: valid_subscription.id, 
-                      subscription_start: DateTime.now.to_time, 
-                      subscription_end: DateTime.now.to_time + duration_number.send(duration_unit),
+                      subscription_start: subscriptions.last.subscription_end, 
+                      subscription_end: subscriptions.last.subscription_end.to_time + duration_number.send(duration_unit),
                       coupon_id: params[:couponId], 
-                      status: "pending-#{subscription_count+1}", 
+                      status: "pending-#{subscriptions.count+1}", 
                       payement_detail_id: valid_payement.id 
                     )
 
