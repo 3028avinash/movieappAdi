@@ -300,6 +300,48 @@ module MovieApp
         
   
         
+  
+  
+        
+        resources :uploadImage do
+          desc "Api to upload profile image"
+          before{api_params}
+  
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+
+            optional :image, type: File, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+
+                uploaded_file = params[:image]
+                # if %w(video/mp4 video/mpeg).include?(uploaded_file[:type])
+                # Attach the uploaded file to the profile
+                new_video = user.profile.image.attach(
+                  io: uploaded_file[:tempfile],
+                  filename: uploaded_file[:filename],
+                  content_type: uploaded_file[:type],
+                )
+
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-editProfile-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+        
         resources :accountSettings do
           desc "Api to add to favorites and watchlist"
           before{api_params}
@@ -397,9 +439,7 @@ module MovieApp
                       status: "pending-#{subscriptions.count+1}", 
                       payement_detail_id: valid_payement.id 
                     )
-
                     {message: MSG_SUCCESS, status: 200, data: 'payement Recceived, Plan is in Queue'}
-
                   else
                     { message: MSG_SUCCESS, status: 200, data: 'InValid Subscription or Invalid Amount' } 
                   end
