@@ -313,7 +313,7 @@ module MovieApp
             requires :versionName, type: String, allow_blank: false
             requires :versionCode, type: String, allow_blank: false
 
-            optional :image, type: File, allow_blank: false
+            requires :image, type: File, allow_blank: false
           end
   
           post do 
@@ -324,12 +324,18 @@ module MovieApp
                 uploaded_file = params[:image]
                 # if %w(video/mp4 video/mpeg).include?(uploaded_file[:type])
                 # Attach the uploaded file to the profile
-                new_video = user.profile.image.attach(
-                  io: uploaded_file[:tempfile],
-                  filename: uploaded_file[:filename],
-                  content_type: uploaded_file[:type],
-                )
-
+                if uploaded_file.present?
+                  updated_image = user.profile.image.attach(
+                    io: uploaded_file[:tempfile],
+                    filename: uploaded_file[:filename],
+                    content_type: uploaded_file[:type],
+                  )
+                  image_url = BASE_URL + Rails.application.routes.url_helpers.rails_blob_path(updated_image.image, only_path: true)
+                  user.profile.update(image_url: image_url)
+                  {message: MSG_SUCCESS, status: 200, data: 'Image Updated Successfully.'}
+                else
+                  {message: MSG_SUCCESS, status: 200, data: 'Image Not Attached or Not Valid Image'}
+                end
               else
                 {message: INVALID_USER, status: 500}
               end
@@ -430,15 +436,25 @@ module MovieApp
                     duration_unit = duration[1].singularize.downcase.to_sym
 
                     subscriptions = user.subscription_histories.where.not(status: ['expired', 'active'])
-
-                    user.subscription_histories.create(
-                      subscription_id: valid_subscription.id, 
-                      subscription_start: subscriptions.last.subscription_end, 
-                      subscription_end: subscriptions.last.subscription_end.to_time + duration_number.send(duration_unit),
-                      coupon_id: params[:couponId], 
-                      status: "pending-#{subscriptions.count+1}", 
-                      payement_detail_id: valid_payement.id 
-                    )
+                    if subscriptions.count == 0
+                        user.subscription_histories.create(
+                        subscription_id: valid_subscription.id, 
+                        subscription_start: DateTime.now.to_time, 
+                        subscription_end: DateTime.now.to_time + duration_number.send(duration_unit), 
+                        coupon_id: params[:couponId], 
+                        status: 'pending-1', 
+                        payement_detail_id: valid_payement.id 
+                      )
+                    else
+                      user.subscription_histories.create(
+                        subscription_id: valid_subscription.id, 
+                        subscription_start: subscriptions.last.subscription_end, 
+                        subscription_end: subscriptions.last.subscription_end.to_time + duration_number.send(duration_unit),
+                        coupon_id: params[:couponId], 
+                        status: "pending-#{subscriptions.count+1}", 
+                        payement_detail_id: valid_payement.id 
+                      )
+                    end
                     {message: MSG_SUCCESS, status: 200, data: 'payement Recceived, Plan is in Queue'}
                   else
                     { message: MSG_SUCCESS, status: 200, data: 'InValid Subscription or Invalid Amount' } 
