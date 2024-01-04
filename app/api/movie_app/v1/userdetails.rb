@@ -453,7 +453,7 @@ module MovieApp
                         subscription_end: subscriptions.last.subscription_end.to_time + duration_number.send(duration_unit),
                         coupon_id: params[:couponId], 
                         status: "pending-#{subscriptions.count+1}", 
-                        payement_detail_id: valid_payement.id 
+                        payement_detail_id: valid_payment.id 
                       )
                     end
                     {message: MSG_SUCCESS, status: 200, result: 'payement Recceived, Plan is in Queue'}
