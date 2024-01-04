@@ -313,7 +313,7 @@ module MovieApp
             requires :versionName, type: String, allow_blank: false
             requires :versionCode, type: String, allow_blank: false
 
-            requires :image, type: File, allow_blank: false
+            requires :profileImage, type: File, allow_blank: false
           end
   
           post do 
@@ -321,20 +321,17 @@ module MovieApp
               user = valid_user(params['userId'].to_i, params['securityToken'])  
               if user
 
-                uploaded_file = params[:image]
-                # if %w(video/mp4 video/mpeg).include?(uploaded_file[:type])
-                # Attach the uploaded file to the profile
-                if uploaded_file.present?
+              uploaded_file = params[:profileImage]
 
-                  updated_image = user.profile.image.attach(
+                if params[:profileImage].present?
+                  user.profile.image.attach(
                     io: uploaded_file[:tempfile],
                     filename: uploaded_file[:filename],
                     content_type: uploaded_file[:type],
                   )
+                  url = BASE_URL + Rails.application.routes.url_helpers.rails_blob_path(user.profile.image, only_path: true)
 
-                  image_url = BASE_URL + Rails.application.routes.url_helpers.rails_blob_path(updated_image.image, only_path: true)
-
-                  user.profile.update(image_url: image_url)
+                  user.profile.update(image_url: url)
 
                   {message: MSG_SUCCESS, status: 200, data: 'Image Updated Successfully.'}
                 else

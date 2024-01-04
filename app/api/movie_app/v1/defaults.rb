@@ -7,8 +7,8 @@ module MovieApp
         INVITE_AMT = 5
         INVITE_COIN = 500
         MAX_IP_COUNT = 3      
-        # BASE_URL = "https://appnine.netdemo.in"
-        BASE_URL = "http://localhost:3000"
+        BASE_URL = "https://appnine.netdemo.in"
+        # BASE_URL = "http://localhost:3000"
         MSG_SUCCESS = "Success"
         MSG_ERROR = "Internal Server Error"
         BLOCKED = "You Blocked, Max Limit"
