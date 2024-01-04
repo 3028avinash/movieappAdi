@@ -190,7 +190,7 @@ module MovieApp
               #     end
               #   end  
               # end
-                {message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}" }
+                { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url }
               else
                 {message: INVALID_USER, status: 500}
               end  
@@ -333,15 +333,15 @@ module MovieApp
 
                   user.profile.update(image_url: url)
 
-                  {message: MSG_SUCCESS, status: 200, data: 'Image Updated Successfully.'}
+                  {message: MSG_SUCCESS, status: 200, result: 'Image Updated Successfully.'}
                 else
-                  {message: MSG_SUCCESS, status: 200, data: 'Image Not Attached or Not Valid Image'}
+                  {message: MSG_SUCCESS, status: 200, result: 'Image Not Attached or Not Valid Image'}
                 end
               else
                 {message: INVALID_USER, status: 500}
               end
             rescue Exception => e
-              logger.info "API Exception-#{Time.now}-editProfile-#{params.inspect}-Error-#{e}"
+              logger.info "API Exception-#{Time.now}-Image-Upload-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
