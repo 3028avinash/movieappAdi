@@ -190,10 +190,10 @@ module MovieApp
               #     end
               #   end  
               # end
-                { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, userName: user.profile.name }
+                { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, name: user.profile.name }
               else
                 {message: INVALID_USER, status: 500}
-              end  
+              end
   
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-appOpen-#{params.inspect}-Error-#{e}"

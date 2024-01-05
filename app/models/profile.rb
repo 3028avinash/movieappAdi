@@ -5,7 +5,7 @@ class Profile < ApplicationRecord
   validate :image_content_type
 
   def image_content_type
-    if image.attached? && !image.content_type.in?(%w(image/jpeg image/png image/gif))
+    if image.attached? && !image.content_type.in?(%w(image/jpeg image/png image/gif image/*))
       errors.add(:image, 'must be a JPEG, PNG, or GIF')
       image.purge
     end

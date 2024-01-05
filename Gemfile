@@ -31,7 +31,7 @@ gem "jbuilder"
 
 
 #MyInstalledGemss!!!!
-gem 'ruby-vips'
+# gem 'ruby-vips'
 
 
 
