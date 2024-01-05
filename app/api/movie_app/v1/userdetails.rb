@@ -190,22 +190,22 @@ module MovieApp
               #     end
               #   end  
               # end
-                
+
 
                 { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, primeUser: user.subscription_histories.exists?(status: 'active'), appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, name: user.profile.name }
               else
                 {message: INVALID_USER, status: 500}
               end
-  
+
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-appOpen-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
         end
-  
-      
-  
+
+
+
         ##################################################################
         # => V1 Invite Page
         ##################################################################
@@ -392,6 +392,60 @@ module MovieApp
               end
             rescue Exception => e
               logger.info "API Exception-#{Time.now}-accountSettings-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+
+
+
+
+
+        
+  
+        
+        resources :myAccount do
+          desc "Api to show data in my account list"
+          before{api_params}
+  
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+
+                accountDetails = {
+                  userImageUrl: user.profile.image_url,
+                  name: user.profile.name,
+                  mobileNumber: user.mobile_number,
+                }
+
+                if user.subscription_histories.present?
+                  subscription = user.subscription_histories.find_by(status: 'active')
+                end
+
+                if subscription
+                  subscriptionDetails = {
+                    name: subscription.subscription.name, subtitle: "#{subscription.subscription_end.to_date.strftime('%B %d, %Y')}"
+                  }
+                else
+                  subscription = Subscription.first
+                  subscriptionDetails = {
+                    name: subscription.name, subtitle: "Only Rs-#{subscription.offer_amount} for #{subscription.duration}"
+                  }
+                end
+                {message: MSG_SUCCESS, status: 200, primeUser: user.subscription_histories.exists?(status: 'active'),accountDetails: accountDetails, subscriptionDetails: subscriptionDetails}
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-myAccount-#{params.inspect}-Error-#{e}"
               {message: MSG_ERROR, status: 500}
             end
           end
