@@ -501,7 +501,7 @@ module MovieApp
                       duration: his.subscription.duration,
                       buyDate: his.created_at.to_date,
                       price: "₹ #{his.subscription.offer_amount} /-",
-                      status: "Will Activate On #{his.subscription_start.to_date.strftime('%B %d, %Y')}"
+                      status: "Start On #{his.subscription_start.to_date.strftime('%B %d, %Y')}"
                     }
                   end
 
