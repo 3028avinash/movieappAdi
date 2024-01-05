@@ -190,8 +190,9 @@ module MovieApp
               #     end
               #   end  
               # end
-                vip_status = user.subscription_histories.find_by(status: 'active')
-                { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: [true,false].sample ,appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, name: user.profile.name }
+                
+
+                { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, vipStatus: user.subscription_histories.exists?(status: 'active'), appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, name: user.profile.name }
               else
                 {message: INVALID_USER, status: 500}
               end

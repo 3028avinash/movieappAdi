@@ -442,7 +442,7 @@ module MovieApp
                     {
                       message: MSG_SUCCESS,
                       status: 200, 
-                      vipStatus: true,   #hardcoded for now, will be changed in schema later
+                      vipStatus: user.subscription_histories.exists?(status: 'active'),   #hardcoded for now, will be changed in schema later
                       videoDetails: detailsList,
                       episodeList: episode,
                       recommendationList: recommendation
@@ -461,7 +461,7 @@ module MovieApp
 
                     detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.present? ? played_before.time : nil   }
 
-                    { message: MSG_SUCCESS, status: 200, vipStatus: true, videoDetails: detailsList }
+                    { message: MSG_SUCCESS, status: 200, vipStatus: user.subscription_histories.exists?(status: 'active'), videoDetails: detailsList }
                   end
                 else
                   {message: INVALID_USER, status: 500}
