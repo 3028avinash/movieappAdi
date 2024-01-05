@@ -456,6 +456,82 @@ module MovieApp
 
 
 
+
+        
+  
+        
+        resources :planDetails do
+          desc "Api to show existing plan detail."
+          before{api_params}
+  
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+                if user.subscription_histories.present?
+                  subscription = user.subscription_histories.find_by(status: 'active')
+                  history = []
+                  if subscription
+                    productDetails = {
+                      name: subscription.subscription.name,
+                      duration: subscription.subscription_end.to_date,
+                      amount: subscription.subscription.offer_amount,
+                    }
+
+                    history << {
+                      name: subscription.subscription.name,
+                      duration: subscription.subscription.duration,
+                      buyDate: subscription.created_at.to_date,
+                      price: subscription.subscription.offer_amount,
+                      status: subscription.status,
+                    }
+                  end
+
+                  
+                  user.subscription_histories.where.not(status: ['active', 'expired']).each do |his|
+                    history << {
+                      name: his.subscription.name,
+                      duration: his.subscription.duration,
+                      buyDate: his.created_at.to_date,
+                      price: his.subscription.offer_amount,
+                      status: his.subscription_start.to_date
+                    }
+                  end
+
+                  user.subscription_histories.where.not("status LIKE ?", 'pending%').where.not(status: ['active', 'pending']).each do |his|
+                    history << {
+                      name: his.subscription.name,
+                      duration: his.subscription.duration,
+                      buyDate: his.created_at.to_date,
+                      price: his.subscription.offer_amount,
+                      status: his.status,
+                    }
+                  end
+                end
+
+                {message: MSG_SUCCESS, status: 200, productDetails: productDetails,  history: history}
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-myAccount-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+
+
+
+
+
+
         resources :payment do
           desc "Api to add payement details and buy plans"
           before{api_params}
