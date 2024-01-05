@@ -432,7 +432,7 @@ module MovieApp
 
                 if subscription
                   subscriptionDetails = {
-                    name: subscription.subscription.name, subtitle: "#{subscription.subscription_end.to_date.strftime('%B %d, %Y')}"
+                    name: subscription.subscription.name, subtitle: "Till #{subscription.subscription_end.to_date.strftime('%B %d, %Y')}"
                   }
                 else
                   subscription = Subscription.first
