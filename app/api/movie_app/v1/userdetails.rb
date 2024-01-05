@@ -482,14 +482,14 @@ module MovieApp
                     productDetails = {
                       name: subscription.subscription.name,
                       duration: "Valid Till #{subscription.subscription_end.to_date.strftime('%B %d, %Y')}",
-                      amount: "₹ #{subscription.subscription.offer_amount}/-",
+                      amount: "₹ #{subscription.subscription.offer_amount} /-",
                     }
 
                     history << {
                       name: subscription.subscription.name,
                       duration: subscription.subscription.duration,
                       buyDate: subscription.created_at.to_date.strftime('%B %d, %Y'),
-                      price: "₹ #{subscription.subscription.offer_amount}/-",
+                      price: "₹ #{subscription.subscription.offer_amount} /-",
                       status: subscription.status,
                     }
                   end
@@ -500,7 +500,7 @@ module MovieApp
                       name: his.subscription.name,
                       duration: his.subscription.duration,
                       buyDate: his.created_at.to_date,
-                      price: "₹ #{his.subscription.offer_amount}/-",
+                      price: "₹ #{his.subscription.offer_amount} /-",
                       status: "Will Activate On -#{his.subscription_start.to_date.strftime('%B %d, %Y')}"
                     }
                   end
@@ -510,7 +510,7 @@ module MovieApp
                       name: his.subscription.name,
                       duration: his.subscription.duration,
                       buyDate: his.created_at.to_date,
-                      price: "₹ #{his.subscription.offer_amount}/-",
+                      price: "₹ #{his.subscription.offer_amount} /-",
                       status: his.status,
                     }
                   end
