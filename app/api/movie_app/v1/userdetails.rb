@@ -808,7 +808,7 @@ module MovieApp
         
   
         
-        resources :favorite_list do
+        resources :favoriteList do
           desc "Show list Favourite list API"
           before{api_params}
           
