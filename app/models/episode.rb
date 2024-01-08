@@ -1,6 +1,7 @@
 class Episode < ApplicationRecord
     belongs_to :content
     has_many :play_times, dependent: :destroy
+    has_many :watchlists, dependent: :destroy
 
     has_one_attached :file
     def self.search(search)
