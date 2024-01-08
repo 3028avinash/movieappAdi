@@ -697,13 +697,47 @@ module MovieApp
                   already_in_watchlist = user.watchlists.find_by(episode: episode)
                   if already_in_watchlist
                     already_in_watchlist.destroy
-                    {message: MSG_SUCCESS, status: 200, result: "Episode Removed from your Watch List"}
+                    {message: MSG_SUCCESS, status: 200, added: false}
                   else
                     user.watchlists.create(episode: episode)
-                    {message: MSG_SUCCESS, status: 200, result: "Episode Added your Watch List"}
+                    {message: MSG_SUCCESS, status: 200, added: true}
                   end
                 else
                   {message: MSG_SUCCESS, status: 200, result: "Invalid Episode Id"}
+                end
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-helpDesk-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+        
+        
+        
+  
+        
+        resources :watchlist do
+          desc "Show list WatchList API"
+          before{api_params}
+          
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+                user.watchlists.each do | episode |
+                  
                 end
               else
                 {message: INVALID_USER, status: 500}
