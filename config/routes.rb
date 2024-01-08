@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :favorite_lists
   resources :watchlists
   resources :payement_details
   resources :play_times

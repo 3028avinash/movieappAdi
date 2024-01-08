@@ -718,6 +718,51 @@ module MovieApp
   
         
         
+  
+        
+        resources :addFavourite do
+          desc "Add to Favourite List API"
+          before{api_params}
+          
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+
+            requires :episodeId, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+                episode = Episode.find_by(id: params[:episodeId])
+                if episode
+                  already_in_favourite = user.favorite_lists.find_by(episode: episode)
+                  if already_in_favourite
+                    already_in_favourite.destroy
+                    {message: MSG_SUCCESS, status: 200, added: false}
+                  else
+                    user.favorite_lists.create(episode: episode)
+                    {message: MSG_SUCCESS, status: 200, added: true}
+                  end
+                else
+                  {message: MSG_SUCCESS, status: 200, result: "Invalid Episode Id"}
+                end
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-helpDesk-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+        
+        
         
   
         
@@ -736,9 +781,59 @@ module MovieApp
             begin
               user = valid_user(params['userId'].to_i, params['securityToken'])  
               if user
-                user.watchlists.each do | episode |
-                  
+                watchlist = []
+                user.watchlists.each do | episode_list |
+                  watchlist << {
+                    episodeId: episode_list.episode.id,
+                    thumbnail: episode_list.episode.thumbnail,
+                    runtime: episode_list.episode.runtime,
+                    episodeTitle: episode_list.episode.title,
+                    contentName: episode_list.episode.content.title,
+                  }
                 end
+                {message: MSG_SUCCESS, status: 200, watchlist: watchlist}
+              else
+                {message: INVALID_USER, status: 500}
+              end
+            rescue Exception => e
+              logger.info "API Exception-#{Time.now}-helpDesk-#{params.inspect}-Error-#{e}"
+              {message: MSG_ERROR, status: 500}
+            end
+          end
+        end
+        
+  
+        
+        
+        
+  
+        
+        resources :favorite_list do
+          desc "Show list Favourite list API"
+          before{api_params}
+          
+          params do 
+            requires :userId, type: String, allow_blank: false
+            requires :securityToken, type: String, allow_blank: false
+            requires :versionName, type: String, allow_blank: false
+            requires :versionCode, type: String, allow_blank: false
+          end
+  
+          post do 
+            begin
+              user = valid_user(params['userId'].to_i, params['securityToken'])  
+              if user
+                favorite_list = []
+                user.favorite_lists.each do | episode_list |
+                  favorite_list << {
+                    episodeId: episode_list.episode.id,
+                    thumbnail: episode_list.episode.thumbnail,
+                    runtime: episode_list.episode.runtime,
+                    episodeTitle: episode_list.episode.title,
+                    contentName: episode_list.episode.content.title,
+                  }
+                end
+                {message: MSG_SUCCESS, status: 200, favoriteList: favorite_list}
               else
                 {message: INVALID_USER, status: 500}
               end

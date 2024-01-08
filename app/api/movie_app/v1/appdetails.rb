@@ -438,7 +438,10 @@ module MovieApp
                       recommendation << recommendationHash
                     end
                     his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
-                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title, season: "#{episodeData.season}" ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
+                    watchlist = user.watchlists.find_by(episode_id: episodeData.id)
+                    favoritelist = user.favorite_lists.find_by(episode_id: episodeData.id)
+
+                    detailsList = {isFav: favoritelist.present? ? true : false, isWl: watchlist.present? ? true : false, title: l.title, season: "#{episodeData.season}" ,episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director}
                     {
                       message: MSG_SUCCESS,
                       status: 200, 
@@ -458,8 +461,10 @@ module MovieApp
                     l.update(views: count)
 
                     his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
+                    watchlist = user.watchlists.find_by(episode_id: episodeData.id)
+                    favoritelist = user.favorite_lists.find_by(episode_id: episodeData.id)
 
-                    detailsList = {isFav: his.present? ? his.favorite_list : false, isWl: his.present? ? his.watch_list : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.present? ? played_before.time : nil   }
+                    detailsList = {isFav: favoritelist.present? ? true : false, isWl: watchlist.present? ? true : false, title: l.title,season: "#{episodeData.season}", episodeId: episodeData.id, episodeName: episodeData.title, year: l.release_date, trailerLink: l.trailer_link, genre: l.genre, story: episodeData.story, url: episodeData.url, runtime: episodeData.runtime, castList: episodeData.cast, directors: episodeData.director, lastTime: played_before.present? ? played_before.time : nil   }
 
                     { message: MSG_SUCCESS, status: 200, primeUser: user.subscription_histories.exists?(status: 'active'), videoDetails: detailsList }
                   end
