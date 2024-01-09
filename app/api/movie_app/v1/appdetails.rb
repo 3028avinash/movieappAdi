@@ -409,8 +409,8 @@ module MovieApp
               requires :versionName, type: String, allow_blank: false
               requires :versionCode, type: String, allow_blank: false
               requires :isEpisode, type: String, allow_blank: false
-              optional :contentId, type: String, allow_blank: false
-              optional :episodeId, type: String, allow_blank: false
+              requires :contentId, type: String, allow_blank: false
+              requires :episodeId, type: String, allow_blank: true
             end
     
             post do

@@ -785,6 +785,7 @@ module MovieApp
                 user.watchlists.each do | episode_list |
                   watchlist << {
                     episodeId: episode_list.episode.id,
+                    contentId: episode_list.episode.content_id,
                     thumbnail: episode_list.episode.thumbnail,
                     runtime: episode_list.episode.runtime,
                     episodeTitle: episode_list.episode.title,
@@ -827,6 +828,7 @@ module MovieApp
                 user.favorite_lists.each do | episode_list |
                   favorite_list << {
                     episodeId: episode_list.episode.id,
+                    contentId: episode_list.episode.content_id,
                     thumbnail: episode_list.episode.thumbnail,
                     runtime: episode_list.episode.runtime,
                     episodeTitle: episode_list.episode.title,
