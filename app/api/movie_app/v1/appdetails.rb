@@ -441,7 +441,7 @@ module MovieApp
                       recommendationHash={id: element.id, thumbnail: element.banner, vipStatus: element.vip_status.present? }
                       recommendation << recommendationHash
                     end
-                    his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
+                    # his=History.find_by("user_id LIKE ? and episode_id LIKE ?", user.id, episodeData.id)
                     watchlist = user.watchlists.find_by(episode_id: episodeData.id)
                     favoritelist = user.favorite_lists.find_by(episode_id: episodeData.id)
 
