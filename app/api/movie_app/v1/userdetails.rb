@@ -714,16 +714,16 @@ module MovieApp
             end
           end
         end
-        
-  
-        
-        
-  
-        
+
+
+
+
+
+
         resources :addFavourite do
           desc "Add to Favourite List API"
           before{api_params}
-          
+
           params do 
             requires :userId, type: String, allow_blank: false
             requires :securityToken, type: String, allow_blank: false
@@ -748,7 +748,7 @@ module MovieApp
                     {message: MSG_SUCCESS, status: 200, added: true}
                   end
                 else
-                  {message: MSG_SUCCESS, status: 200, result: "Invalid Episode Id"}
+                  { message: MSG_SUCCESS, status: 200, result: "Invalid Episode Id" }
                 end
               else
                 {message: INVALID_USER, status: 500}
@@ -808,7 +808,7 @@ module MovieApp
         
   
         
-        resources :favoriteList do
+        resources :favouriteList do
           desc "Show list Favourite list API"
           before{api_params}
           
