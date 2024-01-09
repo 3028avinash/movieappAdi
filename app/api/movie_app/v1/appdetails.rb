@@ -426,7 +426,7 @@ module MovieApp
                     count=l.views.to_i+1
                     l.update(views: count)
                     if params[:episodeId].present?
-                      episodeData=l.episodes.find_by[:episodeId]
+                      episodeData=l.episodes.find_by(id: params[:episodeId])
                     else
                       episodeData=l.episodes.first
                     end
