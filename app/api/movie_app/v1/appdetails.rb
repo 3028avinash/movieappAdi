@@ -410,7 +410,7 @@ module MovieApp
               requires :versionCode, type: String, allow_blank: false
               requires :isEpisode, type: String, allow_blank: false
               requires :contentId, type: String, allow_blank: false
-              requires :episodeId, type: String, allow_blank: true
+              optional :episodeId, type: String, allow_blank: false
             end
     
             post do
