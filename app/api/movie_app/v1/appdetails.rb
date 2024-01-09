@@ -425,7 +425,11 @@ module MovieApp
                     l=Content.find_by_id(params[:contentId].to_i)
                     count=l.views.to_i+1
                     l.update(views: count)
-                    episodeData=l.episodes.first
+                    if params[:episodeId].present?
+                      episodeData=l.episodes.find_by[:episodeId]
+                    else
+                      episodeData=l.episodes.first
+                    end
                     episodeList=l.episodes
                     episodeList.each do |element|
                       played_before = PlayTime.find_by(episode: element, user: user)
