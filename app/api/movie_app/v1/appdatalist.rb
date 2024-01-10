@@ -49,8 +49,16 @@ module MovieApp
               	  	  episodeName: item.title, duration: '60 min'}
                     content_data << showHash
                     end
-              	  end	
-                  {message: MSG_SUCCESS, status: 200, showList: content_data}
+              	  end
+
+                  genre_list = Set.new()
+                  Content.all.each do |content|
+                    content.genre.split(',').each do | one |
+                      genre_list << one
+                    end
+                  end
+
+                  {message: MSG_SUCCESS, status: 200, showList: content_data, genreList: genre_list}
               	end                
               else
                 {message: "INVALID_USER", status: 500}

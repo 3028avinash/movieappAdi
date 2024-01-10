@@ -577,16 +577,30 @@ module MovieApp
 
 
 
-        resource :getText do
-          desc "Example Cipher Text"
-          post do
-            # key = OpenSSL::Random.random_bytes(32)
-            # key = SecureRandom.hex(16)
-            encrypted_data = encrypt_string("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
-            decrypted_data = decrypt_string(encrypted_data, "3f5225f85d1ea15eeada28badcc03a06")
-            {data: encrypted_data, key: '3f5225f85d1ea15eeada28badcc03a06'}
-          end
-        end
+        # resource :getText do
+        #   desc "Example Cipher Text"
+        #   post do
+            
+        #     {key: set1}
+        #   end
+        # end
+        
+
+
+
+
+
+        # resource :getText do
+        #   desc "Example Cipher Text"
+        #   post do
+        #     # key = OpenSSL::Random.random_bytes(32)
+        #     # key = SecureRandom.hex(16)
+        #     encrypted_data = encrypt_string("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
+        #     # encrypted_data = new_cipher("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
+        #     decrypted_data = decrypt_string(encrypted_data, "3f5225f85d1ea15eeada28badcc03a06")
+        #     {data: decrypted_data, key: '3f5225f85d1ea15eeada28badcc03a06'}
+        #   end
+        # end
         
 
 
