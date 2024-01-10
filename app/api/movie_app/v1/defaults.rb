@@ -80,7 +80,8 @@ module MovieApp
             def decrypt_string(encrypted_text, key)
               decipher = OpenSSL::Cipher.new('AES-256-CBC')
               decipher.decrypt
-              decipher.key = Base64.strict_decode64(key)
+              # decipher.key = Base64.strict_decode64(key)
+              decipher.key = key
               decrypted = decipher.update(Base64.strict_decode64(encrypted_text)) + decipher.final
               return decrypted
             end

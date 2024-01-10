@@ -9,7 +9,7 @@ module MovieApp
         resource :userSignin do
           desc "User Sign In API"
           before {api_params}        
-  
+
           params do
             requires :deviceId, type: String, allow_blank: false
             optional :deviceType, type: String, allow_blank: true
@@ -145,7 +145,6 @@ module MovieApp
         resource :appOpen do
           desc "App Open API"
           before {api_params}
-  
           params do
             requires :userId, type: String, allow_blank: false
             requires :securityToken, type: String, allow_blank: false
@@ -190,8 +189,6 @@ module MovieApp
               #     end
               #   end  
               # end
-
-
                 { message: MSG_SUCCESS, status: 200, forceUpdate: force_update, primeUser: user.subscription_histories.exists?(status: 'active'), appUrl: "https://statussavvy.app/invite/#{user.referral_code}", userImageUrl: user.profile.image_url, mobile: user.profile.mobile, name: user.profile.name }
               else
                 {message: INVALID_USER, status: 500}

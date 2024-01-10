@@ -64,7 +64,5 @@ class WatchlistsController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def watchlist_params
-      params.require(:watchlist).permit(:user_id, :episode_id)
-    end
+
 end
