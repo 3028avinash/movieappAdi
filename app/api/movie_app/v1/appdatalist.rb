@@ -50,11 +50,16 @@ module MovieApp
                     content_data << showHash
                     end
               	  end
+                  color = ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0']
 
                   genre_list = Set.new()
                   Content.all.each do |content|
                     content.genre.split(',').each do | one |
-                      genre_list << one
+                      genre_list << {
+                        genreName: one,
+                        firstColor: color.sample,
+                        secondColor: color.sample, 
+                      }
                     end
                   end
 
