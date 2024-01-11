@@ -596,13 +596,13 @@ module MovieApp
                 if user
                   content_data = []
                   Content.where('LOWER(genre) LIKE ?', "%#{params[:genre].to_s.strip.downcase}%").each do |content|
-                      content_data << {
-                      contentId: content.id,
-                      isVip: content.vip_status,
-                      thumbnail: content.banner,
-                    }
+                    content_data << {
+                    contentId: content.id,
+                    isVip: content.vip_status,
+                    thumbnail: content.banner,
+                  }
                   end
-                  {message: MSG_SUCCESS, status: 200, result: content_data}
+                  {message: MSG_SUCCESS, status: 200, contentList: content_data}
                 else
                   {message: INVALID_USER, status: 500}
                 end
