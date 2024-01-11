@@ -779,7 +779,7 @@ module MovieApp
               user = valid_user(params['userId'].to_i, params['securityToken'])  
               if user
                 watchlist = []
-                user.watchlists.each do | episode_list |
+                user.watchlists.order(created_at: :desc).each do | episode_list |
                   watchlist << {
                     episodeId: episode_list.episode.id,
                     contentId: episode_list.episode.content_id,
@@ -822,7 +822,7 @@ module MovieApp
               user = valid_user(params['userId'].to_i, params['securityToken'])  
               if user
                 favorite_list = []
-                user.favorite_lists.each do | episode_list |
+                user.favorite_lists.order(created_at: :desc).each do | episode_list |
                   favorite_list << {
                     episodeId: episode_list.episode.id,
                     contentId: episode_list.episode.content_id,
