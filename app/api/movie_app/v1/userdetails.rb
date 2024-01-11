@@ -597,7 +597,7 @@ module MovieApp
 
                   valid_subscription = Subscription.find_by(params[:subscriptionId])
 
-                  if valid_subscription.offer_amount.to_f == valid_payement.amount.to_f
+                  if valid_subscription.offer_amount.to_i == valid_payement.amount
 
                     duration = valid_subscription.duration.split(' ')
                     duration_number = duration[0].to_i
