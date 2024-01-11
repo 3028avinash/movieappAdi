@@ -544,6 +544,7 @@ module MovieApp
               requires :userId, type: String, allow_blank: false
               requires :securityToken, type: String, allow_blank: false
               requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
               requires :episodeId, type: String, allow_blank:false
               requires :time, type: String, allow_blank:false
             end
@@ -577,27 +578,59 @@ module MovieApp
 
 
 
-        resource :getText do
-          desc "Example Cipher Text"
-          post do
-            color = ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0']
-            genre_list = Set.new()
-                              genre_set = Set.new
-                  genre_list = []
 
-                  Content.all.each do |content|
-                    content.genre.split(',').each do |one|
-                      genre_name = one.strip
-                      next if genre_set.include?(genre_name)
-                      genre_set << genre_name
-                      genre_list << {
-                        genreName: genre_name,
-                        firstColor: color.sample,
-                        secondColor: color.sample,
-                      }
-                    end
+          resources :exploreContent do
+            desc "Api to add to favorites and watchlist"
+            before{api_params}
+            params do 
+              requires :userId, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank:false
+              requires :genre, type: String, allow_blank:false
+            end
+
+            post do 
+              begin
+                user = valid_user(params['userId'].to_i, params['securityToken'])
+                if user
+                  content_data = []
+                  Content.where('LOWER(genre) LIKE ?', "%#{params[:genre].to_s.strip.downcase}%").each do |content|
+                      content_data << {
+                      contentId: content.id,
+                      isVip: content.vip_status,
+                      thumbnail: content.banner,
+                    }
                   end
-            {key: genre_list}
+                  {message: MSG_SUCCESS, status: 200, result: content_data}
+                else
+                  {message: INVALID_USER, status: 500}
+                end
+              rescue Exception => e
+                logger.info "API Exception-#{Time.now}-addHistory-#{params.inspect}-Error-#{e}"
+                {message: MSG_ERROR, status: 500}
+              end
+            end
+          end
+
+
+
+        resource :getText do
+          desc "Api to add to favorites and watchlist"
+            before{api_params}
+            params do 
+              requires :userId, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
+              requires :genre, type: String, allow_blank:false
+            end
+          post do
+            user = valid_user(params[:userId], params[:securityToken])
+            if user
+            else
+            end
+
           end
         end
         
