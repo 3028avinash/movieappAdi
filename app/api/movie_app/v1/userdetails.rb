@@ -618,7 +618,7 @@ module MovieApp
                   end
 
                 end
-                
+
               else
                 {message: INVALID_USER, status: 500}
               end

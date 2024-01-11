@@ -582,15 +582,21 @@ module MovieApp
           post do
             color = ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0']
             genre_list = Set.new()
-            Content.all.each do |content|
-              content.genre.split(',').each do | one |
-                genre_list << {
-                  genreName: one,
-                  firstColor: color.sample,
-                  secondColor: color.sample, 
-                }
-              end
-            end
+                              genre_set = Set.new
+                  genre_list = []
+
+                  Content.all.each do |content|
+                    content.genre.split(',').each do |one|
+                      genre_name = one.strip
+                      next if genre_set.include?(genre_name)
+                      genre_set << genre_name
+                      genre_list << {
+                        genreName: genre_name,
+                        firstColor: color.sample,
+                        secondColor: color.sample,
+                      }
+                    end
+                  end
             {key: genre_list}
           end
         end
