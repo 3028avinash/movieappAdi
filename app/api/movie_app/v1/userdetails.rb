@@ -573,7 +573,7 @@ module MovieApp
                         subscription_end: DateTime.now.to_time + duration_number.send(duration_unit),
                         coupon_id: params[:couponId], 
                         status: 'pending-1',
-                        payement_detail_id: valid_payement.id 
+                        payement_detail_id: valid_payment.id 
                       )
                     else
                       user.subscription_histories.create(
