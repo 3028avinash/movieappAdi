@@ -35,7 +35,7 @@ module MovieApp
               
               bannerHash=[]
               bannerImage.each_with_index do | item, index |
-                bannerHash[index] = {id: item.id, banner: item.banner, episodeId: '1'}
+                bannerHash[index] = {id: item.id, banner: item.banner, episodeId: 1}
               end
 
               shows = Content.where("genre LIKE ? and vip_status like ?" , "%drama%", true).order("RANDOM()") #false
