@@ -597,7 +597,7 @@ module MovieApp
                 user = valid_user(params['userId'].to_i, params['securityToken'])
                 if user
                   user.queries.create(query_type: params[:queryType], message: params[:query])
-                  {message: MSG_SUCCESS, status: 200, data: 'Query Submitted Successfully'}
+                  {message: MSG_SUCCESS, status: 200, result: 'Query Submitted Successfully'}
                 else
                   {message: INVALID_USER, status: 500}
                 end
