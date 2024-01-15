@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :payement_details, dependent: :destroy
   has_many :watchlists, dependent: :destroy
   has_many :favorite_lists, dependent: :destroy
+  has_many :queries, dependent: :destroy
 
   after_create :profile_create
 
