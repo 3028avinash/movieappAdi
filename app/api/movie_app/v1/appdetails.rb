@@ -276,8 +276,8 @@ module MovieApp
               user = valid_user(params['userId'].to_i, params['securityToken'])
               if user
                 sub=SubscriptionHistory.where(user_id: user.id).last
-                s=Subscription.find_by_id(sub.id+1)
-                subscriptionList = {name: s.name, start: sub.subscription_start, end: sub.subscription_end , price: s.offer_amount}
+                element=Subscription.find_by_id(sub.id+1)
+                subscriptionList = {id: element.id,name: element.name, duration: "For #{element.duration}", realAmount: "₹#{element.real_amount}", offerAmount: "₹#{element.offer_amount}", offer: "SAVE #{100-((element.offer_amount.to_f/element.real_amount.to_f)*100).ceil}%"}
                 {
                   message: MSG_SUCCESS, 
                   status: 200, 
