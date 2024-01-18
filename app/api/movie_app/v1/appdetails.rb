@@ -277,7 +277,7 @@ module MovieApp
               if user
                 sub=SubscriptionHistory.where(user_id: user.id).last
                 element=Subscription.find_by_id(sub.id+1)
-                subscriptionList = {id: element.id,name: element.name, duration: "For #{element.duration}", realAmount: "₹#{element.real_amount}", offerAmount: "₹#{element.offer_amount}"}
+                subscriptionList = {id: element.id,name: element.name, duration: "For #{element.duration}", realAmount: "₹#{element.real_amount} /-", offerAmount: "₹#{element.offer_amount} /-"}
                 {
                   message: MSG_SUCCESS, 
                   status: 200, 
