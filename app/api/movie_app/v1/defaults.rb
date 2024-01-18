@@ -66,6 +66,10 @@ module MovieApp
                 return false
               end
             end
+  
+            def translate
+              I18n
+            end
 
 
 

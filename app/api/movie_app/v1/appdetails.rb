@@ -677,41 +677,39 @@ module MovieApp
 
 
 
-        # resource :getText do
-        #   desc "Api to add to favorites and watchlist"
-        #     before{api_params}
-        #     params do 
-        #       requires :userId, type: String, allow_blank: false
-        #       requires :securityToken, type: String, allow_blank: false
-        #       requires :versionName, type: String, allow_blank: false
-        #       requires :versionCode, type: String, allow_blank: false
-        #       requires :genre, type: String, allow_blank:false
-        #     end
-        #   post do
-        #     user = valid_user(params[:userId], params[:securityToken])
-        #     if user
-        #     else
-        #     end
-
-        #   end
-        # end
+        resource :getText do
+          desc "Api to add to favorites and watchlist"
+            before{api_params}
+            params do 
+              requires :userId, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
+            end
+          post do
+            user = valid_user(params[:userId], params[:securityToken])
+            if user
+              {text: translate.t('hello')}
+            end
+          end
+        end
         
 
 
 
 
 
-        resource :getText do
-          desc "Example Cipher Text"
-          post do
-            # key = OpenSSL::Random.random_bytes(32)
-            # key = SecureRandom.hex(16)
-            encrypted_data = encrypt_string("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
-            # encrypted_data = new_cipher("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
-            decrypted_data = decrypt_string(encrypted_data, "3f5225f85d1ea15eeada28badcc03a06")
-            {data: decrypted_data, key: '3f5225f85d1ea15eeada28badcc03a06'}
-          end
-        end
+        # resource :getText do
+        #   desc "Example Cipher Text"
+        #   post do
+        #     # key = OpenSSL::Random.random_bytes(32)
+        #     # key = SecureRandom.hex(16)
+        #     encrypted_data = encrypt_string("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
+        #     # encrypted_data = new_cipher("Mubarak Ho...", '3f5225f85d1ea15eeada28badcc03a06')
+        #     decrypted_data = decrypt_string(encrypted_data, "3f5225f85d1ea15eeada28badcc03a06")
+        #     {data: decrypted_data, key: '3f5225f85d1ea15eeada28badcc03a06'}
+        #   end
+        # end
         
 
 

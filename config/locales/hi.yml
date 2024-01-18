@@ -1,0 +1,5 @@
+# config/locales/hi.yml
+hi:
+  hello: "नमस्ते, दुनिया!"
+  welcome: "स्वागत है"
+  # Add more translations as needed
