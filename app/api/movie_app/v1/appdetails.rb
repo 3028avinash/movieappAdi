@@ -273,11 +273,10 @@ module MovieApp
           end
           post do
             begin
-              # user = valid_user(params['userId'].to_i, params['securityToken'])
-              # user=User.find_by_id(params[:userId])
-              if true
+              user = valid_user(params['userId'].to_i, params['securityToken'])
+              if user
                 sub=SubscriptionHistory.where(user_id: user.id).last
-                s=Subscription.find_by_id(sub.id)
+                s=Subscription.find_by_id(sub.id+1)
                 subscriptionList = {name: s.name, start: sub.subscription_start, end: sub.subscription_end , price: s.offer_amount}
                 {
                   message: MSG_SUCCESS, 
@@ -590,6 +589,37 @@ module MovieApp
 
               requires :queryType, type: String, allow_blank:false
               requires :query, type: String, allow_blank:false
+            end
+
+            post do 
+              begin
+                user = valid_user(params['userId'].to_i, params['securityToken'])
+                if user
+                  user.queries.create(query_type: params[:queryType], message: params[:query])
+                  {message: MSG_SUCCESS, status: 200, result: 'Query Submitted Successfully'}
+                else
+                  {message: INVALID_USER, status: 500}
+                end
+              rescue Exception => e
+                logger.info "API Exception-#{Time.now}-addHistory-#{params.inspect}-Error-#{e}"
+                {message: MSG_ERROR, status: 500}
+              end
+            end
+          end
+
+
+
+
+
+
+          resources :settingList do
+            desc "Setting List API"
+            before{api_params}
+            params do 
+              requires :userId, type: String, allow_blank: false
+              requires :securityToken, type: String, allow_blank: false
+              requires :versionName, type: String, allow_blank: false
+              requires :versionCode, type: String, allow_blank: false
             end
 
             post do 
